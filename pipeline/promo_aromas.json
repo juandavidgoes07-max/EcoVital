@@ -1,0 +1,9 @@
+{"jar": null,
+ "durations": [5, 5, 5, 5, 5],
+ "scenes": [
+  {"id": "s2", "text": "¿Te da pena el olor de tus axilas? Tranquilo, la culpa es de las bacterias."},
+  {"id": "s4", "text": "EcoVital neutraliza ese olor con plantas, sin aluminio y sin tapar tus poros."},
+  {"id": "s9", "text": "Escoge tu aroma: lavanda y manzanilla, o citronela y árbol de té."},
+  {"id": "s5", "text": "Viene en frasco de vidrio de sesenta gramos, natural y hecho en Colombia."},
+  {"id": "s6", "text": "Pídelo hoy y pagas cuando te llega. Envíos a toda Colombia."}
+ ]}
