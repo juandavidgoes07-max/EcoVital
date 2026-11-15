@@ -1,0 +1,141 @@
+{
+ "jar": null,
+ "durations": [
+  3.766,
+  4.045,
+  4.115,
+  3.178,
+  5.17
+ ],
+ "scenes": [
+  {
+   "id": "s9",
+   "text": "¿Lavanda y manzanilla, o citronela y árbol de té? ¿Cuál eliges tú?"
+  },
+  {
+   "id": "s5",
+   "text": "Los dos son EcoVital: desodorante natural, sin aluminio, en frasco de vidrio."
+  },
+  {
+   "id": "s25",
+   "text": "Lavanda y manzanilla es suave y floral. Citronela y árbol de té, fresco y herbal."
+  },
+  {
+   "id": "s4",
+   "text": "Sus plantas ayudan a neutralizar el olor sin tapar tus poros."
+  },
+  {
+   "id": "s6",
+   "text": "Comenta tu aroma y pídelo hoy: envíos a toda Colombia y pagas al recibir."
+  }
+ ],
+ "words": [
+  null,
+  null,
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.48
+   },
+   {
+    "s": 1.48,
+    "e": 1.6
+   },
+   {
+    "s": 1.6,
+    "e": 1.9
+   },
+   {
+    "s": 1.9,
+    "e": 2.18
+   },
+   {
+    "s": 2.18,
+    "e": 2.54
+   },
+   {
+    "s": 2.54,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 3.0
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 1.04
+   },
+   {
+    "s": 1.04,
+    "e": 1.34
+   },
+   {
+    "s": 1.34,
+    "e": 1.54
+   },
+   {
+    "s": 1.86,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.24
+   },
+   {
+    "s": 2.24,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.22
+   },
+   {
+    "s": 3.22,
+    "e": 3.32
+   },
+   {
+    "s": 3.32,
+    "e": 3.56
+   }
+  ]
+ ]
+}
