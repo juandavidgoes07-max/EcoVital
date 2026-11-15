@@ -1,7 +1,0 @@
-{"paleta": "amarillo", "marca": false, "slides": [
- {"tipo": "portada", "titulo": "3 plantas que huelen a limón… *y no son limón*", "sub": "La nº 1 huele a limón hasta seca", "icono": "lemon"},
- {"tipo": "dato", "num": "3", "titulo": "Limoncillo", "texto": "Es un *pasto tropical*. Sus hojas largas se usan en aromáticas y en la cocina.", "icono": "grassC"},
- {"tipo": "dato", "num": "2", "titulo": "Toronjil", "texto": "Es *pariente de la menta*. Si frotas sus hojas entre los dedos, sueltan aroma a limón.", "icono": "mint"},
- {"tipo": "dato", "num": "1", "titulo": "Cedrón", "texto": "Un arbusto de *Sudamérica*. Sus hojas conservan el aroma a limón incluso secas.", "icono": "verbena"},
- {"tipo": "cierre", "titulo": "¿Por qué huelen igual?", "texto": "Las tres tienen *citral*, un compuesto aromático que también está en la cáscara del limón.", "pregunta": "¿Cuál de las tres conocías?"}
-]}

@@ -1,0 +1,8 @@
+{"paleta": "bosque", "marca": false, "etiqueta": "Dato curioso", "slides": [
+ {"tipo": "portada", "titulo": "Hay un alimento que *nunca se vence*", "sub": "Y seguro lo tienes en tu cocina."},
+ {"tipo": "frase", "titulo": "Es la *miel*.", "sub": "Bien tapada puede durar siglos. Estas son las 3 razones."},
+ {"tipo": "dato", "num": "1", "titulo": "Casi no tiene agua", "texto": "Tiene tan poca que las bacterias y los hongos no logran crecer en ella."},
+ {"tipo": "dato", "num": "2", "titulo": "Es ácida", "texto": "Su acidez natural es otro ambiente difícil para los microbios."},
+ {"tipo": "dato", "num": "3", "titulo": "Las abejas la protegen", "texto": "Le añaden una enzima que produce pequeñas cantidades de *agua oxigenada*."},
+ {"tipo": "cierre", "titulo": "¿Y si se pone dura?", "texto": "No está dañada: solo se cristalizó. Con un baño maría suave vuelve a quedar líquida.", "pregunta": "¿Tú lo sabías?"}
+]}
