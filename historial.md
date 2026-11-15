@@ -1,5 +1,7 @@
 # Historial de videos EcoVital (no repetir temas)
 
+> Antes de escribir guiones lee PLAYBOOK_VIRAL.md (raíz del repo) y aplica sus reglas de gancho, ritmo y formatos.
+
 | Fecha | Hora | Tipo | Tema / gancho | Escenas | Archivo |
 |---|---|---|---|---|---|
 | 2026-11-14 | 14:10 | tip | ¿Sabías que el sudor NO huele? (bacterias causan el olor) | s1 s2 s3 s4 s5 s6 | videos/2026-11-14_1_desodorante.mp4 |
