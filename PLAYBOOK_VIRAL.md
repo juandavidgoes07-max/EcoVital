@@ -41,7 +41,8 @@ Leer ANTES de escribir los guiones de cada día. Se actualiza cuando haya datos 
 ## Medir cada día
 - Por video: alcance, % que desliza antes de 3 s, tiempo promedio visto, guardados, compartidos, comentarios. Comparar ganchos y repetir la estructura de los 3 mejores.
 
-## Pendiente de confirmar con Juan David
-- Si los tips pueden cerrar con una pregunta para comentar (sin vender ni mencionar el producto). Hasta que confirme: NO.
+## Preguntas al final de los tips (confirmado por Juan David el 2026-11-15)
+- Los tips SÍ pueden cerrar con una pregunta para comentar ("¿tú lo sabías?", "¿cuál conocías?"), en el video y en el texto.
+- Siguen sin vender: nada de producto, EcoVital, "síguenos", "pide el tuyo" ni @ecovital_7.
 
 Fuentes: socialpilot.co/blog/tiktok-trends · virlo.ai/blog/instagram-reels-algorithm-2026-decoded · app.qten.ai (anatomy of a viral short 2026) · flowshorts.app/blog/best-video-ideas. Son blogs de marketing: tomar las cifras como orientación y dar prioridad a nuestros propios datos.
