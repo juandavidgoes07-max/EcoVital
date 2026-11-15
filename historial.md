@@ -10,3 +10,4 @@
 | 2026-11-15 | 10:00 | tip (dato curioso, sin CTA) | ¿Sabías que el árbol de té no tiene nada que ver con el té? (Camellia sinensis vs Melaleuca, capitán Cook, aceite de uso externo) | s16 s17 s18 s19 s20 s16 | videos/2026-11-15_1_dato_arbol_de_te.mp4 |
 | 2026-11-15 | 12:00 | promocional | ¿Lavanda y manzanilla o citronela y árbol de té? Perfiles de aroma + comenta tu aroma | s9 s5 s25 s4 s6 | videos/2026-11-15_2_promo_dos_aromas.mp4 |
 | 2026-11-15 | 18:00 | tip (dato curioso, sin CTA) | La citronela es un pasto: familia del maíz, arroz y caña; prima del limoncillo; citron = limón | s21 s22 s23 s24 s21 | videos/2026-11-15_3_dato_citronela.mp4 |
+| 2026-11-15 | 15:00 | carrusel tip (5 imágenes) | 3 plantas que huelen a limón y no son limón (limoncillo, toronjil, cedrón; citral) | carrusel.py | carruseles/2026-11-15_huelen_a_limon/ |
