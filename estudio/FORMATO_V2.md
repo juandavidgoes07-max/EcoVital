@@ -1,6 +1,6 @@
 # EcoVital — Formato de video v2 ("Estudio 3D")
 
-Desde el 2026-11-16 TODOS los videos diarios se hacen con este formato (pedido de Juan David: "mucho más editados, más organizados, más completos, más bonitos", replicando los reels virales de @curiosfer, @lynxstudiosbcn y @carlosbarcoc). El formato viejo (scene.html, ilustración plana) queda solo como respaldo.
+Desde el 2026-11-16 este formato es la BASE y el nivel mínimo de los videos diarios (Juan David: no todos tienen que ser iguales, se puede ir cambiando de formato, pero cada vez mejor) (pedido de Juan David: "mucho más editados, más organizados, más completos, más bonitos", replicando los reels virales de @curiosfer, @lynxstudiosbcn y @carlosbarcoc). El formato viejo (scene.html, ilustración plana) queda solo como respaldo.
 
 ## Qué copiamos de los reels virales
 | Reel | Qué funciona | Cómo lo aplicamos |
@@ -55,3 +55,6 @@ python3 render3d.py guion.json video.mp4 --voice guion_voz.wav         # ~0,8 s 
 ```
 No correr el render ni las capturas al mismo tiempo que narrar.py (2 CPU / 8 GB: se vuelve 10 veces más lento). Render real: ≈1,2 s por cuadro (30 s de video ≈ 18 min).
 Portada: cover.py sigue sirviendo, pero con el render nuevo usar `python3 portada3d.py guion.json portada.jpg --title "L1|L2" --tipo tip|promo --t <s>`.
+
+## Mejoras (una por día, con fecha)
+- 2026-11-16: versión inicial (15 plantillas, frasco personaje, personas 3D, subtítulos con caja, contador, stickers, comentario, portada3d).
