@@ -50,11 +50,15 @@ Desde el 2026-11-16 este formato es la BASE y el nivel mínimo de los videos dia
 ## Comandos
 ```
 cd estudio && python3 render3d.py guion.json salida --preview 0.5,4,9     # capturas: MIRARLAS siempre
-python3 ../pipeline/narrar.py guion.json voz_juan.wav guion_voz.wav     # voz (desde la carpeta pipeline)
+EXAG=0.85 CFG=0.3 TEMP=0.8 TEMPO=1.3 PAUSA=0.08 python3 narrar.py guion.json voz_juan.wav guion_voz.wav   # voz "estilo reels" (desde la carpeta pipeline)
 python3 render3d.py guion.json video.mp4 --voice guion_voz.wav         # ~0,8 s por cuadro → 30 s ≈ 18 min
 ```
 No correr el render ni las capturas al mismo tiempo que narrar.py (2 CPU / 8 GB: se vuelve 10 veces más lento). Render real: ≈1,2 s por cuadro (30 s de video ≈ 18 min).
 Portada: cover.py sigue sirviendo, pero con el render nuevo usar `python3 portada3d.py guion.json portada.jpg --title "L1|L2" --tipo tip|promo --t <s>`.
 
+## Voz
+Desde el 2026-11-16 la voz es la de Juan David clonada pero con estilo de los reels virales (aprobada por él): más rápida (1.3x), más expresiva y casi sin pausas entre escenas: `EXAG=0.85 CFG=0.3 TEMP=0.8 TEMPO=1.3 PAUSA=0.08`. Nunca copiar la voz de otro creador.
+
 ## Mejoras (una por día, con fecha)
 - 2026-11-16: versión inicial (15 plantillas, frasco personaje, personas 3D, subtítulos con caja, contador, stickers, comentario, portada3d).
+- 2026-11-16: voz estilo reels (1.3x, expresividad 0.85, pausas mínimas).

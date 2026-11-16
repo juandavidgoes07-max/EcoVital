@@ -21,12 +21,12 @@ def main():
         raw = f"{tmp}/{i}_raw.wav"; fin = f"{tmp}/{i}.wav"
         if not os.path.exists(fin):
             w = m.generate(s["text"], language_id="es", audio_prompt_path=ref,
-                           exaggeration=0.55, cfg_weight=0.45, temperature=0.75)
+                           exaggeration=float(os.environ.get("EXAG", 0.55)), cfg_weight=float(os.environ.get("CFG", 0.45)), temperature=float(os.environ.get("TEMP", 0.75)))
             ta.save(raw, w, m.sr)
             ff("-i", raw, "-af",
                "silenceremove=start_periods=1:start_threshold=-45dB,areverse,"
                "silenceremove=start_periods=1:start_threshold=-45dB,areverse,"
-               "atempo=1.2,adelay=120:all=1,apad=pad_dur=0.18", "-ar", "24000", "-ac", "1", fin)
+               f"atempo={os.environ.get('TEMPO', '1.2')},adelay=120:all=1,apad=pad_dur={os.environ.get('PAUSA', '0.18')}", "-ar", "24000", "-ac", "1", fin)
         y, sr = librosa.load(fin, sr=16000)
         d = round(len(y) / sr, 3); durs.append(d); parts.append(fin)
         segs, _ = wm.transcribe(y, language="es", word_timestamps=True)
