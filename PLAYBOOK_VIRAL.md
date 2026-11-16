@@ -46,3 +46,11 @@ Leer ANTES de escribir los guiones de cada día. Se actualiza cuando haya datos 
 - Siguen sin vender: nada de producto, EcoVital, "síguenos", "pide el tuyo" ni @ecovital_7.
 
 Fuentes: socialpilot.co/blog/tiktok-trends · virlo.ai/blog/instagram-reels-algorithm-2026-decoded · app.qten.ai (anatomy of a viral short 2026) · flowshorts.app/blog/best-video-ideas. Son blogs de marketing: tomar las cifras como orientación y dar prioridad a nuestros propios datos.
+
+## VARIEDAD VISUAL OBLIGATORIA (pedido de Juan David, 2026-11-16)
+Juan David dijo que los videos usan casi las mismas imágenes y el mismo formato. Quiere que innovemos más, con movimientos distintos, que aparezcan personas y cosas nuevas. Se mantiene el estilo animado de ilustración plana con voz y subtítulos, pero cada día debe verse distinto:
+- **Personas en casi todas las escenas**: personajes ilustrados (hombre, mujer, joven, adulto, distintos tonos de piel y peinados) que hablan, señalan, caminan, se huelen la axila, se bañan, abren un regalo, reaccionan con sorpresa, etc. Brazos, cabeza y ojos animados (parpadeo, gestos, lip-flap con la voz). Ya no basta con objetos sobre un fondo de color.
+- **Movimientos nuevos**: paneo y zoom de cámara dentro de la escena, transiciones distintas entre escenas (barrido, deslizamiento lateral, zoom que atraviesa un objeto, giro, máscara circular, corte con "whip pan"), tipografía cinética (palabras grandes que entran letra por letra o rebotan), contadores que suben, gráficos que se dibujan solos, split-screen antes/después, escenas tipo chat o pantalla de celular, POV (primera persona).
+- **No reutilizar** las escenas viejas (s1–s36) salvo el frasco de producto (s5) y el cierre de pedido (s6) en promos, y aun así variar el ángulo o el fondo. Mínimo 4–5 escenas NUEVAS por video y ninguna tarjeta-título igual a la de días anteriores.
+- **Rotar paletas y escenarios**: baño, cocina, gimnasio, oficina, calle, bus, finca, mercado, playa, noche, etc.; no repetir siempre fondo de color plano y tarjeta blanca.
+- Antes de renderizar, comparar las capturas con los videos de los últimos 3 días: si se parecen, rehacer.
