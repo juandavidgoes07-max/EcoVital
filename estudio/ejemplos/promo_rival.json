@@ -1,0 +1,437 @@
+{
+ "formato": "v2",
+ "tipo": "promo",
+ "paleta": "bosque",
+ "pasos": 3,
+ "marca": true,
+ "resaltar": [
+  "rival",
+  "aluminio",
+  "respirar",
+  "plantas",
+  "vidrio",
+  "Colombia",
+  "recibir",
+  "lavanda",
+  "citronela",
+  "LAVANDA",
+  "CITRONELA",
+  "diferencias"
+ ],
+ "scenes": [
+  {
+   "id": "e1",
+   "plantilla": "versus",
+   "text": "Tu antitranspirante tiene un rival natural, y no le ha hecho ninguna gracia.",
+   "p": {
+    "a": "frasco",
+    "b": "aerosol",
+    "etA": "EcoVital",
+    "etB": "Con aluminio",
+    "aroma": "lavanda",
+    "hablar": 0.4
+   }
+  },
+  {
+   "id": "e2",
+   "plantilla": "contador",
+   "text": "Te muestro tres diferencias, y la tercera te va a encantar.",
+   "p": {
+    "numero": 3,
+    "palabra": "DIFERENCIAS"
+   }
+  },
+  {
+   "id": "e3",
+   "plantilla": "paso",
+   "paso": 1,
+   "text": "Uno: el antitranspirante usa sales de aluminio para tapar el sudor.",
+   "p": {
+    "n": 1,
+    "heroe": "aerosol",
+    "titulo": "Él <b>tapa</b> el sudor"
+   }
+  },
+  {
+   "id": "e4",
+   "plantilla": "persona",
+   "paso": 1,
+   "text": "EcoVital no lo tapa: deja respirar tu piel y se encarga del olor.",
+   "p": {
+    "escenario": "baño",
+    "accion": "mostrar",
+    "persona": {
+     "tono": 2,
+     "peinado": "corto",
+     "ropa": "#2f6f8f",
+     "barba": true
+    },
+    "frasco": true,
+    "aroma": "lavanda",
+    "sticker": "SIN ALUMINIO",
+    "stickerY": 1380
+   }
+  },
+  {
+   "id": "e5",
+   "plantilla": "ingredientes",
+   "paso": 2,
+   "text": "Dos: su aroma viene de plantas, lavanda y manzanilla o citronela y árbol de té.",
+   "p": {
+    "aroma": "lavanda",
+    "chips": [
+     "🌿 Lavanda",
+     "🌼 Manzanilla",
+     "🍃 Citronela",
+     "🌱 Árbol de té"
+    ]
+   }
+  },
+  {
+   "id": "e6",
+   "plantilla": "pedestal",
+   "paso": 3,
+   "text": "Y tres: viene en frasco de vidrio, que puedes lavar y volver a usar.",
+   "p": {
+    "heroe": "frasco",
+    "aroma": "citronela",
+    "chips": [
+     "Vidrio <b>reutilizable</b>",
+     "Nada de <b>lata</b>"
+    ]
+   }
+  },
+  {
+   "id": "e7",
+   "plantilla": "entrega",
+   "text": "Te llega a toda Colombia y pagas al recibir.",
+   "p": {
+    "sticker": "PAGAS AL RECIBIR"
+   }
+  },
+  {
+   "id": "e8",
+   "plantilla": "comentario",
+   "text": "¿Cuál eliges? Comenta lavanda o citronela.",
+   "p": {
+    "heroe": "frasco2",
+    "palabra": "LAVANDA",
+    "encima": "Comenta <b>tu aroma</b> 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.35,
+  2.743,
+  3.587,
+  3.344,
+  4.454,
+  3.723,
+  3.08,
+  3.724
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.92
+   },
+   {
+    "s": 0.92,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.82
+   },
+   {
+    "s": 1.82,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.26
+   },
+   {
+    "s": 2.26,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.4
+   },
+   {
+    "s": 2.4,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.74
+   },
+   {
+    "s": 2.74,
+    "e": 3.16
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.72
+   },
+   {
+    "s": 0.72,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.56
+   },
+   {
+    "s": 1.56,
+    "e": 1.66
+   },
+   {
+    "s": 1.66,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.64
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.32
+   },
+   {
+    "s": 0.68,
+    "e": 0.76
+   },
+   {
+    "s": 0.76,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.7
+   },
+   {
+    "s": 1.7,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.54
+   },
+   {
+    "s": 2.54,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.1
+   },
+   {
+    "s": 3.1,
+    "e": 3.38
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.54
+   },
+   {
+    "s": 0.54,
+    "e": 0.68
+   },
+   {
+    "s": 0.68,
+    "e": 0.76
+   },
+   {
+    "s": 0.76,
+    "e": 1.0
+   },
+   {
+    "s": 1.3,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.9
+   },
+   {
+    "s": 1.9,
+    "e": 1.98
+   },
+   {
+    "s": 1.98,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.18
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.32
+   },
+   {
+    "s": 0.72,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.86
+   },
+   {
+    "s": 2.02,
+    "e": 2.38
+   },
+   {
+    "s": 2.38,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.94
+   },
+   {
+    "s": 3.08,
+    "e": 3.12
+   },
+   {
+    "s": 3.12,
+    "e": 3.6
+   },
+   {
+    "s": 3.6,
+    "e": 3.76
+   },
+   {
+    "s": 3.76,
+    "e": 4.0
+   },
+   {
+    "s": 4.0,
+    "e": 4.1
+   },
+   {
+    "s": 4.1,
+    "e": 4.24
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.38
+   },
+   {
+    "s": 0.38,
+    "e": 0.52
+   },
+   {
+    "s": 0.52,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 1.06
+   },
+   {
+    "s": 1.06,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.62
+   },
+   {
+    "s": 1.62,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 2.0
+   }
+  ],
+  null
+ ]
+}

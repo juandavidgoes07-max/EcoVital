@@ -2,6 +2,18 @@
 
 Leer ANTES de escribir los guiones de cada día. Se actualiza cuando haya datos nuevos.
 
+## FORMATO V2 "ESTUDIO 3D" (desde el 2026-11-16 — manda sobre lo anterior)
+Juan David pidió videos "mucho más editados, más organizados, más completos, más bonitos, no tan sencillos", replicando 3 reels virales que revisamos juntos:
+- **@lynxstudiosbcn — "Higgsfield vs Claude"** (20,5 mil likes · 13,3 mil comentarios · 10,7 mil envíos): marcas convertidas en personajes 3D que se enfrentan, un enemigo y un precio, etiquetas con línea, pedestal con neón, kit visible, "comenta HIGGS".
+- **@carlosbarcoc — "Haz esto antes del lunes"** (7,6 mil likes · 4,6 mil envíos): urgencia con fecha, reloj de arena desde el cuadro 0, contador 1-5 arriba, un ejemplo visual por punto, termina igual que empieza (bucle). Error a evitar: dos CTA que compiten (comenta + link en bio).
+- **@curiosfer — "Mientras duermo, esta carpeta trabaja"** (10 mil likes · 5,3 mil comentarios): fantasía + proceso mostrado, cambio de pantalla cada 3–4 s, números como prueba, subtítulos con la palabra activa en una caja.
+Cómo lo aplicamos (todo construido en `estudio/`, ver `estudio/FORMATO_V2.md`):
+1. Render 3D real (three.js): el frasco EcoVital es un personaje con cara, brazos y patas; personas 3D con gestos; rival genérico "antitranspirante con aluminio"; escenarios 3D.
+2. Capa de edición: subtítulos karaoke con caja de color en la palabra que se dice + palabras clave en color, contador de pasos 1·2·3, etiquetas con línea, chips, stickers que caen, barra de comentario que escribe la palabra clave, transición rápida con desenfoque entre escenas, viñeta y grano.
+3. Estructura: gancho con rival/problema/urgencia en el cuadro 0 → anuncio de la lista ("3 diferencias, y la tercera…") → un punto por escena con su ejemplo visual → cierre con CTA nuevo → palabra clave para comentar (elegir entre dos) → bucle.
+4. Paleta oscura de estudio con UN color de acento por video (rotar).
+5. Instagram + Facebook + TikTok (Facebook en cuanto esté conectado en Metricool).
+
 ## Qué premian hoy Reels y TikTok
 - Lo que más pesa es cuánta gente ve el video completo, y después guardados y compartidos. Los likes pesan poco.
 - El alcance a no seguidores se decide en los primeros 2–3 segundos.

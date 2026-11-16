@@ -1,0 +1,21 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "arena",
+ "pasos": 0,
+ "marca": false,
+ "resaltar": ["años", "dos", "una", "sola", "piña", "planta", "hijos", "sabías"],
+ "custom": "const {THREE, OBJETOS, mesh, M, hoja} = API; OBJETOS.pina = () => { const g = new THREE.Group(); const cuerpo = mesh(new THREE.SphereGeometry(.9, 28, 20), M.std('#e0a83a', .6)); cuerpo.scale.set(1, 1.35, 1); g.add(cuerpo); for (let i = 0; i < 60; i++) { const a = i * 2.4, y = -1 + (i / 60) * 2; const r = Math.sqrt(1 - y * y) * .9; const d = mesh(new THREE.SphereGeometry(.09, 8, 8), M.std('#b97a1f', .6), Math.cos(a) * r, y * 1.2, Math.sin(a) * r); g.add(d); } for (let i = 0; i < 9; i++) { const h = hoja('#3f9a4b', .9); h.scale.set(.5, 1.6, .5); h.position.set(0, 1.6, 0); h.rotation.set(Math.sin(i) * .5, i * .7, Math.cos(i) * .5); g.add(h); } return g; };",
+ "scenes": [
+  {"id": "t1", "plantilla": "gancho", "text": "Esta piña tardó dos años en crecer, y la planta solo da una.",
+   "p": {"heroe": "pina", "titulo": "<b>2 AÑOS</b><br>por una piña"}},
+  {"id": "t2", "plantilla": "contador", "text": "Desde que siembras la corona, pasan entre dieciocho y veinticuatro meses.",
+   "p": {"desde": 0, "hasta": 24, "sufijo": "", "palabra": "MESES"}},
+  {"id": "t3", "plantilla": "persona", "text": "Y cada planta da una sola piña en su primera cosecha.",
+   "p": {"escenario": "cocina", "accion": "sorpresa", "persona": {"tono": 3, "peinado": "rizos", "ropa": "#e76f51"}, "sticker": "1 PLANTA = 1 PIÑA", "stickerY": 1400}},
+  {"id": "t4", "plantilla": "dato", "text": "Después le salen hijos a los lados, y de ahí nacen las siguientes.",
+   "p": {"objeto": "pina", "etiqueta": "Hijuelos", "pedestal": true, "y": 2.0}},
+  {"id": "t5", "plantilla": "comentario", "text": "¿Tú lo sabías? Comenta sí o no.",
+   "p": {"heroe": "pina", "palabra": "NO SABÍA", "encima": "¿Tú <b>lo sabías</b>?"}}
+ ]
+}
