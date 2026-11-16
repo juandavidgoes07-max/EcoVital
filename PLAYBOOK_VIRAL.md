@@ -54,3 +54,10 @@ Juan David dijo que los videos usan casi las mismas imágenes y el mismo formato
 - **No reutilizar** las escenas viejas (s1–s36) salvo el frasco de producto (s5) y el cierre de pedido (s6) en promos, y aun así variar el ángulo o el fondo. Mínimo 4–5 escenas NUEVAS por video y ninguna tarjeta-título igual a la de días anteriores.
 - **Rotar paletas y escenarios**: baño, cocina, gimnasio, oficina, calle, bus, finca, mercado, playa, noche, etc.; no repetir siempre fondo de color plano y tarjeta blanca.
 - Antes de renderizar, comparar las capturas con los videos de los últimos 3 días: si se parecen, rehacer.
+
+## PORTADA EN CADA VIDEO (pedido de Juan David, 2026-11-16)
+Cada video sale con su portada para que el perfil se vea ordenado. Todas usan la misma plantilla:
+- `python3 pipeline/cover.py guion.json portadas/AAAA-MM-DD_N_tema_portada.jpg --title "Línea 1|Línea 2|Línea 3" --tipo tip|promo --t <segundo>`
+- Fondo: un cuadro del propio video desenfocado. En el centro, una tarjeta blanca con el título en 2–3 líneas cortas (máximo unas 18 letras por línea) y la etiqueta "DATO CURIOSO" (amarilla, tips) o "ECOVITAL" (verde, promos). Todo queda dentro de la zona 3:4 que muestra la cuadrícula del perfil.
+- Elegir un `--t` donde la escena no tenga tarjetas propias en el centro y revisar la imagen antes de usarla.
+- Subirla al repo en portadas/ y pasarla en Metricool como `videoThumbnailUrl` (URL raw de GitHub, .jpg).
