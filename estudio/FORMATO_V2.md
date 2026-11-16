@@ -51,7 +51,7 @@ Desde el 2026-11-16 TODOS los videos diarios se hacen con este formato (pedido d
 ```
 cd estudio && python3 render3d.py guion.json salida --preview 0.5,4,9     # capturas: MIRARLAS siempre
 python3 ../pipeline/narrar.py guion.json voz_juan.wav guion_voz.wav     # voz (desde la carpeta pipeline)
-python3 render3d.py guion.json video.mp4 --voice guion_voz.wav         # ~0,8 s por cuadro → 35 s ≈ 15 min
+python3 render3d.py guion.json video.mp4 --voice guion_voz.wav         # ~0,8 s por cuadro → 30 s ≈ 18 min
 ```
-No correr el render ni las capturas al mismo tiempo que narrar.py (2 CPU / 8 GB: se vuelve 10 veces más lento).
+No correr el render ni las capturas al mismo tiempo que narrar.py (2 CPU / 8 GB: se vuelve 10 veces más lento). Render real: ≈1,2 s por cuadro (30 s de video ≈ 18 min).
 Portada: cover.py sigue sirviendo, pero con el render nuevo usar `python3 portada3d.py guion.json portada.jpg --title "L1|L2" --tipo tip|promo --t <s>`.
