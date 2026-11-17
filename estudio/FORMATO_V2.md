@@ -45,7 +45,10 @@ Desde el 2026-11-16 este formato es la BASE y el nivel mínimo de los videos dia
 - `comentario` — {heroe, palabra, encima}
 - `ingredientes` — {aroma, chips}
 - `sello` — {heroe, texto: MITO|REALIDAD|..., tipo: mito|realidad, frase}
-- `dato` — {objeto (OBJETOS: hoja, lavanda, manzanilla, gota, limon, manzana, cerebro, corazon, sol, frasco o nuevo), grande, etiqueta, chips, pedestal, escala, y, giro}
+- `dato` — {objeto (OBJETOS: hoja, lavanda, manzanilla, gota, limon, manzana, cerebro, corazon, sol, frasco, camiseta, zanahoria, zanahorias o nuevo), grande, etiqueta, chips, pedestal, escala, y, giro (usar 0.1–0.2 si el objeto tiene un frente que se debe ver)}
+- `quiz` — {pregunta (HTML, <b> = acento), opciones:[2–3 textos], correcta: índice, heroe, revela: segundo opcional} · tarjeta de pregunta tipo encuesta de historias + opciones A/B/C que entran una por una; a mitad de escena se revela la correcta (✓ en color de acento, las demás se apagan con ✗) con golpe de cámara y sonido. Ideal en la escena 2 para que la gente se quede a ver la respuesta.
+- `contador` acepta `size` (tamaño del número 3D; usar 1.5–1.8 para textos largos como "XVII").
+- Objetos nuevos: `camiseta` {mancha:true|false, color}, `zanahoria` {color}, `zanahorias` {colores:[...]}.
 
 ## Comandos
 ```
@@ -62,3 +65,4 @@ Desde el 2026-11-16 la voz es la de Juan David clonada pero con estilo de los re
 ## Mejoras (una por día, con fecha)
 - 2026-11-16: versión inicial (15 plantillas, frasco personaje, personas 3D, subtítulos con caja, contador, stickers, comentario, portada3d).
 - 2026-11-16: voz estilo reels (1.3x, expresividad 0.85, pausas mínimas).
+- 2026-11-17: plantilla nueva `quiz` (pregunta + opciones A/B/C + revelación con ✓/✗, golpe de cámara y sonidos pop/golpe); objetos 3D `camiseta` (con manchas amarillas en las axilas) y `zanahoria`/`zanahorias` (de colores); `versus` re-encuadrado (los dos personajes ya no se cortan y las etiquetas quedan pegadas a ellos); `contador` con `size`; franja oscura superior más fuerte para que los subtítulos se lean sobre fondos claros (cocina, oficina).

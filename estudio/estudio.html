@@ -10,7 +10,7 @@ html,body{margin:0;padding:0;background:#000;width:1080px;height:1920px;overflow
 #ov{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
 .capa{position:absolute;inset:0}
 #vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%)}
-#sup{position:absolute;left:0;top:0;width:1080px;height:640px;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.25) 60%,rgba(0,0,0,0))}
+#sup{position:absolute;left:0;top:0;width:1080px;height:700px;background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.42) 55%,rgba(0,0,0,0))}
 #grano{position:absolute;inset:0;opacity:.06;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>")}
 /* subtítulos karaoke con caja (estilo reels virales) */
 .caps{position:absolute;left:540px;top:300px;width:900px;text-align:center;transform:translate(-50%,0);font-weight:700;font-size:66px;line-height:1.28;color:rgba(255,255,255,.55);letter-spacing:-.5px;text-shadow:0 4px 18px rgba(0,0,0,.75),0 0 3px rgba(0,0,0,.9)}
@@ -52,7 +52,19 @@ html,body{margin:0;padding:0;background:#000;width:1080px;height:1920px;overflow
 .combar .send{width:84px;height:84px;border-radius:50%;background:var(--acento);color:#0b0f0c;font-size:44px;display:flex;align-items:center;justify-content:center}
 .comentaEncima{position:absolute;left:540px;top:1170px;transform:translate(-50%,0);font-weight:700;font-size:48px;color:#fff;white-space:nowrap}
 .comentaEncima b{color:var(--acento)}
-</style></head>
+/* quiz (2026-11-17) */
+.quizPreg{position:absolute;left:540px;top:520px;max-width:900px;transform:translate(-50%,0);background:#fff;color:#14110a;font-weight:800;font-size:56px;line-height:1.1;padding:26px 40px 26px 110px;border-radius:34px;box-shadow:0 20px 60px rgba(0,0,0,.45);text-align:left;box-sizing:border-box;white-space:nowrap}
+.quizPreg b{color:#fff;background:var(--acento);padding:0 12px;border-radius:12px;color:#0b0f0c}
+.quizPreg .qi{position:absolute;left:24px;top:50%;transform:translateY(-50%);width:68px;height:68px;border-radius:50%;background:var(--acento);color:#0b0f0c;display:flex;align-items:center;justify-content:center;font-size:48px}
+.quizOp{position:absolute;left:540px;width:780px;height:108px;transform:translate(-50%,0);border-radius:56px;background:rgba(255,255,255,.12);border:3px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);display:flex;align-items:center;gap:24px;padding:0 22px;box-sizing:border-box;color:#fff;font-weight:700;font-size:46px;box-shadow:0 12px 34px rgba(0,0,0,.3)}
+.quizOp .ql{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:38px;flex:none}
+.quizOp .qt{flex:1;white-space:nowrap}
+.quizOp .qm{width:60px;font-size:52px;text-align:center}
+.quizOp.ok{background:var(--acento);border-color:#fff;color:#0b0f0c;box-shadow:0 0 50px var(--acento)}
+.quizOp.ok .ql{background:#0b0f0c;color:var(--acento)}
+.quizOp.no{border-color:rgba(255,90,90,.6)}
+.quizOp.no .qm{color:#ff5a5a}
+</style>
 <body>
 <canvas id="gl" width="1080" height="1920"></canvas>
 <div id="ov"><div id="vig"></div><div id="sup"></div><div id="grano"></div></div>

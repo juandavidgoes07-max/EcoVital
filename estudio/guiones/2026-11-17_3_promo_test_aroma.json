@@ -1,0 +1,266 @@
+{
+ "formato": "v2",
+ "tipo": "promo",
+ "paleta": "menta",
+ "pasos": 2,
+ "marca": true,
+ "resaltar": [
+  "test",
+  "citronela",
+  "lavanda",
+  "aluminio",
+  "Colombia",
+  "recibir",
+  "aroma",
+  "gym"
+ ],
+ "scenes": [
+  {
+   "id": "f1",
+   "plantilla": "gancho",
+   "text": "¿Quieres dejar el aluminio pero no sabes qué aroma elegir? Haz este test rapidito.",
+   "p": {
+    "heroe": "persona",
+    "accion": "pensar",
+    "persona": {
+     "tono": 2,
+     "peinado": "largo",
+     "ropa": "#3ee6b3"
+    },
+    "titulo": "¿Qué aroma<br><b>eres tú</b>?"
+   }
+  },
+  {
+   "id": "f2",
+   "plantilla": "persona",
+   "paso": 1,
+   "text": "Número uno: si haces ejercicio, caminas mucho o vives en la calle, eres citronela.",
+   "p": {
+    "escenario": "gimnasio",
+    "accion": "celebrar",
+    "sudor": true,
+    "persona": {
+     "tono": 4,
+     "peinado": "calvo",
+     "barba": true,
+     "ropa": "#ff6b35"
+    },
+    "sticker": "🍃 CITRONELA",
+    "stickerY": 1400
+   }
+  },
+  {
+   "id": "f3",
+   "plantilla": "ingredientes",
+   "paso": 1,
+   "text": "Citronela con árbol de té: fresca, herbal, como recién salida de la ducha.",
+   "p": {
+    "aroma": "citronela",
+    "chips": [
+     "🍃 <b>Fresco</b>",
+     "🌱 <b>Herbal</b>"
+    ]
+   }
+  },
+  {
+   "id": "f4",
+   "plantilla": "persona",
+   "paso": 2,
+   "text": "Número dos: si pasas el día en la oficina y te gustan los aromas suaves, eres lavanda.",
+   "p": {
+    "escenario": "oficina",
+    "accion": "hablar",
+    "persona": {
+     "tono": 1,
+     "peinado": "rizos",
+     "ropa": "#8b5cf6",
+     "pelo": "#3b2416"
+    },
+    "sticker": "💜 LAVANDA",
+    "stickerY": 1400,
+    "zoom": "out"
+   }
+  },
+  {
+   "id": "f5",
+   "plantilla": "pedestal",
+   "paso": 2,
+   "text": "Lavanda con manzanilla: floral y tranquila, desde la mañana hasta la noche.",
+   "p": {
+    "heroe": "frasco",
+    "aroma": "lavanda",
+    "chips": [
+     "Suave y <b>floral</b>",
+     "Sin <b>aluminio</b>"
+    ]
+   }
+  },
+  {
+   "id": "f6",
+   "plantilla": "versus",
+   "text": "¿Y si eres las dos? Muchos usan lavanda en el día y citronela para el gym.",
+   "p": {
+    "a": "frasco",
+    "b": "frasco",
+    "aromaA": "lavanda",
+    "aromaB": "citronela",
+    "etA": "Día 💼",
+    "etB": "Gym 🏋️",
+    "colorB": "#3ee6b3"
+   }
+  },
+  {
+   "id": "f7",
+   "plantilla": "entrega",
+   "text": "Te llega a la puerta en toda Colombia, y pagas al recibir.",
+   "p": {
+    "sticker": "LLEGA A TU PUERTA 📦",
+    "cliente": {
+     "tono": 3,
+     "peinado": "moño",
+     "ropa": "#3ee6b3"
+    }
+   }
+  },
+  {
+   "id": "f8",
+   "plantilla": "comentario",
+   "text": "Y tú, ¿qué aroma eres? Comenta lavanda o citronela.",
+   "p": {
+    "heroe": "frasco2",
+    "palabra": "LAVANDA",
+    "encima": "¿Qué <b>aroma</b> eres? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.935,
+  4.275,
+  4.04,
+  3.415,
+  3.42,
+  3.351,
+  2.531,
+  3.3
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.28
+   },
+   {
+    "s": 0.28,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 1.0
+   },
+   {
+    "s": 1.14,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.3
+   },
+   {
+    "s": 1.3,
+    "e": 1.52
+   },
+   {
+    "s": 1.52,
+    "e": 1.68
+   },
+   {
+    "s": 1.68,
+    "e": 1.86
+   },
+   {
+    "s": 1.86,
+    "e": 2.34
+   },
+   {
+    "s": 2.62,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 2.94
+   },
+   {
+    "s": 2.94,
+    "e": 3.16
+   },
+   {
+    "s": 3.26,
+    "e": 3.54
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.08
+   },
+   {
+    "s": 1.08,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.36
+   },
+   {
+    "s": 1.52,
+    "e": 2.1
+   },
+   {
+    "s": 2.24,
+    "e": 2.56
+   },
+   {
+    "s": 2.74,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 3.2
+   },
+   {
+    "s": 3.2,
+    "e": 3.48
+   },
+   {
+    "s": 3.48,
+    "e": 3.58
+   },
+   {
+    "s": 3.58,
+    "e": 3.64
+   },
+   {
+    "s": 3.64,
+    "e": 3.9
+   }
+  ],
+  null,
+  null,
+  null,
+  null,
+  null
+ ]
+}

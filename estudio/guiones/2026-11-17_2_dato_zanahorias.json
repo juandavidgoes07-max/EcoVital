@@ -1,0 +1,513 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "terracota",
+ "pasos": 0,
+ "marca": false,
+ "resaltar": [
+  "moradas",
+  "amarillas",
+  "naranjas",
+  "leyenda",
+  "betacaroteno",
+  "zanahorias",
+  "mil"
+ ],
+ "scenes": [
+  {
+   "id": "t1",
+   "plantilla": "gancho",
+   "text": "Las zanahorias no siempre fueron naranjas. Las primeras eran moradas y amarillas.",
+   "p": {
+    "heroe": "zanahorias",
+    "titulo": "Antes eran<br><b>MORADAS</b>"
+   }
+  },
+  {
+   "id": "t2",
+   "plantilla": "quiz",
+   "text": "A ver, adivina: ¿de qué color era la primera zanahoria que se cultivó?",
+   "p": {
+    "heroe": "zanahoria",
+    "color": "#5b2a6e",
+    "pregunta": "¿De qué <b>color</b> eran?",
+    "opciones": [
+     "Naranja 🥕",
+     "Morada 🟣",
+     "Blanca ⚪"
+    ],
+    "correcta": 1
+   }
+  },
+  {
+   "id": "t3",
+   "plantilla": "dato",
+   "text": "Se cultivaron primero en Asia Central hace unos mil años, moradas o amarillas.",
+   "p": {
+    "objeto": "zanahorias",
+    "colores": [
+     "#5b2a6e",
+     "#f2c14e"
+    ],
+    "etiqueta": "Asia Central",
+    "chips": [
+     "Hace unos <b>1.000 años</b>"
+    ],
+    "y": 1.6,
+    "escala": 1.1,
+    "giro": 0.4
+   }
+  },
+  {
+   "id": "t4",
+   "plantilla": "contador",
+   "text": "Las naranjas se hicieron populares mucho después, en Europa, hacia el siglo diecisiete.",
+   "p": {
+    "numero": "XVII",
+    "palabra": "SIGLO",
+    "size": 1.5
+   }
+  },
+  {
+   "id": "t5",
+   "plantilla": "sello",
+   "text": "¿Que las volvieron naranjas por la familia real holandesa? Eso es más leyenda que historia.",
+   "p": {
+    "heroe": "zanahoria",
+    "texto": "LEYENDA",
+    "tipo": "mito",
+    "frase": "¿Naranja por un rey? 👑"
+   }
+  },
+  {
+   "id": "t6",
+   "plantilla": "persona",
+   "text": "Lo que sí se sabe: salieron de zanahorias amarillas, y gustaron tanto que se quedaron.",
+   "p": {
+    "escenario": "calle",
+    "accion": "sorpresa",
+    "persona": {
+     "tono": 3,
+     "peinado": "corto",
+     "barba": true,
+     "ropa": "#2a9d8f"
+    },
+    "sticker": "🟡 ➜ 🥕",
+    "stickerY": 1400
+   }
+  },
+  {
+   "id": "t7",
+   "plantilla": "dato",
+   "text": "Su color naranja viene del betacaroteno, el mismo pigmento del mango y la ahuyama.",
+   "p": {
+    "objeto": "zanahoria",
+    "etiqueta": "Betacaroteno",
+    "chips": [
+     "🥭 Mango",
+     "🎃 Ahuyama"
+    ],
+    "pedestal": true,
+    "y": 2.1,
+    "giro": 0.8
+   }
+  },
+  {
+   "id": "t8",
+   "plantilla": "comentario",
+   "text": "¿Tú sabías que antes eran moradas? Comenta sí o no.",
+   "p": {
+    "heroe": "zanahorias",
+    "palabra": "NO SABÍA",
+    "encima": "¿Tú <b>lo sabías</b>?"
+   }
+  }
+ ],
+ "durations": [
+  3.973,
+  3.528,
+  3.569,
+  3.699,
+  3.531,
+  3.785,
+  4.038,
+  3.3
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.68
+   },
+   {
+    "s": 0.68,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.04
+   },
+   {
+    "s": 1.04,
+    "e": 1.28
+   },
+   {
+    "s": 1.28,
+    "e": 1.74
+   },
+   {
+    "s": 2.14,
+    "e": 2.24
+   },
+   {
+    "s": 2.24,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.84
+   },
+   {
+    "s": 2.84,
+    "e": 3.26
+   },
+   {
+    "s": 3.26,
+    "e": 3.42
+   },
+   {
+    "s": 3.42,
+    "e": 3.76
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.4
+   },
+   {
+    "s": 0.74,
+    "e": 1.08
+   },
+   {
+    "s": 1.3,
+    "e": 1.36
+   },
+   {
+    "s": 1.36,
+    "e": 1.48
+   },
+   {
+    "s": 1.48,
+    "e": 1.74
+   },
+   {
+    "s": 1.74,
+    "e": 1.98
+   },
+   {
+    "s": 1.98,
+    "e": 2.08
+   },
+   {
+    "s": 2.08,
+    "e": 2.32
+   },
+   {
+    "s": 2.32,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 2.92
+   },
+   {
+    "s": 2.92,
+    "e": 3.02
+   },
+   {
+    "s": 3.02,
+    "e": 3.4
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.48
+   },
+   {
+    "s": 1.48,
+    "e": 1.82
+   },
+   {
+    "s": 1.82,
+    "e": 1.94
+   },
+   {
+    "s": 1.94,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.42
+   },
+   {
+    "s": 2.62,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.08
+   },
+   {
+    "s": 3.08,
+    "e": 3.4
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.3
+   },
+   {
+    "s": 1.3,
+    "e": 1.64
+   },
+   {
+    "s": 1.98,
+    "e": 2.2
+   },
+   {
+    "s": 2.2,
+    "e": 2.42
+   },
+   {
+    "s": 2.74,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.06
+   },
+   {
+    "s": 3.06,
+    "e": 3.5
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.24
+   },
+   {
+    "s": 0.24,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.06
+   },
+   {
+    "s": 1.06,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.86
+   },
+   {
+    "s": 2.22,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.56
+   },
+   {
+    "s": 2.56,
+    "e": 2.94
+   },
+   {
+    "s": 2.94,
+    "e": 3.04
+   },
+   {
+    "s": 3.04,
+    "e": 3.3
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.82
+   },
+   {
+    "s": 0.82,
+    "e": 1.0
+   },
+   {
+    "s": 1.0,
+    "e": 1.22
+   },
+   {
+    "s": 1.22,
+    "e": 1.9
+   },
+   {
+    "s": 2.18,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.02
+   },
+   {
+    "s": 3.02,
+    "e": 3.3
+   },
+   {
+    "s": 3.3,
+    "e": 3.5
+   },
+   {
+    "s": 3.5,
+    "e": 3.58
+   },
+   {
+    "s": 3.58,
+    "e": 3.88
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.76
+   },
+   {
+    "s": 0.76,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.32
+   },
+   {
+    "s": 1.64,
+    "e": 1.94
+   },
+   {
+    "s": 1.94,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.5
+   }
+  ]
+ ]
+}

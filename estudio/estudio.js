@@ -279,14 +279,14 @@ def('gancho', (p) => {
 def('versus', (p) => {
   const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa();
   const A = crearHeroe(p.a || 'frasco', { ...p, aroma: p.aromaA || p.aroma }), B = crearHeroe(p.b || 'aerosol', { ...p, aroma: p.aromaB || 'citronela' });
-  A.obj.position.set(-1.55, 0, 0); B.obj.position.set(1.55, 0, 0); A.obj.scale.setScalar(.9); B.obj.scale.setScalar(.9); A.obj.rotation.y = .35; B.obj.rotation.y = -.35; sc.add(A.obj); sc.add(B.obj);
+  A.obj.position.set(-1.32, 0, 0); B.obj.position.set(1.32, 0, 0); A.obj.scale.setScalar(.76); B.obj.scale.setScalar(.76); cam.userData.off = .45; A.obj.rotation.y = .35; B.obj.rotation.y = -.35; sc.add(A.obj); sc.add(B.obj);
   const gA = glow(p.colorA || PAL.acento, 4.5, .35); gA.position.set(-1.9, 1.3, -.8); sc.add(gA); const gB = glow(p.colorB || '#ff5a5a', 4.5, .35); gB.position.set(1.9, 1.3, -.8); sc.add(gB);
   const vs = texto3D('VS', { size: .9, color: '#ffffff' }); vs.position.set(0, 1.3, -1.5); sc.add(vs);
   const eA = etiqueta(cp, p.etA || 'EcoVital', { cls: 'a' }), eB = etiqueta(cp, p.etB || 'Con aluminio', { cls: 'b' });
   return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 2.2, 13], [0, 2.0, 11.2], [0, 1.6, 0]); A.anim(t, d); B.anim(t + 1, d);
     vs.rotation.y = Math.sin(t * 2) * .3; vs.scale.setScalar(back(win(t, .1, .5)));
-    const [ax, ay] = proyectar(A.obj, cam, [0, 2.6, 0]), [bx, by] = proyectar(B.obj, cam, [0, 2.9, 0]);
-    eA.set(Math.max(200, ax - 40), ay - 150, ax, ay, win(t, .3, .6)); eB.set(Math.min(880, bx + 40), by - 150, bx, by, win(t, .5, .8)); } };
+    const [ax, ay] = proyectar(A.obj, cam, [0, 2.15, 0]), [bx, by] = proyectar(B.obj, cam, [0, 2.15, 0]);
+    eA.set(Math.max(200, ax - 30), ay - 120, ax, ay, win(t, .3, .6)); eB.set(Math.min(880, bx + 30), by - 120, bx, by, win(t, .5, .8)); } };
 });
 // 3. PEDESTAL: héroe girando en pedestal con neón + chips de beneficios que aparecen
 def('pedestal', (p) => {
@@ -314,9 +314,9 @@ def('persona', (p) => {
 // 5. CONTADOR: número gigante 3D que cuenta (o "3 ERRORES", "5 COSAS") con anillo de pasos
 def('contador', (p) => {
   const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa();
-  const grupo = new THREE.Group(); sc.add(grupo); grupo.position.y = 2.3; let num = texto3D(p.desde ?? p.numero ?? 3, { size: 2.6, depth: .6 }); grupo.add(num);
+  const grupo = new THREE.Group(); sc.add(grupo); grupo.position.y = 2.3; let num = texto3D(p.desde ?? p.numero ?? 3, { size: p.size || 2.6, depth: .6 }); grupo.add(num);
   const anillo = new THREE.Mesh(new THREE.TorusGeometry(2.0, .04, 8, 80), M.neon(PAL.acento)); grupo.add(anillo); const gl = glow(PAL.acento, 7, .3); grupo.add(gl);
-  const pal = p.palabra ? el('div', 'palabraGig', cp, p.palabra) : null; const et = p.etiqueta ? sticker(cp, p.etiqueta, { y: 1500, x: 540, rot: -6 }) : null;
+  const pal = p.palabra ? el('div', 'palabraGig', cp, p.palabra) : null; const et = p.etiqueta ? sticker(cp, p.etiqueta, { y: p.palabra ? 1650 : 1500, x: 540, rot: -6 }) : null;
   let ultimo = null; const cache = {};
   return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 2.4, 15], [0, 2.4, 12.5], [0, 2.1, 0]);
     if (p.hasta !== undefined) { const v = Math.round(lerp(p.desde || 0, p.hasta, eout(win(t, .1, d * .7)))); if (v !== ultimo) { grupo.remove(num); num = cache[v] || (cache[v] = texto3D(p.prefijo ? p.prefijo + v + (p.sufijo || '') : v + (p.sufijo || ''), { size: 2.2, depth: .5 })); grupo.add(num); ultimo = v; } }
@@ -415,6 +415,23 @@ def('dato', (p) => {
   return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [p.cx ?? 0, 2.4, 12.5], [-(p.cx ?? 0) * .5, 2.2, 10.2], [0, 1.6, 0]); o.rotation.y = t * (p.giro ?? .6); o.position.y = (p.y ?? 1.6) + Math.sin(t * 1.8) * .1; o.scale.setScalar((p.escala || 1) * back(win(t, 0, .45)));
     if (big) { const k = win(t, .2, .5); big.style.opacity = k; big.style.transform = `translate(-50%,0) scale(${.7 + .3 * back(k)})`; } if (lab) { const [x, y] = proyectar(o, cam, [.6, .8, 0]); lab.set(x + 160, y - 170, x, y, win(t, .4, .7)); } chips.forEach((c, i) => c.set(win(t, .5 + i * .4, .8 + i * .4))); } };
 });
+// 16. QUIZ (mejora 2026-11-17): pregunta tipo encuesta de historias + 2–3 opciones que entran una por una;
+// a mitad de escena se "revela" la correcta (se pinta del acento con ✓, las demás se apagan con ✗) con golpe de cámara.
+// p = {pregunta (html), opciones:[...], correcta: índice, heroe, revela: segundo opcional, etiqueta}
+def('quiz', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa();
+  const H = crearHeroe(p.heroe || 'frasco', p); sc.add(H.obj); H.obj.position.set(0, 0, 0); cam.userData.off = .2;
+  const gl = glow(PAL.acento, 6, .28); gl.position.set(0, 2, -1.5); sc.add(gl);
+  const preg = el('div', 'quizPreg', cp, `<span class="qi">?</span>${p.pregunta || '¿Tú qué crees?'}`);
+  const ops = (p.opciones || ['A', 'B']).map((o, i) => { const e = el('div', 'quizOp', cp, `<span class="ql">${'ABC'[i]}</span><span class="qt">${o}</span><span class="qm"></span>`); e.style.top = (1230 + i * 132) + 'px'; return e; });
+  return { sc, cam, cp, upd(t, d) { E.tick(t); const rv = p.revela ?? d * .55; const kr = win(t, rv, rv + .25);
+    camara(cam, t, 0, d, [0, 2.5, 13.5], [0, 2.3, 11.2], [0, 1.4, 0]); if (kr > 0 && kr < 1) { cam.position.z -= Math.sin(kr * Math.PI) * .9; cam.position.x += Math.sin(t * 70) * .05; }
+    H.anim(t, d); H.obj.rotation.y = Math.sin(t * 1.2) * .35;
+    const kp = win(t, 0, .3); preg.style.opacity = kp; preg.style.transform = `translate(-50%,0) scale(${.8 + .2 * back(kp)}) rotate(-1.5deg)`;
+    ops.forEach((e, i) => { const k = win(t, .25 + i * .22, .55 + i * .22); const ok = i === (p.correcta ?? 0);
+      e.style.opacity = kr > 0 && !ok ? 1 - .55 * kr : k; e.style.transform = `translate(-50%,0) translateX(${(1 - eout(k)) * (i % 2 ? 120 : -120)}px) scale(${kr > 0 && ok ? 1 + .08 * Math.sin(kr * Math.PI) + .04 : 1})`;
+      e.classList.toggle('ok', kr > 0 && ok); e.classList.toggle('no', kr > 0 && !ok); e.querySelector('.qm').textContent = kr > 0 ? (ok ? '✓' : '✗') : ''; }); } };
+});
 
 // héroes reutilizables
 export function crearHeroe(tipo, p = {}) {
@@ -439,6 +456,17 @@ export const OBJETOS = {
   corazon: () => { const sh = new THREE.Shape(); sh.moveTo(0, -.9); sh.bezierCurveTo(-1.6, .2, -.6, 1.2, 0, .45); sh.bezierCurveTo(.6, 1.2, 1.6, .2, 0, -.9); const m = mesh(new THREE.ExtrudeGeometry(sh, { depth: .4, bevelEnabled: true, bevelSize: .1, bevelThickness: .1, bevelSegments: 4 }), M.std('#e8455a', .35)); m.geometry.center(); return m; },
   sol: () => { const g = new THREE.Group(); g.add(mesh(new THREE.SphereGeometry(.8, 32, 24), M.std('#ffcc4d', .5, 0, '#ffb000'))); for (let i = 0; i < 12; i++) { const r = mesh(new THREE.ConeGeometry(.12, .5, 8), M.std('#ffcc4d', .5, 0, '#ffb000')); const a = i / 12 * Math.PI * 2; r.position.set(Math.cos(a) * 1.15, Math.sin(a) * 1.15, 0); r.rotation.z = a - Math.PI / 2; g.add(r); } g.add(glow('#ffcc4d', 5, .4)); return g; },
   frasco: p => { const f = frasco({ aroma: p.aroma }); f.position.y = -1.2; const g = new THREE.Group(); g.add(f); return g; },
+  // (2026-11-17) camiseta blanca con mancha amarilla en la axila (p.mancha=false la deja limpia; p.color cambia la tela)
+  camiseta: p => { const g = new THREE.Group(); const sh = new THREE.Shape(); sh.moveTo(-.75, -1.1); sh.lineTo(.75, -1.1); sh.lineTo(.75, .35); sh.lineTo(1.25, .05); sh.lineTo(1.55, .55); sh.lineTo(.85, 1.05); sh.quadraticCurveTo(.3, 1.15, .28, 1.0); sh.quadraticCurveTo(0, .72, -.28, 1.0); sh.quadraticCurveTo(-.3, 1.15, -.85, 1.05); sh.lineTo(-1.55, .55); sh.lineTo(-1.25, .05); sh.lineTo(-.75, .35); sh.closePath();
+    const tela = mesh(new THREE.ExtrudeGeometry(sh, { depth: .18, bevelEnabled: true, bevelSize: .06, bevelThickness: .06, bevelSegments: 3 }), M.std(p.color || '#f7f7f4', .85)); tela.position.z = -.09; g.add(tela);
+    const cuello = mesh(new THREE.TorusGeometry(.29, .045, 8, 24, Math.PI), M.std('#e4e4de', .8), 0, 1.0, .16); cuello.rotation.z = Math.PI; g.add(cuello);
+    if (p.mancha !== false) { const mt = new THREE.MeshBasicMaterial({ color: col('#d4a72c'), transparent: true, opacity: .85, depthWrite: false, side: THREE.DoubleSide }); [-1, 1].forEach(s => [.2, -.2].forEach(z => { [[.0, 0, .34], [.14, -.16, .26], [-.1, -.2, .2]].forEach(([dx, dy, r]) => { const m = new THREE.Mesh(new THREE.CircleGeometry(r, 24), mt); m.position.set(s * (.74 + dx), .18 + dy, z); g.add(m); }); })); }
+    g.children.forEach(c => c.position.y += .5); return g; },
+  // (2026-11-17) zanahoria con color (naranja por defecto; '#5b2a6e' morada, '#f2c14e' amarilla, '#f3eedf' blanca)
+  zanahoria: p => { const g = new THREE.Group(); const c = p.color || '#f07f22'; const raiz = mesh(new THREE.ConeGeometry(.42, 2.4, 24), M.std(c, .55)); raiz.rotation.z = Math.PI; g.add(raiz);
+    for (let i = 0; i < 6; i++) { const r = mesh(new THREE.TorusGeometry(.42 - i * .06, .015, 6, 24), M.std(c, .7), 0, .8 - i * .32, 0); r.rotation.x = Math.PI / 2; r.scale.setScalar(.98); g.add(r); }
+    for (let i = 0; i < 5; i++) { const h = hoja('#4f9d3a', .55); h.scale.set(.4, 1.5, .4); h.position.set(Math.sin(i * 1.3) * .12, 1.55, Math.cos(i * 1.3) * .12); h.rotation.set(Math.sin(i * 2) * .5, i * 1.2, Math.cos(i * 2) * .45); g.add(h); } return g; },
+  zanahorias: p => { const g = new THREE.Group(); (p.colores || ['#5b2a6e', '#f2c14e', '#f07f22']).forEach((c, i, a) => { const z = OBJETOS.zanahoria({ color: c }); z.position.set((i - (a.length - 1) / 2) * 1.25, 0, i === 1 ? .4 : 0); z.rotation.z = (i - 1) * -.18; g.add(z); }); return g; },
 };
 // pantallas del celular
 export const PANTALLAS = {
@@ -466,7 +494,7 @@ export async function init(spec) {
 export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, def, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
 window.API = API;
 
-function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); }); return ev; }
+function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
 
 function drawCaps(t) {
   const tl = SPEC.timeline; const W_ = tl.words; let ci = -1; for (let i = 0; i < tl.chunks.length; i++) { const [a, b] = tl.chunks[i]; const fin = i + 1 < tl.chunks.length ? W_[tl.chunks[i + 1][0]].s : W_[b].e + .6; if (t >= W_[a].s - .08 && t < fin) { ci = i; break; } }
