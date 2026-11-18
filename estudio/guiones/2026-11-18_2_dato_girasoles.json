@@ -1,0 +1,605 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "arena",
+ "pasos": 0,
+ "marca": false,
+ "resaltar": [
+  "girasoles",
+  "sol",
+  "jóvenes",
+  "oriente",
+  "reloj",
+  "abejas",
+  "cinco",
+  "medias"
+ ],
+ "scenes": [
+  {
+   "id": "t1",
+   "plantilla": "gancho",
+   "text": "Todos creen que los girasoles siguen al sol. Es verdad, pero solo a medias.",
+   "p": {
+    "heroe": "girasol",
+    "titulo": "¿Los girasoles<br><b>siguen al sol</b>?"
+   }
+  },
+  {
+   "id": "t2",
+   "plantilla": "quiz",
+   "text": "Adivina: un girasol adulto, ¿mira al sol todo el día, mira al oriente, o mira al piso?",
+   "p": {
+    "heroe": "girasol",
+    "pregunta": "Un girasol <b>adulto</b>…",
+    "opciones": [
+     "Sigue al sol",
+     "Mira al oriente",
+     "Mira al piso"
+    ],
+    "correcta": 1
+   }
+  },
+  {
+   "id": "t3",
+   "plantilla": "sigueSol",
+   "text": "De jóvenes sí lo siguen: amanecen mirando al oriente y en la tarde miran al occidente.",
+   "p": {
+    "sticker": "GIRASOL JOVEN 🌱"
+   }
+  },
+  {
+   "id": "t4",
+   "plantilla": "reloj",
+   "text": "Y de noche se giran de vuelta, guiados por su propio reloj interno.",
+   "p": {
+    "etiqueta": "Reloj interno",
+    "sticker": "DE NOCHE 🌙",
+    "color": "#f2c14e"
+   }
+  },
+  {
+   "id": "t5",
+   "plantilla": "persona",
+   "text": "Pero cuando florecen, se quedan quietos, mirando siempre hacia el oriente.",
+   "p": {
+    "escenario": "calle",
+    "accion": "sorpresa",
+    "persona": {
+     "tono": 2,
+     "peinado": "moño",
+     "ropa": "#2a9d8f",
+     "pelo": "#2b1d16"
+    },
+    "sticker": "ADULTO = SE QUEDA QUIETO",
+    "stickerY": 1400
+   }
+  },
+  {
+   "id": "t6",
+   "plantilla": "sigueSol",
+   "text": "¿Y por qué al oriente? Porque el sol de la mañana los calienta más rápido.",
+   "p": {
+    "adulto": true,
+    "sticker": "FLOR TIBIA ☀️"
+   }
+  },
+  {
+   "id": "t7",
+   "plantilla": "dato",
+   "text": "Y una flor tibia atrae a las abejas: reciben hasta cinco veces más visitas.",
+   "p": {
+    "objeto": "abeja",
+    "etiqueta": "Abejas",
+    "chips": [
+     "hasta <b>5 veces</b> más visitas 🐝"
+    ],
+    "y": 2.0,
+    "giro": 0.35,
+    "escala": 1.6
+   }
+  },
+  {
+   "id": "t8",
+   "plantilla": "comentario",
+   "text": "¿Tú lo sabías? La próxima vez que veas un girasol, busca por dónde sale el sol.",
+   "p": {
+    "heroe": "girasol",
+    "palabra": "NO SABÍA",
+    "encima": "¿Tú <b>lo sabías</b>?",
+    "escalaHeroe": 0.62
+   }
+  }
+ ],
+ "durations": [
+  3.142,
+  4.171,
+  3.9,
+  3.075,
+  3.204,
+  3.205,
+  3.165,
+  3.458
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.7
+   },
+   {
+    "s": 0.7,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.58
+   },
+   {
+    "s": 1.78,
+    "e": 1.92
+   },
+   {
+    "s": 1.92,
+    "e": 2.14
+   },
+   {
+    "s": 2.32,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.62
+   },
+   {
+    "s": 2.62,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 2.96
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.54
+   },
+   {
+    "s": 0.68,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.1
+   },
+   {
+    "s": 1.1,
+    "e": 1.54
+   },
+   {
+    "s": 1.62,
+    "e": 1.8
+   },
+   {
+    "s": 1.8,
+    "e": 1.98
+   },
+   {
+    "s": 1.98,
+    "e": 2.14
+   },
+   {
+    "s": 2.14,
+    "e": 2.26
+   },
+   {
+    "s": 2.26,
+    "e": 2.44
+   },
+   {
+    "s": 2.68,
+    "e": 2.84
+   },
+   {
+    "s": 2.84,
+    "e": 2.92
+   },
+   {
+    "s": 2.92,
+    "e": 3.24
+   },
+   {
+    "s": 3.24,
+    "e": 3.5
+   },
+   {
+    "s": 3.5,
+    "e": 3.7
+   },
+   {
+    "s": 3.7,
+    "e": 3.78
+   },
+   {
+    "s": 3.78,
+    "e": 4.02
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 0.9
+   },
+   {
+    "s": 0.9,
+    "e": 1.24
+   },
+   {
+    "s": 1.38,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.4
+   },
+   {
+    "s": 2.4,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.26
+   },
+   {
+    "s": 3.26,
+    "e": 3.34
+   },
+   {
+    "s": 3.34,
+    "e": 3.72
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.28
+   },
+   {
+    "s": 0.28,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.16
+   },
+   {
+    "s": 1.46,
+    "e": 1.86
+   },
+   {
+    "s": 1.86,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.96
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.36
+   },
+   {
+    "s": 0.36,
+    "e": 0.8
+   },
+   {
+    "s": 0.98,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.84
+   },
+   {
+    "s": 1.96,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.66
+   },
+   {
+    "s": 2.66,
+    "e": 2.76
+   },
+   {
+    "s": 2.76,
+    "e": 3.02
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.3
+   },
+   {
+    "s": 0.3,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.78
+   },
+   {
+    "s": 1.24,
+    "e": 1.44
+   },
+   {
+    "s": 1.44,
+    "e": 1.54
+   },
+   {
+    "s": 1.54,
+    "e": 1.66
+   },
+   {
+    "s": 1.66,
+    "e": 1.74
+   },
+   {
+    "s": 1.74,
+    "e": 1.8
+   },
+   {
+    "s": 1.8,
+    "e": 2.04
+   },
+   {
+    "s": 2.04,
+    "e": 2.3
+   },
+   {
+    "s": 2.3,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.74
+   },
+   {
+    "s": 2.74,
+    "e": 2.98
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.24
+   },
+   {
+    "s": 0.24,
+    "e": 0.36
+   },
+   {
+    "s": 0.36,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 0.9
+   },
+   {
+    "s": 0.9,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.32
+   },
+   {
+    "s": 1.46,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.06
+   },
+   {
+    "s": 2.06,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.48
+   },
+   {
+    "s": 2.48,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 3.04
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.28
+   },
+   {
+    "s": 0.28,
+    "e": 0.58
+   },
+   {
+    "s": 0.86,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.44
+   },
+   {
+    "s": 1.44,
+    "e": 1.56
+   },
+   {
+    "s": 1.56,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 1.82
+   },
+   {
+    "s": 1.82,
+    "e": 2.18
+   },
+   {
+    "s": 2.34,
+    "e": 2.5
+   },
+   {
+    "s": 2.5,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 3.06
+   },
+   {
+    "s": 3.06,
+    "e": 3.2
+   },
+   {
+    "s": 3.2,
+    "e": 3.32
+   }
+  ]
+ ]
+}

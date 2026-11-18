@@ -279,13 +279,13 @@ def('gancho', (p) => {
 def('versus', (p) => {
   const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa();
   const A = crearHeroe(p.a || 'frasco', { ...p, aroma: p.aromaA || p.aroma }), B = crearHeroe(p.b || 'aerosol', { ...p, aroma: p.aromaB || 'citronela' });
-  A.obj.position.set(-1.32, 0, 0); B.obj.position.set(1.32, 0, 0); A.obj.scale.setScalar(.76); B.obj.scale.setScalar(.76); cam.userData.off = .45; A.obj.rotation.y = .35; B.obj.rotation.y = -.35; sc.add(A.obj); sc.add(B.obj);
+  A.obj.position.set(-1.32, p.yA ?? 0, 0); B.obj.position.set(1.32, p.yB ?? 0, 0); A.obj.scale.setScalar(.76); B.obj.scale.setScalar(.76); cam.userData.off = .45; A.obj.rotation.y = .35; B.obj.rotation.y = -.35; sc.add(A.obj); sc.add(B.obj);
   const gA = glow(p.colorA || PAL.acento, 4.5, .35); gA.position.set(-1.9, 1.3, -.8); sc.add(gA); const gB = glow(p.colorB || '#ff5a5a', 4.5, .35); gB.position.set(1.9, 1.3, -.8); sc.add(gB);
   const vs = texto3D('VS', { size: .9, color: '#ffffff' }); vs.position.set(0, 1.3, -1.5); sc.add(vs);
   const eA = etiqueta(cp, p.etA || 'EcoVital', { cls: 'a' }), eB = etiqueta(cp, p.etB || 'Con aluminio', { cls: 'b' });
   return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 2.2, 13], [0, 2.0, 11.2], [0, 1.6, 0]); A.anim(t, d); B.anim(t + 1, d);
     vs.rotation.y = Math.sin(t * 2) * .3; vs.scale.setScalar(back(win(t, .1, .5)));
-    const [ax, ay] = proyectar(A.obj, cam, [0, 2.15, 0]), [bx, by] = proyectar(B.obj, cam, [0, 2.15, 0]);
+    cam.updateMatrixWorld(); const [ax, ay] = proyectar(A.obj, cam, [0, p.etY ?? 2.15, 0]), [bx, by] = proyectar(B.obj, cam, [0, p.etY ?? 2.15, 0]);
     eA.set(Math.max(200, ax - 30), ay - 120, ax, ay, win(t, .3, .6)); eB.set(Math.min(880, bx + 30), by - 120, bx, by, win(t, .5, .8)); } };
 });
 // 3. PEDESTAL: héroe girando en pedestal con neón + chips de beneficios que aparecen
@@ -349,7 +349,7 @@ def('celular', (p) => {
   const E = estudio({}); const sc = E.sc, cam = E.cam; const cp = capa();
   const cel = celular({ dibujar: PANTALLAS[p.pantalla || 'chat'](p) }); cel.position.set(0, 2.6, 0); sc.add(cel); const gl = glow(PAL.acento, 6, .25); gl.position.set(0, 2.6, -1); sc.add(gl);
   let pe = null; if (p.persona) { pe = persona(p.persona); pe.position.set(-2.6, 0, -1.2); pe.rotation.y = .5; sc.add(pe); }
-  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [1.2, 2.8, 11], [0, 2.7, 9], [0, 2.5, 0]); cel.rotation.y = -.25 + Math.sin(t * .8) * .08; cel.rotation.x = -.05; cel.position.y = 2.6 + Math.sin(t * 1.6) * .06;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [.9, 2.8, 11], [.25, 2.7, 9.4], [.2, 2.5, 0]); cel.rotation.y = -.25 + Math.sin(t * .8) * .08; cel.rotation.x = -.05; cel.position.y = 2.6 + Math.sin(t * 1.6) * .06;
     redraw(cel.userData.tex, t / d, t); if (pe) animPersona(pe, t, { accion: p.accion || 'sorpresa', k: eout(win(t, 0, .5)) }); } };
 });
 // 9. RELOJ: reloj de arena (urgencia / tiempo) + calendario o texto
@@ -433,6 +433,80 @@ def('quiz', (p) => {
       e.classList.toggle('ok', kr > 0 && ok); e.classList.toggle('no', kr > 0 && !ok); e.querySelector('.qm').textContent = kr > 0 ? (ok ? '✓' : '✗') : ''; }); } };
 });
 
+// 17. MAPA (mejora 2026-11-18): mapa 3D de Colombia (relieve con borde neón) + pines que caen ciudad por ciudad con
+// rutas que salen de un centro y se dibujan solas + nombres con etiqueta. Cierre "envíos a toda Colombia".
+// p = {ciudades:[nombres de CIUDADES], centro:'Bogotá', sticker, frasco:true, aroma, titulo (html arriba)}
+export const COLOMBIA = [[-71.67,12.46],[-71.1,12.1],[-71.33,11.85],[-72.2,11.1],[-72.7,10.4],[-73.0,9.3],[-72.8,8.6],[-72.45,7.9],[-72.0,7.0],[-70.9,7.05],[-70.1,6.95],[-69.4,6.1],[-67.5,6.2],[-67.6,5.4],[-67.85,4.4],[-67.3,3.4],[-67.85,2.8],[-67.2,2.3],[-66.9,1.2],[-67.6,2.0],[-68.2,1.7],[-69.8,1.7],[-69.2,1.0],[-70.05,0.6],[-70.05,-0.15],[-69.4,-1.1],[-69.95,-4.2],[-70.7,-3.8],[-72.0,-2.4],[-72.9,-2.4],[-73.6,-1.2],[-74.8,-0.2],[-75.6,0.0],[-77.4,0.4],[-78.1,0.9],[-78.85,1.45],[-78.6,2.6],[-77.4,3.9],[-77.4,5.5],[-77.5,6.6],[-77.9,7.2],[-77.4,8.7],[-76.8,8.0],[-76.8,8.9],[-76.3,9.4],[-75.6,10.3],[-74.8,11.05],[-74.2,11.25],[-73.3,11.3],[-72.9,11.55],[-72.2,12.2]];
+export const CIUDADES = { 'Bogotá': [-74.07, 4.71], 'Medellín': [-75.57, 6.24], 'Cali': [-76.53, 3.45], 'Barranquilla': [-74.8, 10.96], 'Cartagena': [-75.51, 10.39], 'Bucaramanga': [-73.12, 7.12], 'Pasto': [-77.28, 1.21], 'Leticia': [-69.94, -4.2], 'Pereira': [-75.69, 4.81], 'Cúcuta': [-72.5, 7.89], 'Villavicencio': [-73.63, 4.14], 'Santa Marta': [-74.2, 11.24], 'Neiva': [-75.28, 2.93] };
+const geoXY = ([lo, la], s = .3) => [(lo + 73.5) * s, (la - 4) * s];
+def('mapa', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const S = p.escalaMapa || .3; const mapa = new THREE.Group(); mapa.position.set(0, .05, 0); sc.add(mapa);
+  const sh = new THREE.Shape(); COLOMBIA.forEach((c, i) => { const [x, y] = geoXY(c, S); i ? sh.lineTo(x, -y) : sh.moveTo(x, -y); }); sh.closePath();
+  const tierra = mesh(new THREE.ExtrudeGeometry(sh, { depth: .28, bevelEnabled: true, bevelSize: .05, bevelThickness: .05, bevelSegments: 3 }), M.std(p.colorMapa || '#1f3a2c', .55, .15)); tierra.rotation.x = Math.PI / 2; tierra.position.y = .33; mapa.add(tierra);
+  const pts = COLOMBIA.map(c => { const [x, y] = geoXY(c, S); return new THREE.Vector3(x, .4, -y); }); pts.push(pts[0].clone());
+  const borde = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, false, 'catmullrom', .1), 400, .035, 6, false), M.neon(PAL.acento)); mapa.add(borde); const glB = glow(PAL.acento, 9, .22); glB.position.y = .3; mapa.add(glB);
+  const lista = p.ciudades || ['Barranquilla', 'Medellín', 'Bucaramanga', 'Cali', 'Pasto', 'Leticia']; const cen = CIUDADES[p.centro || 'Bogotá'];
+  let [cx, cy] = geoXY(cen, S); cy = -cy; const hub = mesh(new THREE.CylinderGeometry(.22, .22, .1, 24), M.neon(PAL.acento2), cx, .45, cy); mapa.add(hub); const hubG = glow(PAL.acento2, 1.6, .7); hubG.position.set(cx, .6, cy); mapa.add(hubG);
+  const pinM = M.std(PAL.acento, .3, .1, PAL.acento);
+  const pines = lista.map((n, i) => { let [x, y] = geoXY(CIUDADES[n] || cen, S); y = -y; const pin = new THREE.Group(); pin.add(mesh(new THREE.ConeGeometry(.11, .45, 16), pinM, 0, .22, 0)).children[0].rotation.x = Math.PI; pin.add(mesh(new THREE.SphereGeometry(.16, 16, 12), pinM, 0, .5, 0)); pin.add(mesh(new THREE.SphereGeometry(.06, 10, 8), M.neon('#ffffff'), 0, .5, .13)); pin.position.set(x, .42, y); mapa.add(pin);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(.12, .17, 32), new THREE.MeshBasicMaterial({ color: col(PAL.acento), transparent: true, side: THREE.DoubleSide, depthWrite: false })); ring.rotation.x = -Math.PI / 2; ring.position.set(x, .44, y); mapa.add(ring);
+    const mid = new THREE.Vector3((x + cx) / 2, 1.2 + Math.hypot(x - cx, y - cy) * .35, (y + cy) / 2); const curva = new THREE.QuadraticBezierCurve3(new THREE.Vector3(cx, .45, cy), mid, new THREE.Vector3(x, .45, y));
+    const ruta = new THREE.Mesh(new THREE.TubeGeometry(curva, 48, .025, 6, false), new THREE.MeshBasicMaterial({ color: col(PAL.acento2), transparent: true, opacity: .9 })); mapa.add(ruta); const total = ruta.geometry.index.count;
+    const et = etiqueta(cp, n, { cls: i % 2 ? 'b' : 'a' }); return { pin, ring, ruta, total, et, n }; });
+  let fr = null; if (p.frasco !== false) { fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.55); fr.position.set(2.05, 0, 1.3); fr.rotation.y = -.4; fr.rotation.x = -.5; sc.add(fr); }
+  const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: 1340, x: 420, cls: 'grande', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); const a = -.08 + t * .06; const R0 = lerp(10.5, 8.6, ease(win(t, 0, d)));
+    cam.position.set(Math.sin(a) * R0 * .25, lerp(11.5, 10, ease(win(t, 0, d))), lerp(6.2, 5.2, ease(win(t, 0, d)))); cam.lookAt(0, 0, -.5);
+    mapa.scale.setScalar(.6 + .4 * back(win(t, 0, .5))); borde.material.color.set(PAL.acento); glB.material.opacity = .18 + .08 * Math.sin(t * 4);
+    cam.updateMatrixWorld(); mapa.updateMatrixWorld(true);
+    const paso = (d * .62) / Math.max(1, pines.length);
+    pines.forEach((q, i) => { const t0 = .35 + i * paso; const k = win(t, t0, t0 + .35); q.pin.visible = k > 0; q.pin.position.y = .42 + (1 - back(k)) * 2.2; q.pin.scale.setScalar(Math.max(.01, k)); q.pin.rotation.y = t * 2;
+      const kr = (t - t0 - .3); q.ring.visible = kr > 0; if (kr > 0) { const ph = (kr * .9) % 1; q.ring.scale.setScalar(1 + ph * 3); q.ring.material.opacity = (1 - ph) * .9; }
+      q.ruta.geometry.setDrawRange(0, Math.floor(q.total * eout(win(t, t0 - .25, t0 + .25)) / 3) * 3);
+      q.pin.updateMatrixWorld(true); const [x, y] = proyectar(q.pin, cam, [0, .3, 0]); const izq = x < 540; q.et.set(clamp(x + (izq ? -150 : 150), 170, 910), y - 90, x, y, win(t, t0 + .2, t0 + .45)); });
+    hub.scale.setScalar(1 + .15 * Math.sin(t * 6)); if (fr) animFrasco(fr, t, { expr: 'feliz', saluda: t > d * .5, salto: t > d * .75 ? .5 : 0 });
+    if (tit) { const k = win(t, 0, .3); tit.style.opacity = k; tit.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(k)})`; } if (st) st.set(win(t, d * .72, d * .72 + .3)); } };
+});
+// 18. LUPA (mejora 2026-11-18): "voltea el empaque": lista de ingredientes en una etiqueta + lupa 3D que la recorre y
+// subraya con marcador la palabra clave. p = {lineas:[...], clave: índice de la línea a marcar, titulo, heroe:'aerosol', sticker}
+def('lupa', (p) => {
+  const E = estudio({}); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const lineas = p.lineas || ['INGREDIENTES:', 'Aqua, Alcohol, Parfum,', 'Aluminum Chlorohydrate,', 'Glycerin, Cyclomethicone']; const clave = p.clave ?? 2;
+  const tex = canvasTex(900, 1100, (c, w, h, k = 0) => { c.fillStyle = '#f7f3ea'; rr(c, 0, 0, w, h, 40); c.fill(); c.fillStyle = '#d24b4b'; rr(c, 0, 0, w, 150, 40); c.fill(); c.fillRect(0, 100, w, 50);
+    c.fillStyle = '#fff'; c.font = '800 64px P'; c.textAlign = 'center'; c.fillText(p.titulo || 'ANTITRANSPIRANTE', w / 2, 100); c.textAlign = 'left';
+    lineas.forEach((L, i) => { const y = 260 + i * 120; c.font = (i === 0 ? '800 ' : '500 ') + '50px P'; if (i === clave && k > 0) { const tw = c.measureText(L).width; c.fillStyle = PAL.acento2 === '#ffffff' ? '#ffe14d' : PAL.acento2; c.globalAlpha = .85; rr(c, 50, y - 52, (tw + 30) * k, 72, 12); c.fill(); c.globalAlpha = 1; }
+      c.fillStyle = i === clave && k > .9 ? '#111' : '#3a3a3a'; c.fillText(L, 64, y); });
+    c.fillStyle = '#9a9a9a'; c.font = '500 34px P'; c.fillText('Uso externo · 150 ml', 64, h - 60); });
+  const et = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 4.4), new THREE.MeshStandardMaterial({ map: tex, roughness: .6, envMap: ENV, envMapIntensity: .3 })); et.position.set(0, 2.6, 0); et.castShadow = true; sc.add(et);
+  const marco = mesh(rbox(3.75, 4.55, .1, .12), M.std('#15181c', .4, .3), 0, 0, -.12); et.add(marco);
+  const lupa = new THREE.Group(); const aroL = mesh(new THREE.TorusGeometry(.75, .09, 16, 48), M.oro()); lupa.add(aroL); const lente = new THREE.Mesh(new THREE.CircleGeometry(.72, 48), M.vidrio()); lupa.add(lente);
+  const mango = mesh(new THREE.CylinderGeometry(.1, .12, 1.3, 16), M.std('#3b2a1e', .5), .95, -.95, 0); mango.rotation.z = Math.PI / 4; lupa.add(mango); const glL = glow('#ffffff', 2.2, .25); lupa.add(glL); lupa.position.z = .8; sc.add(lupa);
+  let H = null; if (p.heroe) { H = crearHeroe(p.heroe, p); H.obj.scale.setScalar(.5); H.obj.position.set(-2.1, 0, 1.2); H.obj.rotation.y = .4; sc.add(H.obj); }
+  const st = p.sticker ? sticker(cp, p.sticker, { y: 1560, x: 560, cls: 'grande', rot: -4 }) : null;
+  const yLinea = i => 2.6 + 2.2 - (260 + i * 120 - 18) / 1100 * 4.4;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [.5, 2.8, 11.8], [0, 2.75, 10.2], [0, 2.75, 0]); et.rotation.y = Math.sin(t * .7) * .06;
+    const kb = ease(win(t, .1, d * .45)); const yy = lerp(yLinea(0), yLinea(clave), kb); lupa.position.set(lerp(-.6, 2.05, kb) + Math.sin(t * 2) * .1, yy - .35, .8); lupa.rotation.z = Math.sin(t * 1.5) * .08;
+    const km = win(t, d * .45, d * .7); redraw(tex, km); const zoom = win(t, d * .45, d * .6); if (zoom > 0 && zoom < 1) cam.position.z -= Math.sin(zoom * Math.PI) * .7;
+    if (H) H.anim(t, d); if (st) st.set(win(t, d * .7, d * .7 + .3)); } };
+});
+
+// 19. SIGUESOL (mejora 2026-11-18): el sol cruza el cielo en arco (oriente → occidente) con cielo que pasa de amanecer
+// a tarde, y un girasol gira la cabeza siguiéndolo (p.adulto = true: se queda mirando al oriente). p = {adulto, sticker, etiqueta}
+def('sigueSol', (p) => {
+  const E = estudio({ fogNear: 22, fogFar: 50 }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = .6;
+  const gi = OBJETOS.girasol({ joven: !p.adulto, alto: 2.8, inclina: .05 }); gi.position.set(0, 1.45, 0); gi.scale.setScalar(p.adulto ? 1.05 : 1.4); sc.add(gi);
+  const sol = OBJETOS.sol(); sol.scale.setScalar(.7); sc.add(sol); const luzSol = new THREE.PointLight(col('#ffcc66'), 60, 30, 1.5); sol.add(luzSol);
+  const cerro = mesh(new THREE.SphereGeometry(9, 40, 20, 0, Math.PI * 2, 0, Math.PI / 2), M.std('#3d6b35', .9), 0, -7.6, -6); cerro.scale.set(1.6, 1, 1); sc.add(cerro);
+  const lO = chip(cp, '☀️ ORIENTE', 230, 1180, ''), lW = chip(cp, 'OCCIDENTE 🌇', 850, 1180, ''); const st = p.sticker ? sticker(cp, p.sticker, { y: 1480, cls: 'grande', rot: -4 }) : null;
+  const c0 = col(p.adulto ? '#1d2a44' : '#2b2240'), c1 = col('#3a4f7a'), c2 = col('#5a2d3f'); const cielo = new THREE.Color();
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 3.2, 13.5], [0, 3.0, 11.8], [0, 2.4, 0]);
+    const k = ease(win(t, .2, d - .2)); const a = Math.PI * (1 - k); sol.position.set(lerp(-3.3, 3.3, k), 3.0 + Math.sin(a) * 2.2, -2.2); sol.rotation.z = t;
+    cielo.copy(c0).lerp(k < .5 ? c1 : c2, k < .5 ? k * 2 : (k - .5) * 2); sc.background = cielo; sc.fog.color = cielo;
+    const cab = gi.userData.cab; const yaw = p.adulto ? -1.15 : lerp(-1.0, 1.0, k); cab.rotation.y = yaw; cab.rotation.x = -.15 - (p.adulto ? .25 : Math.sin(Math.PI * k) * .35); gi.rotation.z = Math.sin(t * 1.4) * .02;
+    lO.set(win(t, .1, .4)); lW.set(win(t, .3, .6)); if (st) st.set(win(t, d * .5, d * .5 + .3)); } };
+});
+
 // héroes reutilizables
 export function crearHeroe(tipo, p = {}) {
   if (tipo === 'frasco') { const f = frasco({ aroma: p.aroma }); return { obj: f, anim: (t, d) => animFrasco(f, t, { expr: p.expr || 'feliz', hablar: p.hablar ?? .5, saluda: p.saluda, salto: p.salto, brazosArriba: p.brazosArriba }) }; }
@@ -441,7 +515,7 @@ export function crearHeroe(tipo, p = {}) {
   if (tipo === 'nube') { const n = nubeOlor(); n.position.y = 1.6; return { obj: n, anim: (t) => { n.position.y = 1.6 + Math.sin(t * 2) * .12; n.rotation.z = Math.sin(t * 1.6) * .08; } }; }
   if (tipo === 'reloj') { const r = relojArena({ color: PAL.acento }); return { obj: r, anim: (t, d) => { r.rotation.y = t * .3; animReloj(r, clamp(.2 + t / d * .5)); } }; }
   if (tipo === 'persona') { const pe = persona(p.persona || {}); return { obj: pe, anim: (t) => animPersona(pe, t, { accion: p.accion || 'hablar' }) }; }
-  if (OBJETOS[tipo]) { const o = OBJETOS[tipo](p); o.position.y = 1.4; return { obj: o, anim: (t) => { o.rotation.y = t * .6; } }; }
+  if (OBJETOS[tipo]) { const o = OBJETOS[tipo](p); o.position.y = 1.4; if (p.escalaHeroe) o.scale.setScalar(p.escalaHeroe); return { obj: o, anim: (t) => { o.rotation.y = t * .6; } }; }
   const f = frasco({}); return { obj: f, anim: t => animFrasco(f, t, {}) };
 }
 // objetos para datos curiosos (añadir más cada día según el tema)
@@ -466,13 +540,33 @@ export const OBJETOS = {
   zanahoria: p => { const g = new THREE.Group(); const c = p.color || '#f07f22'; const raiz = mesh(new THREE.ConeGeometry(.42, 2.4, 24), M.std(c, .55)); raiz.rotation.z = Math.PI; g.add(raiz);
     for (let i = 0; i < 6; i++) { const r = mesh(new THREE.TorusGeometry(.42 - i * .06, .015, 6, 24), M.std(c, .7), 0, .8 - i * .32, 0); r.rotation.x = Math.PI / 2; r.scale.setScalar(.98); g.add(r); }
     for (let i = 0; i < 5; i++) { const h = hoja('#4f9d3a', .55); h.scale.set(.4, 1.5, .4); h.position.set(Math.sin(i * 1.3) * .12, 1.55, Math.cos(i * 1.3) * .12); h.rotation.set(Math.sin(i * 2) * .5, i * 1.2, Math.cos(i * 2) * .45); g.add(h); } return g; },
+  // (2026-11-18) girasol: tallo, hojas, cabeza con semillas en espiral (filotaxis) y 2 coronas de pétalos. p.joven = botón pequeño; p.inclina = inclinación de la cabeza
+  girasol: p => { const g = new THREE.Group(); const verde = M.std('#4f8f3a', .6); const alto = p.alto || 2.6; g.add(mesh(new THREE.CylinderGeometry(.07, .1, alto, 10), verde, 0, alto / 2 - 1.2, 0));
+    [[-1, .3], [1, .9], [-1, 1.4]].forEach(([s, y]) => { const h = hoja('#4f9d3a', .9); h.scale.set(.8, 1, .8); h.position.set(s * .38, y - 1.2, 0); h.rotation.z = s * -1.0; g.add(h); });
+    const cab = new THREE.Group(); cab.position.set(0, alto - 1.15, .08); cab.rotation.x = -(p.inclina ?? .15); g.add(cab); const R0 = p.joven ? .32 : .6;
+    const sem = canvasTex(512, 512, (c, w) => { c.fillStyle = '#4a2a12'; c.beginPath(); c.arc(w / 2, w / 2, w / 2, 0, 7); c.fill(); for (let i = 0; i < 520; i++) { const r = Math.sqrt(i) * 10.5, a = i * 2.39996; c.fillStyle = i % 3 ? '#2e1a0b' : '#6b4320'; c.beginPath(); c.arc(w / 2 + Math.cos(a) * r, w / 2 + Math.sin(a) * r, 5.2, 0, 7); c.fill(); } });
+    const disco = mesh(new THREE.CylinderGeometry(R0, R0, .18, 40), [M.std('#3a2410', .8), new THREE.MeshStandardMaterial({ map: sem, roughness: .9 }), M.std('#3a2410', .8)]); disco.rotation.x = Math.PI / 2; cab.add(disco);
+    if (!p.joven) { [[22, 1, 0], [22, .86, Math.PI / 22]].forEach(([n, sc2, off], capa2) => { for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2 + off; const pt = mesh(new THREE.CapsuleGeometry(.09, .42, 4, 8), M.std(capa2 ? '#f7b500' : '#ffd21f', .5)); pt.scale.set(1.3 * sc2, sc2, .35); pt.position.set(Math.cos(a) * (R0 + .2), Math.sin(a) * (R0 + .2), -.02 - capa2 * .04); pt.rotation.z = a - Math.PI / 2; cab.add(pt); } }); }
+    else { for (let i = 0; i < 10; i++) { const a = i / 10 * Math.PI * 2; const s2 = mesh(new THREE.ConeGeometry(.12, .4, 8), verde); s2.position.set(Math.cos(a) * .3, Math.sin(a) * .3, -.05); s2.rotation.z = a - Math.PI / 2; cab.add(s2); } }
+    g.userData.cab = cab; return g; },
+  // (2026-11-18) bacteria simpática (grupo de 3 si p.grupo) y abeja con alas
+  bacteria: p => { const g = new THREE.Group(); const una = (c, s) => { const b = new THREE.Group(); const cu = mesh(new THREE.CapsuleGeometry(.45, .7, 8, 20), M.std(c, .45, 0, c)); cu.material.emissiveIntensity = .15; cu.rotation.z = Math.PI / 2; b.add(cu);
+      for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; const ci = mesh(new THREE.CylinderGeometry(.025, .025, .3, 6), M.std(c, .6), Math.cos(a) * .95, Math.sin(a) * .5, 0); ci.rotation.z = a - Math.PI / 2; b.add(ci); }
+      const om = M.std('#14140f', .3); [-1, 1].forEach(s2 => { const e = mesh(new THREE.SphereGeometry(.09, 12, 10), om, s2 * .2, .1, .42); e.scale.z = .5; b.add(e); b.add(mesh(new THREE.SphereGeometry(.03, 8, 8), M.neon('#fff'), s2 * .2 + .03, .14, .47)); });
+      const bo = mesh(new THREE.TorusGeometry(.13, .03, 8, 16, Math.PI), om, 0, -.12, .43); bo.rotation.z = Math.PI; b.add(bo); b.scale.setScalar(s); return b; };
+    g.add(una(p.color || '#8bd450', 1)); if (p.grupo !== false) { const b2 = una('#e9c46a', .6); b2.position.set(-1.3, .8, -.4); g.add(b2); const b3 = una('#7fd1ff', .5); b3.position.set(1.3, -.6, -.3); g.add(b3); } return g; },
+  abeja: p => { const g = new THREE.Group(); const tex = canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#ffc93c'; c.fillRect(0, 0, w, h); c.fillStyle = '#1b1712'; for (let i = 0; i < 3; i++) c.fillRect(70 + i * 55, 0, 26, h); });
+    const cu = mesh(new THREE.CapsuleGeometry(.5, .8, 8, 20), new THREE.MeshStandardMaterial({ map: tex, roughness: .5 })); cu.rotation.z = Math.PI / 2; g.add(cu);
+    const om = M.std('#1b1712', .3); [-1, 1].forEach(s => { g.add(mesh(new THREE.SphereGeometry(.09, 10, 10), om, -.75, .15, s * .3)); const an = mesh(new THREE.CylinderGeometry(.02, .02, .5, 6), om, -.85, .6, s * .15); an.rotation.z = .5; g.add(an); });
+    const alaM = new THREE.MeshPhysicalMaterial({ color: col('#e8f6ff'), transparent: true, opacity: .55, roughness: .1, side: THREE.DoubleSide, depthWrite: false }); g.userData.alas = [-1, 1].map(s => { const a = new THREE.Mesh(new THREE.CircleGeometry(.45, 24), alaM); a.scale.set(1.3, .7, 1); a.position.set(0, .55, s * .15); a.rotation.x = -Math.PI / 2 + s * .5; g.add(a); return a; });
+    g.add(mesh(new THREE.ConeGeometry(.08, .25, 8), om, 1.0, 0, 0)).children.at(-1).rotation.z = -Math.PI / 2; g.rotation.y = -.5; return g; },
   zanahorias: p => { const g = new THREE.Group(); (p.colores || ['#5b2a6e', '#f2c14e', '#f07f22']).forEach((c, i, a) => { const z = OBJETOS.zanahoria({ color: c }); z.position.set((i - (a.length - 1) / 2) * 1.25, 0, i === 1 ? .4 : 0); z.rotation.z = (i - 1) * -.18; g.add(z); }); return g; },
 };
 // pantallas del celular
 export const PANTALLAS = {
   chat: p => (c, w, h, k = 0) => { c.fillStyle = '#ece5dd'; c.fillRect(0, 0, w, h); c.fillStyle = '#075e54'; c.fillRect(0, 0, w, 120); c.fillStyle = '#fff'; c.font = '700 36px P'; c.fillText(p.contacto || 'EcoVital', 110, 75); c.beginPath(); c.arc(60, 62, 34, 0, 7); c.fillStyle = '#9be15d'; c.fill();
-    (p.mensajes || [['c', 'Hola! ¿Hacen envíos?'], ['e', '¡Sí! A toda Colombia 🇨🇴'], ['e', 'Y pagas al recibir']]).forEach((m, i) => { const kk = clamp((k - i * .22) * 5); if (kk <= 0) return; const yo = m[0] === 'c'; c.globalAlpha = kk; c.font = '500 30px P'; const tw = c.measureText(m[1]).width + 50; const x = yo ? w - tw - 24 : 24, y = 170 + i * 110 + (1 - kk) * 30;
-      c.fillStyle = yo ? '#dcf8c6' : '#fff'; rr(c, x, y, tw, 80, 20); c.fill(); c.fillStyle = '#111'; c.fillText(m[1], x + 25, y + 51); c.globalAlpha = 1; }); },
+    (p.mensajes || [['c', 'Hola! ¿Hacen envíos?'], ['e', '¡Sí! A toda Colombia 🇨🇴'], ['e', 'Y pagas al recibir']]).forEach((m, i) => { const kk = clamp((k - i * .22) * 5); if (kk <= 0) return; const yo = m[0] === 'c'; c.globalAlpha = kk; c.font = '600 36px P'; const tw = c.measureText(m[1]).width + 56; const x = yo ? w - tw - 20 : 20, y = 170 + i * 128 + (1 - kk) * 30;
+      c.fillStyle = yo ? '#dcf8c6' : '#fff'; rr(c, x, y, tw, 96, 24); c.fill(); c.fillStyle = '#111'; c.fillText(m[1], x + 28, y + 61); c.globalAlpha = 1; }); },
   comentarios: p => (c, w, h, k = 0) => { c.fillStyle = '#111'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.font = '700 34px P'; c.textAlign = 'center'; c.fillText('Comentarios', w / 2, 80); c.textAlign = 'left';
     (p.coments || ['¡Me encantó la lavanda! 💜', 'Ya no vuelvo al de aluminio', '¿Hacen envíos a Cali?', 'Llegó rapidísimo 🙌']).forEach((m, i) => { const kk = clamp((k - i * .18) * 5); if (kk <= 0) return; c.globalAlpha = kk; const y = 150 + i * 150; c.beginPath(); c.arc(60, y + 30, 30, 0, 7); c.fillStyle = ['#b98cff', '#9be15d', '#ff8a3d', '#7fd1ff'][i % 4]; c.fill();
       c.fillStyle = '#aaa'; c.font = '600 24px P'; c.fillText(['@laura.m', '@andres_r', '@cami.co', '@julian23'][i % 4], 110, y + 18); c.fillStyle = '#fff'; c.font = '500 28px P'; c.fillText(m, 110, y + 58); c.fillStyle = '#ff4d6d'; c.fillText('♥', w - 60, y + 40); c.globalAlpha = 1; }); },
@@ -494,7 +588,7 @@ export async function init(spec) {
 export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, def, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
 window.API = API;
 
-function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
+function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
 
 function drawCaps(t) {
   const tl = SPEC.timeline; const W_ = tl.words; let ci = -1; for (let i = 0; i < tl.chunks.length; i++) { const [a, b] = tl.chunks[i]; const fin = i + 1 < tl.chunks.length ? W_[tl.chunks[i + 1][0]].s : W_[b].e + .6; if (t >= W_[a].s - .08 && t < fin) { ci = i; break; } }
