@@ -1,0 +1,483 @@
+{
+ "formato": "v2",
+ "tipo": "promo",
+ "paleta": "menta",
+ "pasos": 3,
+ "marca": true,
+ "resaltar": [
+  "adelantado",
+  "antes",
+  "recibir",
+  "aroma",
+  "Colombia",
+  "aluminio",
+  "lavanda",
+  "citronela"
+ ],
+ "scenes": [
+  {
+   "id": "e1",
+   "plantilla": "split",
+   "text": "¿Te da miedo pagar por adelantado cuando compras por Instagram? Aquí no pagas antes.",
+   "p": {
+    "antes": "ANTES 😬",
+    "despues": "AL RECIBIR ✅",
+    "frasco": false,
+    "persona": {
+     "tono": 0,
+     "peinado": "largo",
+     "pelo": "#6b3e1f"
+    },
+    "accionIzq": "pensar"
+   }
+  },
+  {
+   "id": "e2",
+   "plantilla": "quiz",
+   "text": "Adivina: ¿cuándo pagas tu desodorante EcoVital? Te lo explico en tres pasos.",
+   "p": {
+    "pregunta": "¿Cuándo pagas tu <b>EcoVital</b>?",
+    "opciones": [
+     "Antes de que salga",
+     "Cuando te llega 📦"
+    ],
+    "correcta": 1,
+    "heroe": "frasco",
+    "aroma": "citronela"
+   }
+  },
+  {
+   "id": "e3",
+   "plantilla": "paso",
+   "paso": 1,
+   "text": "Uno: eliges tu aroma, lavanda y manzanilla, o citronela y árbol de té.",
+   "p": {
+    "n": 1,
+    "heroe": "frasco",
+    "aroma": "citronela",
+    "titulo": "Eliges tu <b>aroma</b>"
+   }
+  },
+  {
+   "id": "e4",
+   "plantilla": "dato",
+   "paso": 2,
+   "text": "Dos: lo empacamos y lo enviamos a tu ciudad, en cualquier parte de Colombia.",
+   "p": {
+    "objeto": "cajaEnvio",
+    "giro": 0.4,
+    "y": 1.5,
+    "escala": 1.45,
+    "etiqueta": "📦 A toda Colombia"
+   }
+  },
+  {
+   "id": "e5",
+   "plantilla": "persona",
+   "paso": 3,
+   "text": "Tres: te llega a la puerta de tu casa y ahí mismo pagas.",
+   "p": {
+    "escenario": "habitacion",
+    "accion": "celebrar",
+    "persona": {
+     "tono": 1,
+     "peinado": "rizos",
+     "ropa": "#3ee6b3",
+     "pelo": "#2a1a10"
+    },
+    "frasco": true,
+    "aroma": "citronela",
+    "sticker": "PAGAS AL RECIBIR 💵",
+    "stickerY": 1380
+   }
+  },
+  {
+   "id": "e6",
+   "plantilla": "pedestal",
+   "text": "Y lo que recibes es un desodorante natural sin aluminio, en frasco de vidrio.",
+   "p": {
+    "heroe": "frasco",
+    "aroma": "lavanda",
+    "chips": [
+     "🚫 Sin aluminio",
+     "🌿 Aroma de plantas",
+     "🫙 Vidrio",
+     "✨ Tapa dorada"
+    ]
+   }
+  },
+  {
+   "id": "e7",
+   "plantilla": "celular",
+   "text": "Eliges, te llega y pagas. Así de fácil, con envíos a toda Colombia.",
+   "p": {
+    "pantalla": "rastreo",
+    "titulo": "Así compras",
+    "sub": "EcoVital · sin pagar antes",
+    "pasos": [
+     "Eliges tu aroma 🌿",
+     "Lo enviamos 📦",
+     "Te llega a casa 🏠",
+     "Pagas al recibir 💵"
+    ],
+    "final": "Cero pagos por adelantado"
+   }
+  },
+  {
+   "id": "e8",
+   "plantilla": "comentario",
+   "text": "Comenta lavanda o citronela. Recuerda: no pagas nada antes de que te llegue.",
+   "p": {
+    "heroe": "frasco2",
+    "palabra": "CITRONELA",
+    "encima": "¿Cuál te <b>llega</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.421,
+  3.373,
+  3.653,
+  3.611,
+  2.915,
+  3.609,
+  3.234,
+  3.571
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.82
+   },
+   {
+    "s": 0.82,
+    "e": 1.28
+   },
+   {
+    "s": 1.28,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.76
+   },
+   {
+    "s": 1.76,
+    "e": 1.88
+   },
+   {
+    "s": 1.88,
+    "e": 2.18
+   },
+   {
+    "s": 2.48,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.76
+   },
+   {
+    "s": 2.76,
+    "e": 3.04
+   },
+   {
+    "s": 3.04,
+    "e": 3.22
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.48
+   },
+   {
+    "s": 0.7,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.68
+   },
+   {
+    "s": 1.68,
+    "e": 2.08
+   },
+   {
+    "s": 2.24,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.72
+   },
+   {
+    "s": 2.72,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 2.94
+   },
+   {
+    "s": 2.94,
+    "e": 3.24
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.36
+   },
+   {
+    "s": 0.64,
+    "e": 0.7
+   },
+   {
+    "s": 0.7,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.66
+   },
+   {
+    "s": 1.66,
+    "e": 1.76
+   },
+   {
+    "s": 1.76,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 2.1
+   },
+   {
+    "s": 2.42,
+    "e": 2.5
+   },
+   {
+    "s": 2.5,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.14
+   },
+   {
+    "s": 3.14,
+    "e": 3.36
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.24
+   },
+   {
+    "s": 0.66,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 1.08
+   },
+   {
+    "s": 1.08,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.34
+   },
+   {
+    "s": 1.34,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.6
+   },
+   {
+    "s": 1.6,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.18
+   },
+   {
+    "s": 2.18,
+    "e": 2.4
+   },
+   {
+    "s": 2.4,
+    "e": 2.8
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.34
+   },
+   {
+    "s": 0.34,
+    "e": 0.72
+   },
+   {
+    "s": 0.72,
+    "e": 0.84
+   },
+   {
+    "s": 0.84,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.64
+   },
+   {
+    "s": 2.74,
+    "e": 2.84
+   },
+   {
+    "s": 2.84,
+    "e": 3.14
+   },
+   {
+    "s": 3.14,
+    "e": 3.22
+   },
+   {
+    "s": 3.22,
+    "e": 3.5
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.42
+   },
+   {
+    "s": 0.66,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.54
+   },
+   {
+    "s": 1.6,
+    "e": 1.78
+   },
+   {
+    "s": 1.78,
+    "e": 1.88
+   },
+   {
+    "s": 1.88,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.62
+   },
+   {
+    "s": 2.62,
+    "e": 2.68
+   },
+   {
+    "s": 2.68,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 3.04
+   }
+  ],
+  null
+ ]
+}

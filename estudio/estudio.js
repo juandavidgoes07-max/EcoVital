@@ -304,11 +304,13 @@ def('persona', (p) => {
   if (p.sudor) for (let i = 0; i < 5; i++) { const g = gota('#7fd1ff', .1); sc.add(g); extras.push({ g, i, tipo: 'sudor' }); }
   if (p.olor) { const n = nubeOlor(); n.scale.setScalar(.6); sc.add(n); extras.push({ g: n, tipo: 'olor' }); }
   let fr = null; if (p.frasco) { fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.36); sc.add(fr); }
+  let ob = null; if (p.objeto && OBJETOS[p.objeto]) { ob = OBJETOS[p.objeto](p); const q = p.objetoPos || [2.6, 1.4, -1.5]; ob.position.set(...q); ob.scale.setScalar(p.objetoEscala || 1); sc.add(ob); } // (2026-11-19) objeto de OBJETOS junto a la persona (árbol, etc.)
   const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1350, cls: p.stickerCls || '' }) : null;
   return { sc, cam, cp, upd(t, d) { E.tick(t); const z0 = p.zoom === 'out' ? 8 : 11, z1 = p.zoom === 'out' ? 11 : 8.6;
     camara(cam, t, 0, d, [p.lado || 0, 2.6, z0], [(p.lado || 0) * .4, 2.5, z1], [0, 1.9, 0]);
     animPersona(pe, t, { accion: p.accion || 'hablar', k: eout(win(t, 0, .5)), hablar: p.hablar ?? .6 }); if (fr) { pe.updateMatrixWorld(true); const v = new THREE.Vector3(); pe.userData.brazos[0].mano.getWorldPosition(v); fr.position.set(v.x, v.y - .05, v.z + .15); fr.rotation.y = .5; animFrasco(fr, t, { expr: 'feliz', bob: 0 }); }
     extras.forEach(x => { if (x.tipo === 'sudor') { const ph = (t * .9 + x.i / 5) % 1; x.g.position.set(.9 + Math.sin(x.i) * .3, 2.9 - ph * 1.2, .4); x.g.scale.setScalar(1 - ph * .4); x.g.rotation.z = Math.PI; } if (x.tipo === 'olor') { x.g.position.set(1.3 + Math.sin(t * 2) * .1, 2.6 + Math.sin(t * 1.5) * .15, .3); x.g.rotation.z = Math.sin(t * 2) * .1; } });
+    if (ob) { ob.userData.tick?.(t); ob.rotation.y = Math.sin(t * .4) * .15; }
     if (st) st.set(win(t, p.stickerT ?? d * .45, (p.stickerT ?? d * .45) + .35)); } };
 });
 // 5. CONTADOR: número gigante 3D que cuenta (o "3 ERRORES", "5 COSAS") con anillo de pasos
@@ -340,7 +342,7 @@ def('split', (p) => {
   const linea = new THREE.Mesh(new THREE.PlaneGeometry(.06, 12), M.neon('#ffffff')); linea.position.set(0, 3, .5); sc.add(linea);
   const n = nubeOlor(); n.scale.setScalar(.5); sc.add(n); let fr = null; if (p.frasco !== false) { fr = frasco({ aroma: p.aroma, escala: .55 }); fr.position.set(3.7, 0, .6); fr.rotation.y = -.5; sc.add(fr); }
   const lA = el('div', 'splitLbl izq', cp, p.antes || 'ANTES'), lB = el('div', 'splitLbl der', cp, p.despues || 'DESPUÉS');
-  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 2.7, 15], [0, 2.6, 13], [0, 2.0, 0]);
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [0, 2.7, 17.5], [0, 2.6, 15.5], [0, 2.0, 0]);
     animPersona(izq, t, { accion: p.accionIzq || 'asco', k: eout(win(t, 0, .5)), hablar: 0 }); animPersona(der, t, { accion: p.accionDer || 'celebrar', k: 1, fase: 2 });
     n.position.set(-1.2, 2.7 + Math.sin(t * 2) * .1, .4); if (fr) animFrasco(fr, t, { expr: 'feliz', salto: .4 }); const k = win(t, .1, .4); lA.style.opacity = k; lB.style.opacity = win(t, .3, .6); linea.scale.y = eout(win(t, 0, .4)); } };
 });
@@ -412,7 +414,7 @@ def('dato', (p) => {
   const o = (OBJETOS[p.objeto] || OBJETOS.hoja)(p); sc.add(o); o.position.y = p.y ?? 1.6; const ped = p.pedestal ? pedestal() : null; if (ped) sc.add(ped);
   const big = p.grande ? el('div', 'palabraGig', cp, p.grande) : null; const lab = p.etiqueta ? etiqueta(cp, p.etiqueta, {}) : null;
   const chips = (p.chips || []).map((c, i) => chip(cp, c, 540, 1200 + i * 120));
-  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [p.cx ?? 0, 2.4, 12.5], [-(p.cx ?? 0) * .5, 2.2, 10.2], [0, 1.6, 0]); o.rotation.y = t * (p.giro ?? .6); o.position.y = (p.y ?? 1.6) + Math.sin(t * 1.8) * .1; o.scale.setScalar((p.escala || 1) * back(win(t, 0, .45)));
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [p.cx ?? 0, 2.4, 12.5], [-(p.cx ?? 0) * .5, 2.2, 10.2], [0, 1.6, 0]); o.userData.tick?.(t); o.rotation.y = t * (p.giro ?? .6); o.position.y = (p.y ?? 1.6) + Math.sin(t * 1.8) * .1; o.scale.setScalar((p.escala || 1) * back(win(t, 0, .45)));
     if (big) { const k = win(t, .2, .5); big.style.opacity = k; big.style.transform = `translate(-50%,0) scale(${.7 + .3 * back(k)})`; } if (lab) { const [x, y] = proyectar(o, cam, [.6, .8, 0]); lab.set(x + 160, y - 170, x, y, win(t, .4, .7)); } chips.forEach((c, i) => c.set(win(t, .5 + i * .4, .8 + i * .4))); } };
 });
 // 16. QUIZ (mejora 2026-11-17): pregunta tipo encuesta de historias + 2–3 opciones que entran una por una;
@@ -507,6 +509,59 @@ def('sigueSol', (p) => {
     lO.set(win(t, .1, .4)); lW.set(win(t, .3, .6)); if (st) st.set(win(t, d * .5, d * .5 + .3)); } };
 });
 
+// 20. EMPAQUE (mejora 2026-11-19): caja de envío de cartón abierta; el frasco cae adentro (rebota), las 4 solapas se
+// cierran una por una, la cinta se pega de lado a lado y la guía de envío cae con golpe ("PAGO CONTRA ENTREGA").
+// Cierre de promo. p = {ciudad, guia: 'PAGO CONTRA ENTREGA', aroma, sticker, titulo (html abajo), colorCaja}
+export function cajaEnvio(o = {}) {
+  const w = 2.4, h = 1.5, d = 1.8, e = .06; const g = new THREE.Group(); const carton = M.std(o.color || '#c8955a', .85), dentro = M.std('#9c6b38', .9);
+  const lado = canvasTex(512, 320, (c, W_, H_) => { c.fillStyle = o.color || '#c8955a'; c.fillRect(0, 0, W_, H_); c.globalAlpha = .18; for (let i = 0; i < 40; i++) { c.fillStyle = i % 2 ? '#7a4f22' : '#e2b27a'; c.fillRect(0, i * 8, W_, 3); } c.globalAlpha = .75; c.fillStyle = '#5a3a18'; c.font = '800 44px P'; c.fillText('↑↑', 30, 70); c.font = '700 30px P'; c.fillText('ESTE LADO ARRIBA', 100, 64); c.font = '800 54px P'; c.fillText('EcoVital', 30, H_ - 40); });
+  const caraM = new THREE.MeshStandardMaterial({ map: lado, roughness: .85, envMap: ENV, envMapIntensity: .3 });
+  g.add(mesh(rbox(w, e, d, .02), dentro, 0, e / 2, 0));
+  const fr = mesh(rbox(w, h, e, .02), [carton, carton, carton, carton, caraM, dentro], 0, h / 2, d / 2); g.add(fr); g.add(mesh(rbox(w, h, e, .02), carton, 0, h / 2, -d / 2));
+  [-1, 1].forEach(s => g.add(mesh(rbox(e, h, d, .02), carton, s * w / 2, h / 2, 0)));
+  const piv = (x, y, z) => { const q = new THREE.Group(); q.position.set(x, y, z); return q; };
+  const solapa = (pv, geo, pos) => { const m = mesh(geo, carton, ...pos); pv.add(m); g.add(pv); return pv; };
+  const izq = solapa(piv(-w / 2, h, 0), rbox(w / 2, .04, d, .015), [w / 4, 0, 0]);
+  const der = solapa(piv(w / 2, h, 0), rbox(w / 2, .04, d, .015), [-w / 4, 0, 0]);
+  const fre = solapa(piv(0, h + .045, d / 2), rbox(w, .04, d / 2, .015), [0, 0, -d / 4]);
+  const atr = solapa(piv(0, h + .045, -d / 2), rbox(w, .04, d / 2, .015), [0, 0, d / 4]);
+  const L = w + .16; const cg = new THREE.BoxGeometry(L, .03, .42); cg.translate(L / 2, 0, 0); const cinta = mesh(cg, new THREE.MeshPhysicalMaterial({ color: col('#d8b47a'), roughness: .25, transparent: true, opacity: .8, clearcoat: 1 }), -L / 2, h + .09, 0); cinta.scale.x = .001; g.add(cinta);
+  const cinta2 = mesh(new THREE.BoxGeometry(.42, h * .55, .03), cinta.material, 0, h - h * .275 + .02, d / 2 + .045); cinta2.scale.y = .001; g.add(cinta2);
+  g.userData = { izq, der, fre, atr, cinta, cinta2, w, h, d, abrir(k) { izq.rotation.z = 2.07 * k; der.rotation.z = -2.07 * k; fre.rotation.x = 2.07 * k; atr.rotation.x = -2.07 * k; } };
+  g.userData.abrir(1); return g;
+}
+def('empaque', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const cj = cajaEnvio({ color: p.colorCaja }); cj.rotation.y = -.35; sc.add(cj); const u = cj.userData;
+  const fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.75); sc.add(fr);
+  const hojas = [0, 1, 2, 3, 4].map(i => { const hh = i % 2 ? hoja('#9bcf53', .5) : (p.aroma === 'citronela' ? hoja('#3f9a4b', .5) : manzanilla(.5)); sc.add(hh); return hh; });
+  const guiaTex = canvasTex(600, 400, (c, w, h) => { c.fillStyle = '#ffffff'; rr(c, 0, 0, w, h, 18); c.fill(); c.fillStyle = PAL.acento; rr(c, 0, 0, w, 96, 18); c.fill(); c.fillRect(0, 60, w, 36);
+    c.fillStyle = '#0b0f0c'; c.font = '800 46px P'; c.textAlign = 'center'; c.fillText('ENVÍO · ' + (p.ciudad || 'COLOMBIA').toUpperCase(), w / 2, 66);
+    c.fillStyle = '#111'; c.font = '900 52px P'; (p.guia || 'PAGO CONTRA|ENTREGA').split('|').forEach((l, i) => c.fillText(l, w / 2, 170 + i * 60));
+    c.textAlign = 'left'; for (let i = 0; i < 46; i++) { c.fillStyle = '#111'; c.fillRect(40 + i * 11, 290, i % 3 ? 4 : 8, 74); } c.font = '600 26px P'; c.fillStyle = '#555'; c.fillText('EcoVital · 60 g', 40, 388); });
+  const guia = new THREE.Mesh(new THREE.PlaneGeometry(1.35, .9), new THREE.MeshStandardMaterial({ map: guiaTex, roughness: .6, transparent: true, envMap: ENV, envMapIntensity: .3 })); guia.position.set(.42, u.h * .47, u.d / 2 + .04); cj.add(guia);
+  const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: 1380, x: 560, cls: 'grande', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [3.2, 5.6, 9.6], [1.6, 4.4, 7.6], [0, .9, 0]);
+    // 1) el frasco cae dentro con rebote
+    const kc = win(t, 0, d * .22); const yb = kc < 1 ? lerp(3.4, .1, kc * kc) : .1 + Math.abs(Math.sin(win(t, d * .22, d * .22 + .35) * Math.PI)) * .25 * (1 - win(t, d * .22, d * .22 + .35));
+    const duck = ease(win(t, d * .33, d * .42)); fr.scale.set(.75 * (1 - .3 * duck), .75 * (1 - .4 * duck), .75 * (1 - .3 * duck));
+    fr.position.set(0, yb, 0); fr.rotation.y = -.35 + Math.sin(t * 2) * .2; fr.visible = t < d * .62; animFrasco(fr, t, { expr: kc < 1 ? 'sorpresa' : 'feliz', saluda: kc >= 1, bob: 0 });
+    hojas.forEach((hh, i) => { const k = win(t, d * .12 + i * .08, d * .32 + i * .08); hh.position.set(Math.sin(i * 2.1) * .7, lerp(5 + i * .3, .9 + i * .05, eout(k)), Math.cos(i * 2.1) * .45); hh.rotation.set(t * 2 + i, i, t + i); hh.visible = k > 0 && t < d * .62; });
+    // 2) solapas se cierran (laterales primero), 3) cinta, 4) guía con golpe
+    const k1 = ease(win(t, d * .36, d * .46)), k2 = ease(win(t, d * .44, d * .56));
+    u.izq.rotation.z = 2.07 * (1 - k1); u.der.rotation.z = -2.07 * (1 - k1); u.fre.rotation.x = 2.07 * (1 - k2); u.atr.rotation.x = -2.07 * (1 - k2);
+    const kt = eout(win(t, d * .56, d * .66)); u.cinta.scale.x = Math.max(.001, kt); u.cinta2.scale.y = Math.max(.001, eout(win(t, d * .62, d * .68)));
+    const kg = win(t, d * .66, d * .72); guia.material.opacity = kg; guia.scale.setScalar(lerp(1.5, .8, eout(kg))); guia.rotation.z = lerp(-.4, -.06, eout(kg));
+    if (kg > 0 && kg < 1) { cam.position.x += Math.sin(t * 80) * .05; cam.position.y += Math.sin(t * 65) * .04; }
+    cj.position.y = t > d * .8 ? Math.abs(Math.sin((t - d * .8) * 9)) * .12 * (1 - win(t, d * .8, d)) : 0; cj.scale.y = 1 - (kc > .97 && kc < 1 ? .04 : 0);
+    if (tit) { const k = win(t, 0, .3); tit.style.opacity = k; tit.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(k)})`; } if (st) st.set(win(t, d * .76, d * .76 + .3)); } };
+});
+// sonidos por plantilla (mejora 2026-11-19): SFX[plantilla] = (inicio, duración, p) => [{t, tipo}] — también desde "custom"
+export const SFX = {
+  empaque: (st, d, p) => [{ t: st + d * .22, tipo: 'pop' }, { t: st + d * .45, tipo: 'whoosh' }, { t: st + d * .6, tipo: 'teclas', d: d * .08 }, { t: st + d * .67, tipo: 'golpe' }, ...(p.sticker ? [{ t: st + d * .78, tipo: 'pop' }] : [])],
+  celular: (st, d, p) => p.pantalla === 'rastreo' ? [0, 1, 2, 3].map(i => ({ t: st + d * (.12 + i * .2), tipo: 'pop' })) : [],
+};
+
 // héroes reutilizables
 export function crearHeroe(tipo, p = {}) {
   if (tipo === 'frasco') { const f = frasco({ aroma: p.aroma }); return { obj: f, anim: (t, d) => animFrasco(f, t, { expr: p.expr || 'feliz', hablar: p.hablar ?? .5, saluda: p.saluda, salto: p.salto, brazosArriba: p.brazosArriba }) }; }
@@ -515,7 +570,7 @@ export function crearHeroe(tipo, p = {}) {
   if (tipo === 'nube') { const n = nubeOlor(); n.position.y = 1.6; return { obj: n, anim: (t) => { n.position.y = 1.6 + Math.sin(t * 2) * .12; n.rotation.z = Math.sin(t * 1.6) * .08; } }; }
   if (tipo === 'reloj') { const r = relojArena({ color: PAL.acento }); return { obj: r, anim: (t, d) => { r.rotation.y = t * .3; animReloj(r, clamp(.2 + t / d * .5)); } }; }
   if (tipo === 'persona') { const pe = persona(p.persona || {}); return { obj: pe, anim: (t) => animPersona(pe, t, { accion: p.accion || 'hablar' }) }; }
-  if (OBJETOS[tipo]) { const o = OBJETOS[tipo](p); o.position.y = 1.4; if (p.escalaHeroe) o.scale.setScalar(p.escalaHeroe); return { obj: o, anim: (t) => { o.rotation.y = t * .6; } }; }
+  if (OBJETOS[tipo]) { const o = OBJETOS[tipo](p); o.position.y = 1.4; if (p.escalaHeroe) o.scale.setScalar(p.escalaHeroe); return { obj: o, anim: (t) => { o.userData.tick?.(t); o.rotation.y = t * (p.giroHeroe ?? .6); } }; }
   const f = frasco({}); return { obj: f, anim: t => animFrasco(f, t, {}) };
 }
 // objetos para datos curiosos (añadir más cada día según el tema)
@@ -560,6 +615,26 @@ export const OBJETOS = {
     const om = M.std('#1b1712', .3); [-1, 1].forEach(s => { g.add(mesh(new THREE.SphereGeometry(.09, 10, 10), om, -.75, .15, s * .3)); const an = mesh(new THREE.CylinderGeometry(.02, .02, .5, 6), om, -.85, .6, s * .15); an.rotation.z = .5; g.add(an); });
     const alaM = new THREE.MeshPhysicalMaterial({ color: col('#e8f6ff'), transparent: true, opacity: .55, roughness: .1, side: THREE.DoubleSide, depthWrite: false }); g.userData.alas = [-1, 1].map(s => { const a = new THREE.Mesh(new THREE.CircleGeometry(.45, 24), alaM); a.scale.set(1.3, .7, 1); a.position.set(0, .55, s * .15); a.rotation.x = -Math.PI / 2 + s * .5; g.add(a); return a; });
     g.add(mesh(new THREE.ConeGeometry(.08, .25, 8), om, 1.0, 0, 0)).children.at(-1).rotation.z = -Math.PI / 2; g.rotation.y = -.5; return g; },
+  // (2026-11-19) árbol frondoso (tronco con ramas + copa de esferas facetadas en 3 verdes) que "suda": vapor que sube de la copa (p.vapor=false lo apaga)
+  arbol: p => { const g = new THREE.Group(); const cor = M.std('#6b4a2e', .8); const tr = mesh(new THREE.CylinderGeometry(.22, .36, 2.2, 12), cor, 0, -.3, 0); g.add(tr);
+    [[-1, .35, .9], [1, .5, -.8]].forEach(([s2, y, rz]) => { const r = mesh(new THREE.CylinderGeometry(.07, .12, 1.1, 8), cor, s2 * .32, y, 0); r.rotation.z = rz; g.add(r); });
+    const verdes = ['#2f7d3a', '#3f9a4b', '#5bb35a']; const copa = new THREE.Group(); copa.position.y = 1.35; g.add(copa);
+    [[0, .5, 0, 1.05], [-.85, .1, .2, .8], [.85, .15, .1, .82], [-.4, .95, -.2, .75], [.45, 1.0, .1, .72], [0, -.2, .6, .7], [-.6, -.25, -.4, .65], [.6, -.2, -.45, .66], [0, 1.4, 0, .55]].forEach(([x, y, z, r], i) => { const m = new THREE.Mesh(new THREE.IcosahedronGeometry(r, 1), new THREE.MeshStandardMaterial({ color: col(verdes[i % 3]), roughness: .7, flatShading: true, envMap: ENV, envMapIntensity: .5 })); m.position.set(x, y, z); m.castShadow = true; copa.add(m); });
+    const vap = []; if (p.vapor !== false) for (let i = 0; i < 16; i++) { const s2 = glow('#d9f2ff', .7 + (i % 4) * .15, .5); s2.userData = { x: Math.sin(i * 2.4) * 1.1, z: Math.cos(i * 2.4) * .7, f: i / 16 }; g.add(s2); vap.push(s2); }
+    g.userData.tick = t => { copa.rotation.z = Math.sin(t * 1.3) * .03; vap.forEach(v => { const ph = (t * .35 + v.userData.f) % 1; v.position.set(v.userData.x + Math.sin(t + v.userData.f * 9) * .15, 2.0 + ph * 2.6, v.userData.z); v.material.opacity = Math.sin(ph * Math.PI) * .45; }); };
+    return g; },
+  // (2026-11-19) hoja vista de cerca con estomas (poros con 2 células "labio") que se abren y cierran + vapor que sale de ellos
+  estomas: p => { const g = new THREE.Group(); const tex = canvasTex(768, 1024, (c, w, h, ab = 1) => { c.save(); c.beginPath(); c.moveTo(w / 2, 20); c.bezierCurveTo(w * 1.05, h * .3, w * .9, h * .8, w / 2, h - 20); c.bezierCurveTo(w * .1, h * .8, -w * .05, h * .3, w / 2, 20); c.closePath(); c.clip();
+      const gr = c.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#5fbf5a'); gr.addColorStop(1, '#2f7d3a'); c.fillStyle = gr; c.fillRect(0, 0, w, h);
+      c.strokeStyle = 'rgba(220,255,200,.55)'; c.lineWidth = 10; c.beginPath(); c.moveTo(w / 2, 20); c.lineTo(w / 2, h - 20); c.stroke(); c.lineWidth = 5; for (let i = 1; i < 7; i++) { const y = i * h / 7.5; [-1, 1].forEach(s2 => { c.beginPath(); c.moveTo(w / 2, y + 40); c.quadraticCurveTo(w / 2 + s2 * 140, y, w / 2 + s2 * 300, y - 70); c.stroke(); }); }
+      for (let i = 0; i < 14; i++) { const x = w / 2 + ((i % 2 ? 1 : -1) * (90 + (i * 53) % 170)), y = 170 + i * 52; c.fillStyle = '#9fe08a'; [-1, 1].forEach(s2 => { c.beginPath(); c.ellipse(x + s2 * (12 + 9 * ab), y, 14, 34, 0, 0, 7); c.fill(); }); c.fillStyle = '#123b18'; c.beginPath(); c.ellipse(x, y, 3 + 9 * ab, 26 * (.4 + .6 * ab), 0, 0, 7); c.fill(); }
+      c.restore(); });
+    const hj = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 3.47), new THREE.MeshStandardMaterial({ map: tex, transparent: true, alphaTest: .5, side: THREE.DoubleSide, roughness: .55, envMap: ENV, envMapIntensity: .4 })); hj.castShadow = true; g.add(hj);
+    const vap = []; for (let i = 0; i < 10; i++) { const s2 = glow('#e6f7ff', .5, .5); s2.userData = { x: ((i % 2 ? 1 : -1) * (90 + (i * 53) % 170)) / 768 * 2.6, y: 1.73 - (170 + i * 52) / 1024 * 3.47, f: i / 10 }; g.add(s2); vap.push(s2); }
+    g.userData.tick = t => { const ab = .5 + .5 * Math.sin(t * 2.2); redraw(tex, ab); vap.forEach(v => { const ph = (t * .6 + v.userData.f) % 1; v.position.set(v.userData.x, v.userData.y + ph * .3, .1 + ph * 1.4); v.material.opacity = Math.sin(ph * Math.PI) * .55 * ab; }); };
+    return g; },
+  // (2026-11-19) caja de envío cerrada con cinta (para escenas de envío)
+  cajaEnvio: p => { const g = new THREE.Group(); const c = cajaEnvio({ color: p.colorCaja }); c.userData.abrir(0); c.userData.cinta.scale.x = 1; c.userData.cinta2.scale.y = 1; c.position.y = -.75; g.add(c); return g; },
   zanahorias: p => { const g = new THREE.Group(); (p.colores || ['#5b2a6e', '#f2c14e', '#f07f22']).forEach((c, i, a) => { const z = OBJETOS.zanahoria({ color: c }); z.position.set((i - (a.length - 1) / 2) * 1.25, 0, i === 1 ? .4 : 0); z.rotation.z = (i - 1) * -.18; g.add(z); }); return g; },
 };
 // pantallas del celular
@@ -570,6 +645,14 @@ export const PANTALLAS = {
   comentarios: p => (c, w, h, k = 0) => { c.fillStyle = '#111'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.font = '700 34px P'; c.textAlign = 'center'; c.fillText('Comentarios', w / 2, 80); c.textAlign = 'left';
     (p.coments || ['¡Me encantó la lavanda! 💜', 'Ya no vuelvo al de aluminio', '¿Hacen envíos a Cali?', 'Llegó rapidísimo 🙌']).forEach((m, i) => { const kk = clamp((k - i * .18) * 5); if (kk <= 0) return; c.globalAlpha = kk; const y = 150 + i * 150; c.beginPath(); c.arc(60, y + 30, 30, 0, 7); c.fillStyle = ['#b98cff', '#9be15d', '#ff8a3d', '#7fd1ff'][i % 4]; c.fill();
       c.fillStyle = '#aaa'; c.font = '600 24px P'; c.fillText(['@laura.m', '@andres_r', '@cami.co', '@julian23'][i % 4], 110, y + 18); c.fillStyle = '#fff'; c.font = '500 28px P'; c.fillText(m, 110, y + 58); c.fillStyle = '#ff4d6d'; c.fillText('♥', w - 60, y + 40); c.globalAlpha = 1; }); },
+  // (2026-11-19) rastreo del pedido: pasos con línea que se llena y moto que avanza; al final "Pagas al recibir"
+  rastreo: p => (c, w, h, k = 0) => { c.fillStyle = '#f6f7f4'; c.fillRect(0, 0, w, h); c.fillStyle = '#10261a'; c.fillRect(0, 0, w, 150); c.fillStyle = '#fff'; c.font = '800 40px P'; c.fillText(p.titulo || 'Tu pedido', 40, 80); c.font = '500 26px P'; c.globalAlpha = .7; c.fillText(p.sub || 'EcoVital · Pedido #2611', 40, 122); c.globalAlpha = 1;
+    const pasos = p.pasos || ['Pedido confirmado', 'Empacado 📦', 'En camino 🛵', 'Entregado 🏠']; const y0 = 250, dy = 165, x0 = 80; const kk = clamp(k * 1.15);
+    c.strokeStyle = '#d9ddd6'; c.lineWidth = 12; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0, y0 + dy * (pasos.length - 1)); c.stroke();
+    c.strokeStyle = '#2fbf71'; c.beginPath(); c.moveTo(x0, y0); c.lineTo(x0, y0 + dy * (pasos.length - 1) * eout(kk)); c.stroke();
+    pasos.forEach((s2, i) => { const on = kk >= i / (pasos.length - 1) - .001; const y = y0 + i * dy; c.fillStyle = on ? '#2fbf71' : '#d9ddd6'; c.beginPath(); c.arc(x0, y, on ? 30 : 24, 0, 7); c.fill(); if (on) { c.strokeStyle = '#fff'; c.lineWidth = 7; c.beginPath(); c.moveTo(x0 - 12, y); c.lineTo(x0 - 3, y + 10); c.lineTo(x0 + 13, y - 9); c.stroke(); }
+      c.fillStyle = on ? '#111' : '#9aa09a'; c.font = (on ? '800 ' : '600 ') + '44px P'; c.fillText(s2, x0 + 56, y + 15); });
+    if (kk > .78) { const a = clamp((kk - .78) * 6); c.globalAlpha = a; c.fillStyle = '#2fbf71'; rr(c, 30, 900, w - 60, 140, 28); c.fill(); c.fillStyle = '#fff'; c.font = '900 46px P'; c.textAlign = 'center'; c.fillText(p.final || 'Pagas al recibir 💵', w / 2, 987); c.textAlign = 'left'; c.globalAlpha = 1; } },
   pedido: p => (c, w, h, k = 0) => { c.fillStyle = '#0f1a14'; c.fillRect(0, 0, w, h); c.fillStyle = '#9be15d'; c.beginPath(); c.arc(w / 2, 330, 110 * eout(clamp(k * 3)), 0, 7); c.fill(); c.strokeStyle = '#0f1a14'; c.lineWidth = 18; c.lineCap = 'round'; const kk = clamp(k * 3 - .5); if (kk > 0) { c.beginPath(); c.moveTo(w / 2 - 50, 330); c.lineTo(w / 2 - 10, 370); c.lineTo(w / 2 + 55, 290); c.stroke(); }
     c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '800 46px P'; c.fillText(p.titulo || '¡Pedido listo!', w / 2, 540); c.font = '500 30px P'; c.fillStyle = '#cfe9d2'; (p.lineas || ['Envío a toda Colombia', 'Pagas al recibir']).forEach((l, i) => c.fillText(l, w / 2, 620 + i * 54)); c.textAlign = 'left'; },
 };
@@ -585,10 +668,10 @@ export async function init(spec) {
   if (spec.marca) MARCA = el('div', 'marca', OV, '@ecovital_7');
   window.SFX = sfxEventos(spec); return true;
 }
-export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, def, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
+export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, SFX, def, cajaEnvio, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
 window.API = API;
 
-function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
+function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (SFX[s.plantilla]) ev.push(...SFX[s.plantilla](st, spec.timeline.scenes[i].d, s.p || {})); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
 
 function drawCaps(t) {
   const tl = SPEC.timeline; const W_ = tl.words; let ci = -1; for (let i = 0; i < tl.chunks.length; i++) { const [a, b] = tl.chunks[i]; const fin = i + 1 < tl.chunks.length ? W_[tl.chunks[i + 1][0]].s : W_[b].e + .6; if (t >= W_[a].s - .08 && t < fin) { ci = i; break; } }
