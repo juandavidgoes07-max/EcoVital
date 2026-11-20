@@ -657,6 +657,122 @@ export const PANTALLAS = {
     c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '800 46px P'; c.fillText(p.titulo || '¡Pedido listo!', w / 2, 540); c.font = '500 30px P'; c.fillStyle = '#cfe9d2'; (p.lineas || ['Envío a toda Colombia', 'Pagas al recibir']).forEach((l, i) => c.fillText(l, w / 2, 620 + i * 54)); c.textAlign = 'left'; },
 };
 
+// ===================== MEJORA 2026-11-20 =====================
+// Plantillas `botones` (concurso ¿MITO o REALIDAD? con 2 botones 3D que se presionan), `maleta` (formato "¿qué hay en mi
+// maleta?": maleta de gimnasio 3D que se abre y saca un objeto, o lo guarda y se cierra con cremallera) y `pago` (cierre de
+// promo: billetes que caen junto a la caja + sello PAGAS AL RECIBIR). Objetos: aguacate, aguacateAbierto, aguacatero,
+// banano, bolsaPapel (truco del etileno), toalla, botella.
+const perfilAguacate = (n = 26) => { const pts = []; for (let i = 0; i <= n; i++) { const k = i / n; pts.push(new THREE.Vector2(Math.max(.001, Math.pow(Math.sin(Math.PI * k), .7) * (.9 - .42 * k)), k * 2.1)); } return pts; };
+function texCascara(c1 = '#2f4a1f', c2 = '#466b2c') { return canvasTex(512, 512, (c, w, h) => { c.fillStyle = c1; c.fillRect(0, 0, w, h); for (let i = 0; i < 900; i++) { c.fillStyle = i % 2 ? c2 : 'rgba(0,0,0,.25)'; c.beginPath(); c.arc((i * 97) % w, (i * 57 + (i * i) % 31) % h, 3 + (i % 4), 0, 7); c.fill(); } }); }
+export function aguacate(o = {}) { const g = new THREE.Group(); const m = new THREE.MeshStandardMaterial({ map: texCascara(o.c1, o.c2), roughness: .78, envMap: ENV, envMapIntensity: .5 });
+  const cu = mesh(new THREE.LatheGeometry(perfilAguacate(), 40), m, 0, -1.05, 0); g.add(cu); g.add(mesh(new THREE.CylinderGeometry(.04, .06, .25, 8), M.std('#5b3a1e', .8), 0, 1.12, 0)); return g; }
+export function aguacateAbierto(o = {}) { const g = new THREE.Group(); const pts = perfilAguacate();
+  const casc = mesh(new THREE.LatheGeometry(pts, 32, Math.PI / 2, Math.PI), new THREE.MeshStandardMaterial({ map: texCascara(), roughness: .78, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .5 }), 0, -1.05, 0); g.add(casc);
+  const forma = s => { const sh = new THREE.Shape(); pts.forEach((v, i) => i ? sh.lineTo(v.x * s, v.y * s + (1 - s) * 1.05 - 1.05) : sh.moveTo(v.x * s, v.y * s + (1 - s) * 1.05 - 1.05)); [...pts].reverse().forEach(v => sh.lineTo(-v.x * s, v.y * s + (1 - s) * 1.05 - 1.05)); return sh; };
+  g.add(mesh(new THREE.ShapeGeometry(forma(.985)), M.std('#9cc44a', .6), 0, 0, .001)); g.add(mesh(new THREE.ShapeGeometry(forma(.8)), M.std('#e6e27a', .55), 0, -.06, .01));
+  const sem = mesh(new THREE.SphereGeometry(.36, 24, 18), M.std('#8a5a2b', .35), 0, -.28, .02); sem.scale.z = .55; g.add(sem); return g; }
+export function banano(o = {}) { const g = new THREE.Group(); const curva = new THREE.QuadraticBezierCurve3(new THREE.Vector3(-1, .35, 0), new THREE.Vector3(0, -.45, 0), new THREE.Vector3(1, .35, 0));
+  const tubo = mesh(new THREE.TubeGeometry(curva, 30, .2, 8, false), M.std(o.color || '#f6d23c', .5)); tubo.geometry.computeVertexNormals(); g.add(tubo);
+  [[-1, .35], [1, .35]].forEach(([x, y], i) => { const p2 = mesh(new THREE.SphereGeometry(i ? .2 : .2, 10, 8), M.std(i ? '#f6d23c' : '#5b3a1e', .6), x, y, 0); g.add(p2); }); g.add(mesh(new THREE.CylinderGeometry(.07, .09, .3, 8), M.std('#7a8a2a', .6), 1.08, .55, 0)).children.at(-1).rotation.z = -.5; return g; }
+export function bolsaPapel(o = {}) { const g = new THREE.Group(); const pap = M.std('#c9a06a', .9); const w = 1.7, h = 1.9, dp = 1.1;
+  const cara = (ww, x, z, ry) => { const m = mesh(new THREE.PlaneGeometry(ww, h), pap, x, h / 2, z); m.rotation.y = ry; m.material.side = THREE.DoubleSide; g.add(m); };
+  cara(w, 0, dp / 2, 0); cara(w, 0, -dp / 2, 0); cara(dp, w / 2, 0, Math.PI / 2); cara(dp, -w / 2, 0, Math.PI / 2); g.add(mesh(new THREE.BoxGeometry(w, .03, dp), pap, 0, .02, 0));
+  g.add(mesh(new THREE.BoxGeometry(w + .04, .12, .04), M.std('#b38652', .9), 0, h - .06, dp / 2 + .01));
+  const ag = aguacate(); ag.scale.setScalar(.5); ag.position.set(-.35, h - .05, 0); ag.rotation.z = .25; g.add(ag); const bn = banano(); bn.scale.setScalar(.48); bn.position.set(.35, h + .05, .05); bn.rotation.z = -.9; g.add(bn);
+  const gas = []; for (let i = 0; i < 12; i++) { const s = glow('#d8ff8a', .55, .5); s.userData.f = i / 12; g.add(s); gas.push(s); }
+  g.userData.tick = t => gas.forEach((s, i) => { const ph = (t * .45 + s.userData.f) % 1; s.position.set(Math.sin(i * 2.3 + t) * .55, h + .2 + ph * 1.6, Math.cos(i * 1.7) * .3); s.material.opacity = Math.sin(ph * Math.PI) * .6; }); g.position.y = -1; return g; }
+export function toalla(o = {}) { const g = new THREE.Group(); const c = o.color || '#7fd1ff';
+  const esp = canvasTex(256, 256, (cx, w) => { cx.fillStyle = c; cx.fillRect(0, 0, w, w); cx.strokeStyle = 'rgba(0,0,0,.22)'; cx.lineWidth = 5; cx.beginPath(); for (let a = 0; a < 26; a += .1) { const r = 4 + a * 4.6; cx.lineTo(128 + Math.cos(a) * r, 128 + Math.sin(a) * r); } cx.stroke(); });
+  const lado = canvasTex(256, 128, (cx, w, h) => { cx.fillStyle = c; cx.fillRect(0, 0, w, h); cx.fillStyle = 'rgba(255,255,255,.55)'; cx.fillRect(0, h * .72, w, 10); cx.fillRect(0, h * .82, w, 6); });
+  const ro = mesh(new THREE.CylinderGeometry(.6, .6, 1.8, 36), [new THREE.MeshStandardMaterial({ map: lado, roughness: .95 }), new THREE.MeshStandardMaterial({ map: esp, roughness: .95 }), new THREE.MeshStandardMaterial({ map: esp, roughness: .95 })]); ro.rotation.z = Math.PI / 2; g.add(ro); return g; }
+export function botella(o = {}) { const g = new THREE.Group(); const pts = [[.0, 0], [.45, 0], [.5, .1], [.5, 1.6], [.42, 1.85], [.25, 2.05], [.25, 2.2], [.001, 2.2]].map(([x, y]) => new THREE.Vector2(x, y));
+  const vid = mesh(new THREE.LatheGeometry(pts, 32), new THREE.MeshPhysicalMaterial({ color: col('#dff4ff'), roughness: .08, transparent: true, opacity: .4, clearcoat: 1, envMap: ENV, envMapIntensity: 1.4, side: THREE.DoubleSide, depthWrite: false }), 0, -1.1, 0); g.add(vid);
+  g.add(mesh(new THREE.CylinderGeometry(.46, .46, 1.2, 32), new THREE.MeshPhysicalMaterial({ color: col('#59b8ff'), transparent: true, opacity: .55, roughness: .1, envMap: ENV }), 0, -.45, 0));
+  g.add(mesh(new THREE.CylinderGeometry(.29, .29, .38, 24), M.std(o.tapa || PAL.acento, .4), 0, 1.25, 0)); return g; }
+export function maletaGym(o = {}) { const g = new THREE.Group(); const c = o.color || '#262b36', ac = o.acento || PAL.acento; const L = 3.4, A = 1.7, H0 = 1.0;
+  const base = mesh(rbox(L, H0, A, .25), M.std(c, .7), 0, H0 / 2, 0); g.add(base); g.add(mesh(new THREE.BoxGeometry(L - .5, .02, A - .3), M.std('#0c0d10', 1), 0, H0 - .02, 0));
+  [-1, 1].forEach(s => g.add(mesh(rbox(.18, .9, A + .04, .06), M.std(ac, .5), s * (L / 2 - .5), .5, 0)));
+  const tapa = new THREE.Group(); tapa.position.set(0, H0, -A / 2); g.add(tapa);
+  const arco = mesh(new THREE.CylinderGeometry(A / 2, A / 2, L - .08, 32, 1, false, -Math.PI / 2, Math.PI), M.std(c, .7), 0, 0, A / 2); arco.rotation.z = Math.PI / 2; arco.scale.set(1, 1, 1); arco.material.side = THREE.DoubleSide; tapa.add(arco);
+  [-1, 1].forEach(s => { const tp = mesh(new THREE.CircleGeometry(A / 2, 32, 0, Math.PI), M.std(c, .7), s * (L / 2 - .04), 0, A / 2); tp.rotation.y = s * Math.PI / 2; tp.material.side = THREE.DoubleSide; tapa.add(tp); });
+  [-1, 1].forEach(s => { const as = mesh(new THREE.TorusGeometry(.42, .07, 10, 24, Math.PI), M.std('#15171c', .5), s * .55, A / 2 - .05, A / 2); as.rotation.y = Math.PI / 2; tapa.add(as); });
+  const cierre = mesh(new THREE.BoxGeometry(L - .3, .05, .06), M.std('#c9ccd3', .3, .8), 0, H0 + .01, A / 2 - .02); g.add(cierre);
+  const tirador = mesh(rbox(.16, .3, .08, .03), M.oro(), 0, H0 - .12, A / 2 + .05); g.add(tirador);
+  const logo = new THREE.Mesh(new THREE.CircleGeometry(.22, 24), M.neon(ac)); logo.position.set(0, .5, A / 2 + .01); g.add(logo);
+  g.userData = { tapa, tirador, L, H0, A, abrir(k) { tapa.rotation.x = -1.9 * k; } }; return g; }
+Object.assign(OBJETOS, {
+  aguacate: p => aguacate(p), aguacateAbierto: p => aguacateAbierto(p), banano: p => banano(p), bolsaPapel: p => bolsaPapel(p), toalla: p => toalla(p), botella: p => botella(p),
+  aguacates: p => { const g = new THREE.Group(); const a = aguacate(); a.position.set(-.75, 0, 0); a.rotation.z = .15; const b = aguacateAbierto(); b.position.set(.8, 0, .2); b.rotation.z = -.1; g.add(a); g.add(b); return g; },
+  aguacatero: p => { const g = OBJETOS.arbol({ vapor: false }); [[-.75, 1.55, .95], [.55, 1.45, 1.0], [.05, 1.1, 1.15], [.95, 2.1, .7], [-.35, 2.25, .9], [-1.15, 1.9, .5]].forEach(([x, y, z], i) => { const a = aguacate(); a.scale.setScalar(.3); a.position.set(x, y, z); a.rotation.z = Math.sin(i) * .2; a.userData.f = i; g.add(a); g.userData.ag = (g.userData.ag || []).concat(a); });
+    const tk = g.userData.tick; g.userData.tick = t => { tk?.(t); (g.userData.ag || []).forEach(a => a.rotation.z = Math.sin(t * 2 + a.userData.f) * .12); }; return g; },
+});
+// 21. BOTONES: concurso ¿MITO o REALIDAD? — consola con 2 botones 3D; a mitad de escena se presiona el correcto (luz, golpe)
+// p = {frase (html), a:'MITO', b:'REALIDAD', correcta: 0|1, heroe (opcional, detrás), resultado: texto del sello, revela: s}
+def('botones', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const cons = new THREE.Group(); sc.add(cons); cons.add(mesh(rbox(5.4, .7, 2.4, .2), M.std('#16191f', .35, .5), 0, .35, 0));
+  const borde = new THREE.Mesh(new THREE.BoxGeometry(5.42, .04, 2.42), M.neon(PAL.acento)); borde.position.y = .72; cons.add(borde);
+  const cols = [p.colorA || '#ff5a5a', p.colorB || PAL.acento]; const textos = [p.a || 'MITO', p.b || 'REALIDAD'];
+  const bts = [-1, 1].map((s, i) => { const b = new THREE.Group(); b.position.set(s * 1.35, .7, .1); cons.add(b); b.add(mesh(new THREE.CylinderGeometry(.95, 1.0, .18, 40), M.std('#2a2e36', .4, .6), 0, .09, 0));
+    const mat = new THREE.MeshStandardMaterial({ color: col(cols[i]), roughness: .3, metalness: .1, emissive: col(cols[i]), emissiveIntensity: .15, envMap: ENV }); const cap = mesh(new THREE.CylinderGeometry(.78, .82, .38, 40), mat, 0, .35, 0); b.add(cap);
+    const lab = new THREE.Mesh(new THREE.CircleGeometry(.74, 40), new THREE.MeshBasicMaterial({ map: canvasTex(512, 512, (c, w) => { c.fillStyle = i ? '#0b0f0c' : '#ffffff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = `900 ${textos[i].length > 5 ? 96 : 130}px P`; c.fillText(textos[i], w / 2, w / 2); }), transparent: true, toneMapped: false })); lab.rotation.x = -Math.PI / 2; lab.position.y = .2; cap.add(lab);
+    const haz = new THREE.Mesh(new THREE.CylinderGeometry(.7, .95, 4.2, 32, 1, true), new THREE.MeshBasicMaterial({ color: col(cols[i]), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })); haz.position.y = 2.4; b.add(haz);
+    const gl = glow(cols[i], 4, 0); gl.position.y = .8; b.add(gl); return { b, cap, mat, haz, gl }; });
+  let H = null; if (p.heroe) { H = crearHeroe(p.heroe, p); H.obj.scale.multiplyScalar(.75); H.obj.position.set(0, 0, -2.4); sc.add(H.obj); }
+  const fr = el('div', 'quizPreg', cp, `<span class="qi">?</span>${p.frase || ''}`); fr.style.whiteSpace = 'normal'; fr.style.width = '940px'; fr.style.top = (p.fraseY || 1330) + 'px'; fr.style.fontSize = '58px';
+  const ok = p.correcta ?? 0; const st = sticker(cp, p.resultado || textos[ok], { y: p.resY || 760, cls: (ok ? 'realidad' : 'mito') + ' sello', rot: -9 });
+  return { sc, cam, cp, upd(t, d) { E.tick(t); const rv = p.revela ?? d * .5; const kr = win(t, rv, rv + .22);
+    camara(cam, t, 0, d, [0, 7.4, 12.6], [0, 6.6, 10.8], [0, .5, -.4]); if (kr > 0 && kr < 1) { cam.position.x += Math.sin(t * 75) * .06; cam.position.y += Math.sin(t * 60) * .05; }
+    if (H) { H.anim(t, d); H.obj.rotation.y = Math.sin(t * 1.1) * .25; }
+    bts.forEach((B, i) => { const el2 = back(win(t, .05 + i * .15, .4 + i * .15)); B.b.scale.setScalar(Math.max(.01, el2)); const esOk = i === ok;
+      const pres = esOk ? Math.sin(Math.PI * kr) : 0; B.cap.position.y = .35 - .2 * pres; B.mat.emissiveIntensity = esOk ? .15 + .9 * kr : .15 * (1 - .8 * kr) + .05 * Math.sin(t * 6 + i);
+      if (!esOk) B.mat.color.lerpColors(col(cols[i]), col('#4a4d55'), kr); B.haz.material.opacity = esOk ? .14 * kr * (.85 + .15 * Math.sin(t * 9)) : 0; B.gl.material.opacity = esOk ? .6 * kr : .15 * (1 - kr); });
+    const kf = win(t, 0, .3); fr.style.opacity = kf; fr.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(kf)}) rotate(-1.2deg)`; st.set(win(t, rv + .08, rv + .4)); } };
+});
+// 22. MALETA (formato "¿qué hay en mi maleta?"): p = {modo:'sacar'|'guardar', item: clave de héroe/OBJETOS (frasco, toalla, botella…), aroma,
+//     etiqueta (texto pegado al objeto), sticker, escalaItem, colorMaleta}
+def('maleta', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const mg = maletaGym({ color: p.colorMaleta }); mg.rotation.y = -.25; sc.add(mg); const u = mg.userData; const guardar = p.modo === 'guardar';
+  const I = crearHeroe(p.item || 'frasco', { ...p, giroHeroe: 0 }); const esc = p.escalaItem || (p.item === 'frasco' || !p.item ? .62 : .7); I.obj.scale.setScalar(esc); sc.add(I.obj);
+  const chis = []; for (let i = 0; i < 14; i++) { const s = glow(i % 2 ? '#ffffff' : PAL.acento, .35, 0); s.userData.a = i / 14 * Math.PI * 2; sc.add(s); chis.push(s); }
+  const lab = p.etiqueta ? etiqueta(cp, p.etiqueta, {}) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1400, cls: 'grande', rot: -5 }) : null;
+  const yIn = .25, yOut = 2.3;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [2.6, 4.9, 13.4], [1.3, 4.4, 11.4], [0, 1.75, 0]); I.anim(t, d);
+    let ab, ky;
+    if (!guardar) { ab = back(win(t, d * .08, d * .3)); ky = back(win(t, d * .25, d * .55)); } else { ky = 1 - ease(win(t, d * .12, d * .42)); ab = 1 - ease(win(t, d * .42, d * .58)); }
+    u.abrir(Math.max(0, ab)); const y = lerp(yIn, yOut, ky); I.obj.position.set(0, (p.item && p.item !== 'frasco' ? y + .9 * esc : y), .05); I.obj.visible = ky > .02 || !guardar && t > d * .2;
+    if (p.item && p.item !== 'frasco') I.obj.rotation.y = Math.sin(t * 1.4) * .5; else I.obj.rotation.y = -.25 + Math.sin(t * 1.2) * .2;
+    const kz = guardar ? eout(win(t, d * .58, d * .74)) : 1 - eout(win(t, d * .02, d * .14)); u.tirador.position.x = lerp(-u.L / 2 + .3, u.L / 2 - .3, kz) * (guardar ? 1 : -1);
+    mg.position.y = guardar && t > d * .58 ? Math.abs(Math.sin((t - d * .58) * 10)) * .1 * (1 - win(t, d * .58, d * .9)) : 0;
+    const tb = guardar ? t - d * .74 : t - d * .32; chis.forEach((s, i) => { const k = clamp(tb / .7); s.material.opacity = tb > 0 ? (1 - k) * .9 : 0; const r = .6 + k * 2.2; s.position.set(Math.cos(s.userData.a) * r, (guardar ? 1.4 : 2.2) + Math.sin(s.userData.a) * r * .6, .6); });
+    if (lab) { cam.updateMatrixWorld(); const [x, yy] = proyectar(I.obj, cam, [.5, .3, 0]); lab.set(Math.min(790, x + 250), yy - 40, x, yy, guardar ? win(t, .1, .4) * (1 - win(t, d * .3, d * .4)) : win(t, d * .45, d * .6)); }
+    if (st) st.set(win(t, guardar ? d * .72 : d * .62, (guardar ? d * .72 : d * .62) + .3)); } };
+});
+// 23. PAGO (cierre de promo): caja de envío cerrada + billetes genéricos que caen revoloteando y se apilan + sello "PAGAS AL RECIBIR"
+// p = {sticker, titulo (html abajo), aroma, colorCaja}
+def('pago', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const cj = cajaEnvio({ color: p.colorCaja }); cj.userData.abrir(0); cj.userData.cinta.scale.x = 1; cj.userData.cinta2.scale.y = 1; cj.position.set(.2, 0, -.4); cj.rotation.y = -.3; sc.add(cj);
+  const fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.55); fr.position.set(1.75, 0, 1.3); fr.rotation.y = -.5; sc.add(fr);
+  const bill = (i) => canvasTex(512, 256, (c, w, h) => { const cc = ['#8fd19e', '#f4a3c4', '#9cc9f0'][i % 3]; c.fillStyle = cc; rr(c, 0, 0, w, h, 18); c.fill(); c.strokeStyle = 'rgba(0,0,0,.25)'; c.lineWidth = 8; rr(c, 16, 16, w - 32, h - 32, 12); c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.65)'; c.beginPath(); c.arc(w * .72, h / 2, 74, 0, 7); c.fill(); c.fillStyle = 'rgba(0,0,0,.6)'; c.font = '900 110px P'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('$', w * .72, h / 2 + 6); c.font = '800 46px P'; c.fillText('PAGO', w * .3, h / 2); });
+  const billetes = []; for (let i = 0; i < 10; i++) { const m = mesh(new THREE.PlaneGeometry(1.5, .75), new THREE.MeshStandardMaterial({ map: bill(i), roughness: .7, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .3 })); m.userData = { f: i, rz: Math.sin(i * 3.1) * .6 }; sc.add(m); billetes.push(m); }
+  const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null; const st = sticker(cp, p.sticker || 'PAGAS AL RECIBIR ✓', { y: p.stickerY || 1400, x: 540, cls: 'grande', rot: -6 });
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [-.4, 5.2, 12.6], [0, 4.4, 10.6], [0, 1.0, .3]);
+    animFrasco(fr, t, { expr: t > d * .62 ? 'guiño' : 'feliz', brazosArriba: t > d * .62, salto: t > d * .62 ? .3 : 0 });
+    billetes.forEach((b, i) => { const t0 = d * .08 + i * d * .045, k = win(t, t0, t0 + .75); const x0 = -1.35 + Math.sin(i * 1.7) * .12, z0 = 1.7 + Math.cos(i * 2.3) * .1;
+      b.visible = k > 0; b.position.set(x0 + Math.sin(k * 9 + i) * .45 * (1 - k), lerp(6.5, .03 + i * .022, eout(k)), z0 + Math.cos(k * 7 + i) * .3 * (1 - k));
+      b.rotation.set(lerp(-.2, -Math.PI / 2, eout(k)) + Math.sin(k * 11 + i) * .8 * (1 - k), 0, b.userData.rz + (1 - k) * Math.sin(k * 8) * 1.2); });
+    const ks = win(t, d * .62, d * .62 + .3); st.set(ks); if (ks > 0 && ks < 1) { cam.position.x += Math.sin(t * 80) * .05; }
+    if (tit) { const k = win(t, .1, .4); tit.style.opacity = k; tit.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(k)})`; } } };
+});
+Object.assign(SFX, {
+  botones: (st, d, p) => [{ t: st + .1, tipo: 'pop' }, { t: st + .25, tipo: 'pop' }, { t: st + (p.revela ?? d * .5), tipo: 'golpe' }],
+  maleta: (st, d, p) => p.modo === 'guardar' ? [{ t: st + d * .2, tipo: 'whoosh' }, { t: st + d * .58, tipo: 'teclas', d: d * .15 }, ...(p.sticker ? [{ t: st + d * .72, tipo: 'golpe' }] : [])] : [{ t: st + d * .1, tipo: 'teclas', d: d * .12 }, { t: st + d * .32, tipo: 'pop' }, ...(p.sticker ? [{ t: st + d * .62, tipo: 'golpe' }] : [])],
+  pago: (st, d, p) => [...[0, 2, 4, 6, 8].map(i => ({ t: st + d * .08 + i * d * .045 + .6, tipo: 'pop' })), { t: st + d * .62, tipo: 'golpe' }],
+});
+
 // ---------- motor de línea de tiempo ----------
 let SPEC = null; const ESC = []; let CAP = null, PASOS = null, MARCA = null;
 export async function init(spec) {
@@ -669,6 +785,7 @@ export async function init(spec) {
   window.SFX = sfxEventos(spec); return true;
 }
 export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, SFX, def, cajaEnvio, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
+Object.assign(API, { aguacate, aguacateAbierto, banano, bolsaPapel, toalla, botella, maletaGym }); // (2026-11-20)
 window.API = API;
 
 function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (SFX[s.plantilla]) ev.push(...SFX[s.plantilla](st, spec.timeline.scenes[i].d, s.p || {})); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
