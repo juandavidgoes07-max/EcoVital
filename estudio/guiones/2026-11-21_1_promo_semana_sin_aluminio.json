@@ -1,0 +1,567 @@
+{
+ "formato": "v2",
+ "tipo": "promo",
+ "paleta": "menta",
+ "pasos": 3,
+ "marca": true,
+ "resaltar": [
+  "aluminio",
+  "uno",
+  "tres",
+  "siete",
+  "normal",
+  "seca",
+  "lavanda",
+  "citronela",
+  "recibir"
+ ],
+ "scenes": [
+  {
+   "id": "a1",
+   "plantilla": "persona",
+   "text": "¿Te da miedo dejar el antitranspirante? Así fue mi primera semana sin aluminio.",
+   "p": {
+    "escenario": "habitacion",
+    "accion": "pensar",
+    "persona": {
+     "tono": 3,
+     "peinado": "rizos",
+     "ropa": "#f2c14e",
+     "pelo": "#1e1410"
+    },
+    "sticker": "MI 1ª SEMANA SIN ALUMINIO 📅",
+    "stickerT": 0.15,
+    "stickerY": 1400
+   }
+  },
+  {
+   "id": "a2",
+   "plantilla": "quiz",
+   "text": "Adivina qué pasa el primer día. Te lo cuento día por día.",
+   "p": {
+    "pregunta": "¿Qué pasa el <b>día 1</b>?",
+    "opciones": [
+     "Huelo fatal",
+     "Siento más humedad",
+     "Nada cambia"
+    ],
+    "correcta": 1,
+    "heroe": "aerosol"
+   }
+  },
+  {
+   "id": "a3",
+   "plantilla": "calendario",
+   "paso": 1,
+   "text": "Día uno: sientes un poco más de humedad. Es normal: ya nada tapa tu sudor.",
+   "p": {
+    "desde": "HOY|ANTES",
+    "dia": "DÍA|1",
+    "sub": "Más humedad 💧",
+    "mes": "SIN ALUMINIO",
+    "heroe": "gota",
+    "escalaHeroe": 0.75,
+    "sticker": "ES NORMAL ✓",
+    "stickerT": 1.9
+   }
+  },
+  {
+   "id": "a4",
+   "plantilla": "versus",
+   "text": "El antitranspirante tapa el sudor con sales de aluminio. El natural no lo tapa.",
+   "p": {
+    "a": "frasco",
+    "aromaA": "lavanda",
+    "b": "aerosol",
+    "etA": "Deja sudar 🌿",
+    "etB": "Lo tapa ⛔"
+   }
+  },
+  {
+   "id": "a5",
+   "plantilla": "calendario",
+   "paso": 2,
+   "text": "Día tres: el truco es secarte bien y aplicarlo sobre la piel limpia.",
+   "p": {
+    "desde": "DÍA|1",
+    "dia": "DÍA|3",
+    "sub": "Piel seca y limpia",
+    "mes": "SIN ALUMINIO",
+    "heroe": "frasco",
+    "aroma": "citronela",
+    "escalaHeroe": 0.6,
+    "sticker": "EL TRUCO 🧴",
+    "stickerT": 1.9
+   }
+  },
+  {
+   "id": "a6",
+   "plantilla": "persona",
+   "text": "Salgo de la ducha, me seco con la toalla, me lo aplico y listo.",
+   "p": {
+    "escenario": "baño",
+    "accion": "mostrar",
+    "frasco": true,
+    "aroma": "citronela",
+    "persona": {
+     "tono": 3,
+     "peinado": "rizos",
+     "ropa": "#7c3aed",
+     "pelo": "#1e1410"
+    },
+    "sticker": "PIEL SECA ✓",
+    "stickerY": 1380,
+    "zoom": "out"
+   }
+  },
+  {
+   "id": "a7",
+   "plantilla": "calendario",
+   "paso": 3,
+   "text": "Día siete: ya tienes tu rutina y tu aroma favorito. ¿Lavanda o citronela?",
+   "p": {
+    "desde": "DÍA|3",
+    "dia": "DÍA|7",
+    "sub": "Rutina lista ✨",
+    "mes": "SIN ALUMINIO",
+    "heroe": "frasco2",
+    "escalaHeroe": 0.42,
+    "sticker": "LO LOGRASTE 🎉",
+    "stickerT": 2.0
+   }
+  },
+  {
+   "id": "a8",
+   "plantilla": "calendario",
+   "text": "Marca el día que te llega: envíos a toda Colombia y pagas al recibir.",
+   "p": {
+    "dia": "¡HOY|LLEGA!",
+    "sub": "Pagas al recibir 💵",
+    "mes": "TU PEDIDO",
+    "entrega": true,
+    "etiqueta": "EcoVital 📦",
+    "sticker": "PAGAS AL RECIBIR",
+    "stickerT": 2.3
+   }
+  },
+  {
+   "id": "a9",
+   "plantilla": "comentario",
+   "text": "Comenta lavanda o citronela, y empieza tu primera semana sin aluminio.",
+   "p": {
+    "heroe": "frasco2",
+    "palabra": "LAVANDA",
+    "encima": "¿Empiezas tu <b>semana 1</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.419,
+  2.693,
+  3.523,
+  4.55,
+  3.111,
+  3.197,
+  3.706,
+  3.226,
+  3.231
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "s": 0.16,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.84
+   },
+   {
+    "s": 0.84,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.58
+   },
+   {
+    "s": 1.86,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.26
+   },
+   {
+    "s": 2.26,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.72
+   },
+   {
+    "s": 2.72,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.32
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.46
+   },
+   {
+    "s": 0.46,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.72
+   },
+   {
+    "s": 0.72,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 1.0
+   },
+   {
+    "s": 1.0,
+    "e": 1.22
+   },
+   {
+    "s": 1.6,
+    "e": 1.64
+   },
+   {
+    "s": 1.64,
+    "e": 1.7
+   },
+   {
+    "s": 1.7,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.58
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.24
+   },
+   {
+    "s": 0.24,
+    "e": 0.5
+   },
+   {
+    "s": 0.84,
+    "e": 1.0
+   },
+   {
+    "s": 1.0,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.28
+   },
+   {
+    "s": 1.28,
+    "e": 1.44
+   },
+   {
+    "s": 1.44,
+    "e": 1.54
+   },
+   {
+    "s": 1.54,
+    "e": 1.86
+   },
+   {
+    "s": 1.96,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.28
+   },
+   {
+    "s": 2.52,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.16
+   },
+   {
+    "s": 3.16,
+    "e": 3.42
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.64
+   },
+   {
+    "s": 1.64,
+    "e": 1.78
+   },
+   {
+    "s": 1.78,
+    "e": 2.04
+   },
+   {
+    "s": 2.04,
+    "e": 2.18
+   },
+   {
+    "s": 2.18,
+    "e": 2.64
+   },
+   {
+    "s": 2.78,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 3.16
+   },
+   {
+    "s": 3.16,
+    "e": 3.5
+   },
+   {
+    "s": 3.5,
+    "e": 3.58
+   },
+   {
+    "s": 3.58,
+    "e": 3.78
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.32
+   },
+   {
+    "s": 0.32,
+    "e": 0.52
+   },
+   {
+    "s": 0.86,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.28
+   },
+   {
+    "s": 1.28,
+    "e": 1.52
+   },
+   {
+    "s": 1.52,
+    "e": 1.7
+   },
+   {
+    "s": 1.7,
+    "e": 1.92
+   },
+   {
+    "s": 1.92,
+    "e": 2.3
+   },
+   {
+    "s": 2.3,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.56
+   },
+   {
+    "s": 2.56,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 3.02
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.42
+   },
+   {
+    "s": 0.42,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.8
+   },
+   {
+    "s": 1.1,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.4
+   },
+   {
+    "s": 1.4,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 1.82
+   },
+   {
+    "s": 2.06,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.16
+   },
+   {
+    "s": 2.16,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.72
+   },
+   {
+    "s": 2.72,
+    "e": 3.06
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.68
+   },
+   {
+    "s": 0.68,
+    "e": 0.76
+   },
+   {
+    "s": 0.76,
+    "e": 0.98
+   },
+   {
+    "s": 1.4,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 1.94
+   },
+   {
+    "s": 1.94,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.5
+   },
+   {
+    "s": 2.5,
+    "e": 2.76
+   },
+   {
+    "s": 2.76,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 3.04
+   }
+  ],
+  null
+ ]
+}

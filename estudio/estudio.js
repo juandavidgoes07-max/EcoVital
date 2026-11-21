@@ -773,6 +773,113 @@ Object.assign(SFX, {
   pago: (st, d, p) => [...[0, 2, 4, 6, 8].map(i => ({ t: st + d * .08 + i * d * .045 + .6, tipo: 'pop' })), { t: st + d * .62, tipo: 'golpe' }],
 });
 
+// ===================== MEJORA 2026-11-21 =====================
+// Plantillas `calendario` (calendario de escritorio 3D: la hoja de ayer se arranca y vuela, aparece el día nuevo y un marcador
+// lo encierra en un círculo; modo entrega: cae la caja de envío al lado = "el día que te llega") y `respuesta` (formato
+// "respondo tus comentarios": burbuja de comentario estilo TikTok que entra con rebote sobre la escena + modo `fijado`:
+// comentario fijado por @ecovital_7 con corazón que late). Objetos de café: taza (con vapor), cafeto (rama con cerezas
+// que se mece), cerezaCafe, cerezaAbierta (se abre y muestra las 2 semillas), granoCafe {tostado}, caracolCafe (grano redondo).
+function paginaCal(p, txt, sub, colHead) { return canvasTex(640, 760, (c, w, h, k = 0) => {
+  c.fillStyle = '#fbf8f1'; rr(c, 0, 0, w, h, 26); c.fill(); c.fillStyle = colHead; rr(c, 0, 0, w, 170, 26); c.fill(); c.fillRect(0, 120, w, 50);
+  c.fillStyle = '#ffffff'; c.font = '800 66px P'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(p.mes || 'MI SEMANA', w / 2, 92);
+  const [a, b] = String(txt).split('|'); c.fillStyle = '#1b1712';
+  if (b !== undefined) { c.font = '700 70px P'; c.globalAlpha = .55; c.fillText(a, w / 2, 260); c.globalAlpha = 1; c.font = `900 ${b.length > 3 ? 118 : 290}px P`; c.fillText(b, w / 2, b.length > 3 ? 450 : 470); }
+  else { c.font = `900 ${a.length > 5 ? 120 : 170}px P`; c.fillText(a, w / 2, 420); }
+  if (sub) { c.font = '700 50px P'; c.fillStyle = '#4b4136'; c.fillText(sub, w / 2, 676); }
+  if (k > 0) { c.strokeStyle = p.colorMarca || '#e63946'; c.lineWidth = 16; c.lineCap = 'round'; c.beginPath(); c.ellipse(w / 2, 462, 236, 168, -.08, -Math.PI * .6, -Math.PI * .6 + Math.PI * 2.15 * k); c.stroke(); }
+}); }
+def('calendario', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const cal = new THREE.Group(); const cx = p.entrega ? -1.05 : (p.heroe ? -1.0 : 0); cal.position.set(cx, 0, 0); cal.rotation.y = p.entrega || p.heroe ? .18 : 0; sc.add(cal);
+  const head = p.color || PAL.acento; const W0 = 2.6, H0 = 3.1, top = 3.75;
+  cal.add(mesh(rbox(3.3, .32, 1.7, .1), M.std('#1d2027', .35, .4), 0, .16, -.2));
+  const cuerpo = new THREE.Group(); cuerpo.position.set(0, .32, 0); cuerpo.rotation.x = -.13; cal.add(cuerpo);
+  cuerpo.add(mesh(rbox(W0 + .2, H0 + .25, .34, .06), M.std('#f1ebe0', .9), 0, (top - .32) - H0 / 2 - .05, -.2));
+  for (let i = 0; i < 6; i++) cuerpo.add(mesh(rbox(W0 + .08, .03, .3, .01), M.std(i % 2 ? '#e6dfd2' : '#f6f1e8', .9), 0, (top - .32) - H0 - .02 + i * .05, -.18));
+  const mkPlano = (tex) => new THREE.Mesh(new THREE.PlaneGeometry(W0, H0 * 760 / 760).translate(0, -H0 / 2, 0), new THREE.MeshStandardMaterial({ map: tex, roughness: .8, envMap: ENV, envMapIntensity: .25, side: THREE.FrontSide }));
+  const texN = paginaCal(p, p.dia || 'DÍA|1', p.sub, head); const nueva = mkPlano(texN); nueva.position.set(0, top - .32 + .02, .0); cuerpo.add(nueva);
+  let piv = null; if (p.desde) { piv = new THREE.Group(); piv.position.set(0, top - .32 + .02, .02); cuerpo.add(piv); const vieja = mkPlano(paginaCal(p, p.desde, p.subDesde, head)); piv.add(vieja);
+    const dorso = new THREE.Mesh(new THREE.PlaneGeometry(W0, H0).translate(0, -H0 / 2, 0), M.std('#efe9dd', .9)); dorso.rotation.y = Math.PI; dorso.position.z = -.002; piv.add(dorso); }
+  for (let i = 0; i < 5; i++) { const an = mesh(new THREE.TorusGeometry(.13, .035, 8, 20), M.oro(), -1.0 + i * .5, top - .32 + .05, .02); an.rotation.y = Math.PI / 2; cuerpo.add(an); }
+  const gl = glow(head, 6, .25); gl.position.set(cx, 2.2, -1.2); sc.add(gl);
+  let cj = null; if (p.entrega) { cj = cajaEnvio({ color: p.colorCaja }); cj.userData.abrir(0); cj.userData.cinta.scale.x = 1; cj.userData.cinta2.scale.y = 1; cj.scale.setScalar(.72); cj.rotation.y = -.35; sc.add(cj); }
+  let H = null; if (p.heroe) { H = crearHeroe(p.heroe, p); H.obj.scale.multiplyScalar(p.escalaHeroe || .62); H.obj.position.set(p.heroeX ?? 1.5, p.heroeY ?? 0, .9); H.obj.rotation.y = -.4; sc.add(H.obj); }
+  const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1690, cls: p.stickerCls || 'grande', rot: -5 }) : null;
+  const lab = p.etiqueta ? etiqueta(cp, p.etiqueta, {}) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); const lejos = p.entrega || p.heroe; camara(cam, t, 0, d, lejos ? [.5, 3.6, 14] : [1.4, 3.4, 11.2], lejos ? [.1, 3.4, 12.4] : [.5, 3.2, 9.6], [lejos ? .15 : cx * .35, 2.45, 0]);
+    const f0 = p.desde ? (typeof p.flip === 'number' ? p.flip : d * .22) : 0;
+    if (piv) { const k = win(t, f0, f0 + .55); piv.rotation.x = -Math.PI * 1.05 * ease(k); piv.position.y = top - .32 + .02 + (k > .6 ? (k - .6) * 3 : 0); piv.position.z = .02 + Math.sin(k * Math.PI) * .9; piv.rotation.z = k * .5; piv.visible = k < .98; }
+    const km = win(t, f0 + (p.desde ? .55 : .25), f0 + (p.desde ? 1.25 : .95)); if (p.marcar !== false && km > 0) redraw(texN, eout(km));
+    cuerpo.position.y = .32 + (p.desde && t > f0 + .5 ? Math.abs(Math.sin((t - f0 - .5) * 9)) * .05 * (1 - win(t, f0 + .5, f0 + 1.2)) : 0);
+    if (cj) { const kc = win(t, d * .42, d * .42 + .45); cj.visible = kc > 0; cj.position.set(1.55, lerp(5.5, 0, eout(kc)) + (kc >= 1 ? Math.abs(Math.sin((t - d * .42 - .45) * 10)) * .12 * (1 - win(t, d * .42 + .45, d * .42 + 1.1)) : 0), .7); }
+    if (H) { H.anim(t, d); }
+    if (lab) { cam.updateMatrixWorld(); const tgt = cj || H?.obj || nueva; const [x, y] = proyectar(tgt, cam, [0, cj ? 1.1 : 1.6, 0]); lab.set(Math.min(800, x + 120), y - 150, x, y, win(t, d * .55, d * .55 + .3)); }
+    if (st) st.set(win(t, p.stickerT ?? d * .6, (p.stickerT ?? d * .6) + .3)); } };
+});
+// RESPUESTA (formato "respondo tus comentarios"): burbuja tipo TikTok "Respuesta a …" con la pregunta + persona en escenario o héroe 3D.
+// p = {pregunta, de ('Pregunta frecuente'), escenario+persona+accion | heroe, aroma, sticker, stickerY, fijado:true (comentario fijado por la marca: p.texto), cardY}
+def('respuesta', (p) => {
+  const E = estudio({ rejilla: !p.escenario, fogNear: p.escenario ? 18 : 14, fogFar: p.escenario ? 40 : 34 }); const sc = E.sc, cam = E.cam; const cp = capa();
+  let pe = null, H = null, fr = null;
+  if (p.escenario) { escenario(sc, p.escenario); pe = persona(p.persona || {}); sc.add(pe); cam.userData.off = .35; if (p.frasco) { fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.36); sc.add(fr); } }
+  else { H = crearHeroe(p.heroe || 'frasco', p); sc.add(H.obj); if (p.escalaHeroe && !OBJETOS[p.heroe]) H.obj.scale.setScalar(p.escalaHeroe); cam.userData.off = .1; }
+  const card = el('div', '', cp); const fij = !!p.fijado;
+  Object.assign(card.style, { position: 'absolute', left: '540px', top: (p.cardY || (fij ? 1240 : (p.escenario ? 1210 : 1330))) + 'px', width: '900px', boxSizing: 'border-box', background: fij ? '#14161c' : '#ffffff', color: fij ? '#fff' : '#14110a', borderRadius: '38px', padding: '30px 40px 34px 150px', boxShadow: '0 24px 70px rgba(0,0,0,.5)', border: fij ? '4px solid var(--acento)' : '0', transformOrigin: '20% 100%' });
+  card.innerHTML = `<div style="position:absolute;left:34px;top:34px;width:88px;height:88px;border-radius:50%;background:var(--acento);display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;color:#0b0f0c">${fij ? '🌿' : '?'}</div>`
+    + `<div style="font-size:34px;font-weight:600;opacity:.6;margin-bottom:8px">${fij ? '📌 Fijado por <b style="opacity:1">@ecovital_7</b>' : 'Respuesta a <b>' + (p.de || 'Pregunta frecuente') + '</b>'}</div>`
+    + `<div style="font-size:${fij ? 52 : 60}px;font-weight:800;line-height:1.1">${fij ? (p.texto || '') : (p.pregunta || '')}</div>`
+    + `<div class="cola" style="position:absolute;left:70px;bottom:-26px;width:0;height:0;border-left:26px solid transparent;border-right:26px solid transparent;border-top:30px solid ${fij ? 'var(--acento)' : '#ffffff'}"></div>`
+    + (fij ? '<div class="cor" style="position:absolute;right:30px;bottom:24px;font-size:64px;opacity:0">❤️</div>' : '');
+  const cor = card.querySelector('.cor');
+  const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || (fij ? 1620 : 1560), cls: p.stickerCls || '', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t);
+    if (pe) { camara(cam, t, 0, d, [p.lado || 0, 2.7, 10.5], [(p.lado || 0) * .4, 2.6, 8.4], [0, 2.2, 0]); animPersona(pe, t, { accion: p.accion || 'hablar', k: eout(win(t, 0, .5)), hablar: p.hablar ?? .7 });
+      if (fr) { pe.updateMatrixWorld(true); const v = new THREE.Vector3(); pe.userData.brazos[0].mano.getWorldPosition(v); fr.position.set(v.x, v.y - .05, v.z + .15); fr.rotation.y = .5; animFrasco(fr, t, { expr: 'feliz', bob: 0 }); } }
+    else { camara(cam, t, 0, d, [0, 2.6, 13], [0, 2.4, 10.8], [0, 1.7, 0]); H.anim(t, d); H.obj.rotation.y = Math.sin(t * 1.1) * .3; }
+    const k = win(t, .05, .45); card.style.opacity = clamp(k * 2.5); card.style.transform = `translate(-50%,0) rotate(${-2 + 2 * eout(k)}deg) scale(${Math.max(.01, back(k))})`;
+    if (cor) { const kc = win(t, d * .5, d * .5 + .3); cor.style.opacity = kc; cor.style.transform = `scale(${kc > 0 ? 1.6 - .6 * back(kc) + .08 * Math.sin(t * 9) : 0})`; }
+    if (st) st.set(win(t, p.stickerT ?? d * .58, (p.stickerT ?? d * .58) + .3)); } };
+});
+// --- objetos del café ---
+const cafeM = { cereza: c => new THREE.MeshPhysicalMaterial({ color: col(c), roughness: .28, clearcoat: .8, clearcoatRoughness: .2, envMap: ENV, envMapIntensity: 1 }) };
+function grano(o = {}) { const g = new THREE.Group(); const c = o.tostado ? '#4a2a17' : '#a9b57e'; const m = M.std(c, o.tostado ? .45 : .7);
+  const b = mesh(new THREE.SphereGeometry(.5, 28, 20), m); if (o.redondo) b.scale.set(.92, .92, .85); else b.scale.set(.78, 1.08, .5); g.add(b);
+  const surco = new THREE.CatmullRomCurve3([[-.02, -.42, 0], [.06, -.2, 0], [-.06, 0, 0], [.06, .2, 0], [-.02, .42, 0]].map(([x, y, z]) => new THREE.Vector3(x, y, z)));
+  const sm = mesh(new THREE.TubeGeometry(surco, 30, .045, 6), M.std(o.tostado ? '#2a170c' : '#6f7a4c', .8)); sm.position.z = o.redondo ? .42 : .245; sm.scale.set(1, o.redondo ? .85 : 1.05, 1); g.add(sm); return g; }
+function cereza(c = '#c8102e', s = 1) { const g = new THREE.Group(); const m = mesh(new THREE.SphereGeometry(.42 * s, 24, 18), cafeM.cereza(c)); m.scale.set(1, 1.12, 1); g.add(m); g.add(mesh(new THREE.CylinderGeometry(.08 * s, .05 * s, .05 * s, 12), M.std('#3a2a1a', .8), 0, .46 * s, 0)); return g; }
+Object.assign(OBJETOS, {
+  taza: p => { const g = new THREE.Group(); const blanca = M.std(p.colorTaza || '#f7f4ee', .25); const pts = [[0, 0], [.62, 0], [.68, .06], [.82, 1.1], [.86, 1.2], [.8, 1.2], [.76, 1.12], [.6, .14], [0, .14]].map(([x, y]) => new THREE.Vector2(x, y));
+    const cu = mesh(new THREE.LatheGeometry(pts, 48), blanca); cu.material.side = THREE.DoubleSide; g.add(cu); const asa = mesh(new THREE.TorusGeometry(.3, .07, 10, 24, Math.PI * 1.2), blanca, .9, .62, 0); asa.rotation.z = -Math.PI * .6; g.add(asa);
+    const cafe = mesh(new THREE.CircleGeometry(.77, 40), M.std('#3b2112', .2)); cafe.rotation.x = -Math.PI / 2; cafe.position.y = 1.05; g.add(cafe); const crema = mesh(new THREE.RingGeometry(.5, .76, 40), M.std('#a0683a', .4)); crema.rotation.x = -Math.PI / 2; crema.position.y = 1.055; g.add(crema);
+    const plato = mesh(new THREE.CylinderGeometry(1.25, 1.1, .08, 48), blanca, 0, -.04, 0); g.add(plato);
+    const vap = []; for (let i = 0; i < 9; i++) { const s = glow('#ffffff', .55 + (i % 3) * .15, .4); s.userData.f = i / 9; g.add(s); vap.push(s); }
+    g.userData.tick = t => vap.forEach((v, i) => { const ph = (t * .45 + v.userData.f) % 1; v.position.set(Math.sin(t * 1.5 + i) * .25 * ph, 1.25 + ph * 2.0, Math.cos(i) * .2); v.material.opacity = Math.sin(ph * Math.PI) * .38; });
+    g.position.y = -.6; const w = new THREE.Group(); const inc = new THREE.Group(); inc.rotation.x = p.inclinaTaza ?? .32; inc.add(g); w.add(inc); w.userData.tick = g.userData.tick; return w; },
+  cafeto: p => { const g = new THREE.Group(); const cor = M.std('#6b4a2e', .8); const rama = mesh(new THREE.CylinderGeometry(.05, .09, 4.2, 10), cor); rama.rotation.z = Math.PI / 2 - .15; g.add(rama);
+    const hojaC = (x, s2) => { const h = hoja('#1f6b33', 1.25); h.position.set(x, s2 * .5, 0); h.rotation.set(s2 * .5, 0, s2 * 1.3 - .15); h.traverse(m => { if (m.material) { m.material = new THREE.MeshPhysicalMaterial({ color: col('#24733a'), roughness: .35, clearcoat: .6, side: THREE.DoubleSide, envMap: ENV }); } }); return h; };
+    [-1.6, -.5, .6, 1.6].forEach((x, i) => { g.add(hojaC(x + .15, 1)); g.add(hojaC(x - .05, -1)); });
+    const colores = p.colores || ['#c8102e', '#b30f2a', '#d9342b', '#e0a526', '#7da23a', '#c8102e', '#9c0d22', '#d9342b'];
+    const racimos = []; [-1.1, 0, 1.1].forEach((x, j) => { const r = new THREE.Group(); r.position.set(x, -.18 + x * .15 * -.15, .1); for (let i = 0; i < 7; i++) { const a = i / 7 * Math.PI * 2; const ce = cereza(colores[(i + j * 3) % colores.length], .72); ce.position.set(Math.cos(a) * .32, -.15 + Math.sin(a * 2) * .06, Math.sin(a) * .3); ce.rotation.z = Math.cos(a) * .4; r.add(ce); } g.add(r); racimos.push(r); });
+    g.userData.tick = t => { g.rotation.z = Math.sin(t * 1.2) * .04; racimos.forEach((r, i) => r.rotation.x = Math.sin(t * 2 + i) * .06); }; return g; },
+  cerezaCafe: p => { const g = cereza(p.color || '#c8102e', 2.2); return g; },
+  cerezaAbierta: p => { const g = new THREE.Group(); const R0 = .95; const piel = cafeM.cereza('#c8102e'); const pulpa = M.std('#f3e3b0', .5);
+    const mitad = s => { const h = new THREE.Group(); const cas = mesh(new THREE.SphereGeometry(R0, 32, 24, 0, Math.PI), piel); cas.rotation.y = s > 0 ? Math.PI / 2 : -Math.PI / 2; cas.material.side = THREE.DoubleSide; h.add(cas);
+      const cara = mesh(new THREE.CircleGeometry(R0 * .97, 40), pulpa); cara.rotation.y = s > 0 ? -Math.PI / 2 : Math.PI / 2; h.add(cara); return h; };
+    const A = mitad(1), B = mitad(-1); g.add(A); g.add(B);
+    const sem = [1, -1].map(s => { const gr = grano({}); gr.scale.setScalar(1.05); g.add(gr); return gr; });
+    g.add(mesh(new THREE.CylinderGeometry(.12, .08, .25, 12), M.std('#3a2a1a', .8), 0, R0 + .05, 0));
+    g.userData.tick = t => { const k = eout(clamp((t - .35) / 1.1)); A.position.x = k * 1.25; B.position.x = -k * 1.25; A.rotation.z = -k * .25; B.rotation.z = k * .25; sem[0].position.set(.17 + k * .55, 0, 0); sem[1].position.set(-.17 - k * .55, 0, 0); sem.forEach((s2, i) => s2.rotation.y = (i ? Math.PI / 2 : -Math.PI / 2) * (1 - k * .75)); };
+    g.rotation.y = 0; return g; },
+  granoCafe: p => { const g = new THREE.Group(); const gr = grano({ tostado: p.tostado }); gr.scale.setScalar(2.2); gr.rotation.z = p.ladeo ?? .45; g.add(gr); return g; },
+  granoTostado: p => OBJETOS.granoCafe({ ...p, tostado: true }),
+  granos: p => { const g = new THREE.Group(); [[-1.3, 0, false], [1.3, 0, true]].forEach(([x, y, tos]) => { const gr = grano({ tostado: tos }); gr.scale.setScalar(1.8); gr.position.set(x, y, 0); g.add(gr); }); return g; },
+  caracolCafe: p => { const g = new THREE.Group(); const gr = grano({ redondo: true, tostado: p.tostado }); gr.scale.setScalar(2.2); g.add(gr); return g; },
+});
+Object.assign(SFX, {
+  calendario: (st, d, p) => [...(p.desde ? [{ t: st + (typeof p.flip === 'number' ? p.flip : d * .22), tipo: 'whoosh' }] : []), { t: st + (p.desde ? (typeof p.flip === 'number' ? p.flip : d * .22) + .6 : .3), tipo: 'teclas', d: .45 }, ...(p.entrega ? [{ t: st + d * .42 + .45, tipo: 'golpe' }] : []), ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .6), tipo: 'pop' }] : [])],
+  respuesta: (st, d, p) => [{ t: st + .12, tipo: 'pop' }, ...(p.fijado ? [{ t: st + d * .5, tipo: 'pop' }] : []), ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .58), tipo: 'golpe' }] : [])],
+});
+
 // ---------- motor de línea de tiempo ----------
 let SPEC = null; const ESC = []; let CAP = null, PASOS = null, MARCA = null;
 export async function init(spec) {
@@ -786,6 +893,7 @@ export async function init(spec) {
 }
 export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, SFX, def, cajaEnvio, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
 Object.assign(API, { aguacate, aguacateAbierto, banano, bolsaPapel, toalla, botella, maletaGym }); // (2026-11-20)
+Object.assign(API, { grano, cereza, paginaCal }); // (2026-11-21)
 window.API = API;
 
 function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (SFX[s.plantilla]) ev.push(...SFX[s.plantilla](st, spec.timeline.scenes[i].d, s.p || {})); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
