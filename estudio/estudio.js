@@ -249,6 +249,14 @@ export function escenario(sc, tipo) {
   if (tipo === 'habitacion') { g.add(mesh(new THREE.PlaneGeometry(16, 12), M.std('#2b2f4a', .95), 0, 5, -4)); const v = mesh(new THREE.PlaneGeometry(2.6, 3.2), M.neon('#16203f'), 3, 5.4, -3.95); g.add(v); const luna = mesh(new THREE.CircleGeometry(.5, 32), M.neon('#ffe9b0'), 3.4, 6, -3.9); g.add(luna); const gl = glow('#ffe9b0', 3, .4); gl.position.set(3.4, 6, -3.8); g.add(gl); }
   if (tipo === 'calle') { for (let i = 0; i < 6; i++) { const hgt = 4 + (i * 37 % 5); const ed = mesh(rbox(2.2, hgt, 2, .05), M.std(['#e7c8a0', '#c9d8c5', '#e8b9a6', '#cfd6e8'][i % 4], .9), -6 + i * 2.4, hgt / 2, -5); g.add(ed); for (let f = 0; f < hgt - 1; f++) ed.add(mesh(new THREE.PlaneGeometry(1.4, .5), M.neon('#ffe9b0'), 0, -hgt / 2 + 1 + f, 1.01)); } }
   if (tipo === 'cocina') { g.add(mesh(new THREE.PlaneGeometry(16, 12), M.std('#f3ece0', .9), 0, 5, -4)); g.add(mesh(rbox(10, 1.6, 1.6, .05), M.std('#3f6b5a', .6), 0, .8, -3)); g.add(mesh(rbox(10, .12, 1.7, .03), M.std('#f8f8f8', .3), 0, 1.66, -3)); for (let i = 0; i < 3; i++) g.add(mesh(rbox(1.8, 1.2, .6, .05), M.std('#3f6b5a', .6), -3 + i * 3, 5.5, -3.6)); }
+  if (tipo === 'invernadero') { // (2026-11-22) invernadero de vidrio: paneles con marco blanco, luz verde, matas en materas, enredadera arriba y mesón de madera
+    g.add(mesh(new THREE.PlaneGeometry(16, 12), M.neon('#cfe9d4'), 0, 5, -4.2)); const marco = M.std('#f4f4ef', .4, .2);
+    for (let i = -4; i <= 4; i++) g.add(mesh(rbox(.1, 12, .1, .02), marco, i * 1.8, 5, -4.05)); for (let j = 0; j < 5; j++) g.add(mesh(rbox(16, .1, .1, .02), marco, 0, 1.2 + j * 2.2, -4.05));
+    for (let j = 0; j < 4; j++) { const sol = glow('#fff6c8', 5, .22); sol.position.set(-4 + j * 2.7, 7.5, -3.9); g.add(sol); }
+    g.add(mesh(rbox(10, .22, 1.6, .05), M.std('#8a5a36', .7), 0, 1.5, -3.1)); [-4.4, 4.4].forEach(x => g.add(mesh(rbox(.18, 1.5, 1.4, .04), M.std('#6e4628', .7), x, .75, -3.1)));
+    const verdes = ['#3f8f46', '#5fae4f', '#2e7a3e', '#78c06a']; for (let i = 0; i < 6; i++) { const x = -4 + i * 1.6; const mat = mesh(new THREE.CylinderGeometry(.32, .24, .5, 16), M.std(i % 2 ? '#c8693f' : '#b85a33', .8), x, 1.86, -3.2); g.add(mat);
+      for (let k = 0; k < 5; k++) g.add(mesh(new THREE.SphereGeometry(.28 + (k % 2) * .08, 12, 10), M.std(verdes[(i + k) % 4], .7), x + Math.sin(k * 2.3) * .3, 2.35 + (k % 3) * .22, -3.2 + Math.cos(k * 2.3) * .2)); }
+    for (let i = 0; i < 14; i++) { const h = hoja(verdes[i % 4], .5); h.position.set(-6 + i * .95, 9.2 - Math.abs(Math.sin(i * 1.7)) * 1.4, -3.8); h.rotation.set(.2, 0, Math.PI + Math.sin(i) * .6); g.add(h); } }
   return g;
 }
 
@@ -880,6 +888,110 @@ Object.assign(SFX, {
   respuesta: (st, d, p) => [{ t: st + .12, tipo: 'pop' }, ...(p.fijado ? [{ t: st + d * .5, tipo: 'pop' }] : []), ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .58), tipo: 'golpe' }] : [])],
 });
 
+
+// ======================= MEJORA 2026-11-22 =======================
+// Objetos de vainilla: orquídea (flor que abre un día), vainas verdes, vainas curadas negras y atado de vainas.
+function vaina(c = '#5c8f2e', largo = 2.2, curva = .25, r = .085, rough = .6) { const pts = []; for (let i = 0; i <= 12; i++) { const k = i / 12; pts.push(new THREE.Vector3(Math.sin(k * Math.PI) * curva, -k * largo, 0)); }
+  const g = new THREE.Group(); const m = M.std(c, rough); const tubo = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 24, r, 10, false), m); g.add(tubo);
+  g.add(mesh(new THREE.SphereGeometry(r, 10, 8), m, pts[0].x, pts[0].y, 0)); const fin = mesh(new THREE.ConeGeometry(r, r * 2.2, 10), m, pts[12].x, pts[12].y - r, 0); fin.rotation.z = Math.PI; g.add(fin); return g; }
+function florVainilla(s = 1) { const g = new THREE.Group(); const crema = '#efe8a6', amar = '#f2d65a';
+  [0, 1, 2, 3, 4].forEach(i => { const a = i / 5 * Math.PI * 2 + Math.PI / 2; const piv = new THREE.Group(); piv.rotation.z = a - Math.PI / 2; const h = hoja(i < 3 ? '#e4e39a' : crema, .78); h.scale.set(.5, 1, .5); h.position.y = .48; piv.add(h); g.add(piv); });
+  const pts = []; for (let i = 0; i <= 10; i++) { const k = i / 10; pts.push(new THREE.Vector2(.07 + Math.pow(k, 1.6) * .3 + (k > .85 ? Math.sin(k * 40) * .015 : 0), k * .62)); }
+  const lab = mesh(new THREE.LatheGeometry(pts, 28), new THREE.MeshStandardMaterial({ color: col(amar), roughness: .55, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .5 })); lab.rotation.x = Math.PI / 2; lab.position.z = .02; g.add(lab);
+  g.add(mesh(new THREE.CylinderGeometry(.035, .045, .5, 8), M.std('#f8f4d8', .5), 0, .05, .25)).children; g.children[g.children.length - 1].rotation.x = Math.PI / 2;
+  g.scale.setScalar(s); return g; }
+function orquidea(p = {}) { const g = new THREE.Group(); const tallo = M.std('#4f8a3a', .6);
+  const pts = [[-1.6, -1.6, 0], [-.8, -.6, .1], [0, -.2, 0], [.8, .3, -.1], [1.5, 1.2, 0]].map(a => new THREE.Vector3(...a)); g.add(mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 30, .07, 8, false), tallo));
+  [[-1.1, -1.0, .8], [.4, .05, -.9], [1.2, .85, .7]].forEach(([x, y, r]) => { const h = hoja('#3f8f46', 1.1); h.scale.set(.9, 1, 2.2); h.position.set(x, y, .12); h.rotation.set(.3, 0, r); g.add(h); });
+  const flores = []; [[.1, .15, .5, 1], [-.75, -.42, .25, .78]].slice(0, p.flores || 2).forEach(([x, y, z, s]) => { const f = florVainilla(s); f.position.set(x, y + .35, z); f.rotation.set(-.15, .25, 0); g.add(f); flores.push(f); });
+  const vns = []; if (p.vainas) for (let i = 0; i < 4; i++) { const v = vaina('#5c8f2e', 1.5, .1, .06); v.position.set(.9 + i * .14, .6, .2 + i * .05); v.rotation.z = -.1 + i * .06; g.add(v); vns.push(v); }
+  g.userData.tick = t => { g.rotation.z = Math.sin(t * .9) * .04; flores.forEach((f, i) => { const k = p.abre === undefined ? 1 : clamp((t - (p.abre || 0)) / 1.0); f.scale.setScalar((i ? .78 : 1) * (.25 + .75 * eout(k))); f.rotation.z = Math.sin(t * 1.4 + i) * .06; }); vns.forEach((v, i) => v.rotation.z = -.1 + i * .06 + Math.sin(t * 1.2 + i) * .05); };
+  return g; }
+Object.assign(OBJETOS, {
+  orquidea: p => orquidea(p),
+  florVainilla: () => { const f = florVainilla(2.1); const g = new THREE.Group(); g.add(f); g.userData.tick = t => { f.rotation.z = Math.sin(t * 1.2) * .08; f.rotation.y = .45 + Math.sin(t * .7) * .2; f.rotation.x = -.2; }; return g; },
+  vainaVerde: () => { const g = new THREE.Group(); for (let i = 0; i < 5; i++) { const v = vaina('#5c8f2e', 2.4 - (i % 2) * .3, .18, .1); v.position.set((i - 2) * .32, 1.3, Math.sin(i) * .15); v.rotation.z = (i - 2) * .08; g.add(v); } g.add(mesh(new THREE.TorusGeometry(.5, .07, 8, 20, Math.PI), M.std('#4f8a3a', .6), 0, 1.3, 0)); g.position.y = -.2; return g; },
+  vainaNegra: () => { const g = new THREE.Group(); for (let i = 0; i < 3; i++) { const v = vaina('#2a1a10', 2.4, .3, .085, .32); v.scale.z = .65; v.position.set((i - 1) * .3, 1.2, 0); v.rotation.z = (i - 1) * .12; g.add(v); } return g; },
+  vainas: () => { const g = new THREE.Group(); for (let i = 0; i < 7; i++) { const v = vaina('#2a1a10', 2.6, .05, .075, .32); v.scale.z = .7; v.position.set((i - 3) * .16, 1.3, Math.sin(i * 2) * .1); g.add(v); }
+    const lazo = mesh(new THREE.TorusGeometry(.62, .05, 8, 28), M.std('#c9a36a', .8), 0, .1, 0); lazo.scale.set(1, .22, 1); lazo.rotation.x = .1; g.add(lazo); g.rotation.z = -.5; return g; },
+});
+// NOTA (2026-11-22): nota adhesiva (post-it) que vuela y se pega en el frasco, con texto escrito a mano que se va escribiendo.
+// p = {notas:[{texto, color, aroma}] (1 o 2 frascos), sticker, stickerY, titulo (html abajo), celebra:true}
+function notaTex(texto, color) { return canvasTex(512, 512, (c, w, h, k = 0) => { c.fillStyle = color || '#ffe066'; c.fillRect(0, 0, w, h); const gr = c.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(0,0,0,.08)'); gr.addColorStop(.18, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.12)'); c.fillStyle = gr; c.fillRect(0, 0, w, h);
+  c.save(); c.beginPath(); c.rect(0, 0, w * k, h); c.clip(); c.fillStyle = '#1f2a6b'; c.textAlign = 'center'; c.textBaseline = 'middle'; const ls = String(texto).split('|'); ls.forEach((l, i) => { let fs = ls.length > 1 ? 110 : 140; c.font = `900 ${fs}px P`; const mw = c.measureText(l).width; if (mw > 420) { fs = Math.floor(fs * 420 / mw); c.font = `900 ${fs}px P`; } c.save(); c.translate(w / 2, h / 2 + (i - (ls.length - 1) / 2) * 125); c.rotate(-.05); c.transform(1, 0, -.18, 1, 0, 0); c.fillText(l, 0, 0); c.restore(); });
+  if (k > .95) { c.strokeStyle = '#c62828'; c.lineWidth = 12; c.beginPath(); c.moveTo(70, h - 90); c.quadraticCurveTo(w / 2, h - 60, w - 70, h - 100); c.stroke(); } c.restore(); }); }
+def('nota', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const ns = p.notas || [{ texto: p.texto || 'NO|TOCAR', aroma: p.aroma }]; const doble = ns.length > 1;
+  const items = ns.map((n, i) => { const f = frasco({ aroma: n.aroma || (i ? 'citronela' : 'lavanda') }); const s = doble ? .82 : 1.05; f.scale.setScalar(s); f.position.set(doble ? (i ? 1.25 : -1.25) : 0, 0, 0); f.rotation.y = doble ? (i ? -.22 : .22) : 0; sc.add(f);
+    const tex = notaTex(n.texto, n.color); const nt = new THREE.Mesh(new THREE.PlaneGeometry(.9, .9), new THREE.MeshStandardMaterial({ map: tex, roughness: .9, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .3 })); nt.castShadow = true; f.userData.rig.add(nt);
+    return { f, nt, tex, t0: (doble ? .25 + i * .9 : .35), rot: (i ? .1 : -.09) }; });
+  const gl = glow(PAL.acento, 7, .22); gl.position.set(0, 2, -1.5); sc.add(gl);
+  const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1330, cls: 'grande', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, doble ? [0, 2.6, 12.6] : [.6, 2.5, 11], doble ? [0, 2.3, 10.6] : [0, 2.2, 8.6], [0, 1.15, 0]);
+    let shake = 0; items.forEach((it, i) => { const k = win(t, it.t0, it.t0 + .45); const ap = .95 * Math.cos(Math.PI / 6);
+      const tx = 0, ty = .74, tz = ap + .05; it.nt.position.set(lerp(1.8 * (i ? 1 : -1), tx, eout(k)), lerp(3.6, ty, eout(k)), lerp(3.2, tz, eout(k))); it.nt.rotation.set(lerp(-1.2, 0, eout(k)), lerp(2.4, 0, eout(k)), lerp(1.6, it.rot, eout(k)));
+      const sq = win(t, it.t0 + .45, it.t0 + .7); it.nt.scale.set(1 + Math.sin(sq * Math.PI) * .12, 1 - Math.sin(sq * Math.PI) * .1, 1); it.nt.visible = k > 0;
+      if (k > .98 && sq < 1) shake = Math.max(shake, 1 - sq); const kw = win(t, it.t0 + .55, it.t0 + 1.25); if (kw > 0 && (kw < 1 || !it.done)) { redraw(it.tex, kw); if (kw >= 1) it.done = true; }
+      animFrasco(it.f, t, { expr: k > 0 && k < 1 ? 'sorpresa' : (i ? 'guiño' : 'feliz'), hablar: .25, fase: i, brazosArriba: p.celebra && t > d * .7, salto: p.celebra && t > d * .7 ? .4 : 0 }); });
+    if (shake > 0) { cam.position.x += Math.sin(t * 80) * .05 * shake; cam.position.y += Math.sin(t * 67) * .04 * shake; }
+    if (tit) { const k = win(t, .1, .4); tit.style.opacity = k; tit.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(k)})`; } if (st) st.set(win(t, p.stickerT ?? d * .66, (p.stickerT ?? d * .66) + .3)); } };
+});
+// ABRIR (2026-11-22, formato unboxing): caja de envío cerrada que tiembla, la cinta se corta, las solapas se abren con luz y el frasco sube con chispas.
+// p = {aroma, cerrada:true (solo tiembla y se asoma la luz: gancho), etiqueta, sticker, stickerY, colorCaja}
+def('abrir', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const cj = cajaEnvio({ color: p.colorCaja }); cj.rotation.y = -.35; sc.add(cj); const u = cj.userData; u.abrir(0); u.cinta.scale.x = 1; u.cinta2.scale.y = 1;
+  const luz = glow('#fff2b0', 4, 0); luz.position.set(0, u.h + .3, 0); cj.add(luz); const rayos = new THREE.Group(); for (let i = 0; i < 7; i++) { const r = new THREE.Mesh(new THREE.ConeGeometry(.35, 4, 12, 1, true), new THREE.MeshBasicMaterial({ color: col('#fff3c0'), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide })); r.position.y = 2; r.rotation.set(Math.sin(i * 2.1) * .35, 0, Math.cos(i * 1.7) * .35); r.geometry.rotateX(Math.PI); rayos.add(r); } rayos.position.y = u.h; cj.add(rayos);
+  const fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.72); sc.add(fr); fr.visible = false;
+  const chispas = []; for (let i = 0; i < 18; i++) { const s = glow(i % 3 ? '#ffe28a' : PAL.acento, .3, .9); sc.add(s); chispas.push(s); }
+  const lab = p.etiqueta ? etiqueta(cp, p.etiqueta, {}) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1360, cls: 'grande', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, p.cerrada ? [2.8, 5.2, 10] : [3.2, 5.8, 12.4], p.cerrada ? [1.3, 3.8, 7.6] : [1.7, 4.4, 10], [0, p.cerrada ? .9 : 1.7, 0]);
+    const a0 = p.cerrada ? 0 : .1, kCut = win(t, d * .2, d * .32), kOp = p.cerrada ? .12 * (.5 + .5 * Math.sin(t * 7)) * win(t, .4, 1) : ease(win(t, d * .3, d * .48));
+    const tiembla = p.cerrada ? 1 : 1 - win(t, d * .18, d * .24); cj.rotation.z = Math.sin(t * 28) * .03 * tiembla; cj.position.y = Math.abs(Math.sin(t * 9)) * .08 * tiembla;
+    if (!p.cerrada) { u.cinta.scale.x = Math.max(.001, 1 - eout(kCut)); u.cinta.position.x = -u.w / 2 - .08 + (u.w + .16) * eout(kCut); u.cinta2.scale.y = Math.max(.001, 1 - kCut); } u.abrir(kOp);
+    luz.material.opacity = p.cerrada ? .5 * win(t, .4, 1) : .9 * win(t, d * .32, d * .45); luz.scale.setScalar(3 + 2 * Math.sin(t * 4) * .2); rayos.children.forEach((r, i) => { r.material.opacity = (p.cerrada ? .1 : .22) * (p.cerrada ? win(t, .4, 1) : win(t, d * .35, d * .5)) * (1 - (p.cerrada ? 0 : win(t, d * .85, d))); }); rayos.rotation.y = t * .5;
+    if (!p.cerrada) { const kf = win(t, d * .42, d * .62); fr.visible = kf > 0; fr.position.set(lerp(-.05, -.05, kf), lerp(-.6, 1.65, back(kf)), .05); fr.rotation.y = -.35 + (1 - kf) * 3 + Math.sin(t * 1.5) * .15; animFrasco(fr, t, { expr: kf < 1 ? 'sorpresa' : 'feliz', saluda: kf >= 1, bob: kf >= 1 ? 1 : 0, hablar: .2 });
+      chispas.forEach((s, i) => { const k = win(t, d * .45 + (i % 6) * .04, d * .45 + 1.2 + (i % 6) * .04); s.visible = k > 0 && k < 1; const a = i / 18 * Math.PI * 2; s.position.set(Math.cos(a) * 2.2 * eout(k), u.h + .2 + Math.sin(a) * .9 * eout(k) + 2.2 * eout(k) - k * k * 1.6, Math.sin(a) * 1.4 * eout(k)); s.material.opacity = .9 * (1 - k); }); }
+    else chispas.forEach(s => s.visible = false);
+    if (lab) { cam.updateMatrixWorld(); const [x, y] = proyectar(fr.visible ? fr : cj, cam, [0, fr.visible ? 1.4 : 1.8, 0]); lab.set(Math.min(800, x + 210), y + 60, x + 60, y + 60, win(t, d * .62, d * .62 + .3)); }
+    if (st) st.set(win(t, p.stickerT ?? (p.cerrada ? .05 : d * .7), (p.stickerT ?? (p.cerrada ? .05 : d * .7)) + .3)); } };
+});
+// RULETA (2026-11-22): ruleta 3D LAVANDA/CITRONELA con bombillos que titilan; gira, frena con suspenso en el aroma ganador y sale el frasco de ese aroma con confeti.
+// p = {gana:'lavanda'|'citronela', vueltas, titulo, sticker, stickerY}
+def('ruleta', (p) => {
+  const E = estudio({ rejilla: true }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0; const n = 6, R0 = 2.1, cy = 3.3;
+  const colores = ['#b98cff', '#5fbf6a']; const nombres = ['LAVANDA', 'CITRONELA'];
+  const tex = canvasTex(1024, 1024, (c, w, h) => { const cx = w / 2; for (let i = 0; i < n; i++) { const a0 = (i - .5) / n * Math.PI * 2, a1 = (i + .5) / n * Math.PI * 2; c.beginPath(); c.moveTo(cx, cx); c.arc(cx, cx, cx, a0, a1); c.closePath(); c.fillStyle = colores[i % 2]; c.fill(); c.strokeStyle = '#fff'; c.lineWidth = 10; c.stroke();
+    c.save(); c.translate(cx, cx); c.rotate(i / n * Math.PI * 2); c.fillStyle = '#fff'; c.font = '900 64px P'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.shadowColor = 'rgba(0,0,0,.35)'; c.shadowBlur = 8; c.fillText(nombres[i % 2], cx * .58, 0); c.font = '400 54px P'; c.fillText(i % 2 ? '🍃' : '💜', cx * .9, 0); c.restore(); }
+    c.beginPath(); c.arc(cx, cx, 90, 0, Math.PI * 2); c.fillStyle = '#e8b84a'; c.fill(); });
+  const rueda = new THREE.Group(); rueda.position.set(0, cy, 0); sc.add(rueda);
+  const disco = new THREE.Mesh(new THREE.CircleGeometry(R0, 64), new THREE.MeshStandardMaterial({ map: tex, roughness: .5, envMap: ENV, envMapIntensity: .4 })); disco.position.z = .13; rueda.add(disco);
+  const cuerpo = mesh(new THREE.CylinderGeometry(R0 + .02, R0 + .02, .25, 64), M.std('#1d2027', .4, .4)); cuerpo.rotation.x = Math.PI / 2; rueda.add(cuerpo);
+  const aro = new THREE.Mesh(new THREE.TorusGeometry(R0 + .08, .12, 12, 64), M.oro()); aro.position.z = .1; sc.add(aro); aro.position.y = cy;
+  const focos = []; for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; const b = mesh(new THREE.SphereGeometry(.09, 10, 8), new THREE.MeshBasicMaterial({ color: col('#fff3c0') }), Math.cos(a) * (R0 + .08), cy + Math.sin(a) * (R0 + .08), .26); sc.add(b); focos.push(b); }
+  const centro = mesh(new THREE.SphereGeometry(.3, 20, 16), M.oro(), 0, cy, .25); sc.add(centro);
+  const flecha = mesh(new THREE.ConeGeometry(.32, .7, 3), M.std('#ff4d4d', .35), 0, cy + R0 + .38, .3); flecha.rotation.z = Math.PI; sc.add(flecha);
+  sc.add(mesh(rbox(.5, cy - R0 + .2, .4, .08), M.std('#2b2f38', .4, .4), 0, (cy - R0) / 2, -.2)); sc.add(mesh(rbox(2.4, .2, 1.2, .08), M.std('#2b2f38', .4, .4), 0, .1, -.2));
+  const gi = p.gana === 'citronela' ? 3 : 2; const vueltas = p.vueltas || 4; const final = Math.PI / 2 + gi / n * Math.PI * 2 - Math.PI * 2 * vueltas;
+  const fr = frasco({ aroma: p.gana || 'lavanda' }); fr.scale.setScalar(.6); sc.add(fr);
+  const conf = []; for (let i = 0; i < 40; i++) { const m = new THREE.Mesh(new THREE.PlaneGeometry(.12, .2), new THREE.MeshBasicMaterial({ color: col(['#b98cff', '#5fbf6a', '#ffd36e', '#ffffff', '#ff7a9a'][i % 5]), side: THREE.DoubleSide })); sc.add(m); conf.push(m); }
+  const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null; const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1250, cls: 'grande', rot: -5 }) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [.8, 3.5, 15.2], [0, 3.2, 13.4], [0, 2.5, 0]);
+    const tf = d * .58; const k = win(t, .1, tf); const eo = 1 - Math.pow(1 - k, 4); rueda.rotation.z = final * eo + (k >= 1 ? Math.sin((t - tf) * 18) * .03 * Math.exp(-(t - tf) * 5) : 0);
+    const vel = k < 1 ? 4 * Math.pow(1 - k, 3) : 0; flecha.rotation.z = Math.PI + Math.sin(t * 40) * .18 * Math.min(1, vel);
+    focos.forEach((b, i) => b.material.color.set((Math.floor(t * (k < 1 ? 10 : 4)) + i) % 2 ? '#fff3c0' : (k >= 1 ? colores[gi % 2] : '#8a7a40')));
+    const kf = win(t, tf + .1, tf + .55); fr.visible = kf > 0; fr.position.set(1.6, lerp(-1.5, 0, back(kf)), 1.9); fr.rotation.y = -.45; animFrasco(fr, t, { expr: 'feliz', brazosArriba: kf >= 1, salto: kf >= 1 ? .35 : 0, hablar: .2 });
+    conf.forEach((m, i) => { const kc = win(t, tf + (i % 8) * .03, tf + 1.8 + (i % 5) * .2); m.visible = kc > 0 && kc < 1; m.position.set(Math.sin(i * 7.3) * 4 * eout(kc) * .7, cy + 1.6 + Math.cos(i * 3.1) * .6 + 2.2 * eout(kc) - kc * kc * 6, 1 + Math.sin(i * 1.9) * 1.2); m.rotation.set(t * 6 + i, t * 4 + i, i); });
+    if (kf > 0 && kf < .5) { cam.position.x += Math.sin(t * 80) * .04; }
+    if (tit) { const kt = win(t, 0, .3); tit.style.opacity = kt; tit.style.transform = `translate(-50%,0) scale(${.85 + .15 * back(kt)})`; } if (st) st.set(win(t, p.stickerT ?? d * .7, (p.stickerT ?? d * .7) + .3)); } };
+});
+Object.assign(SFX, {
+  nota: (st, d, p) => (p.notas || [0]).flatMap((_, i) => { const t0 = (p.notas || [0]).length > 1 ? .25 + i * .9 : .35; return [{ t: st + t0, tipo: 'whoosh' }, { t: st + t0 + .45, tipo: 'golpe' }, { t: st + t0 + .55, tipo: 'teclas', d: .6 }]; }).concat(p.sticker ? [{ t: st + (p.stickerT ?? d * .66), tipo: 'pop' }] : []),
+  abrir: (st, d, p) => p.cerrada ? [{ t: st + .2, tipo: 'golpe' }, ...(p.sticker ? [{ t: st + .1, tipo: 'pop' }] : [])] : [{ t: st + d * .05, tipo: 'golpe' }, { t: st + d * .2, tipo: 'teclas', d: d * .12 }, { t: st + d * .32, tipo: 'whoosh' }, { t: st + d * .5, tipo: 'pop' }, ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .7), tipo: 'golpe' }] : [])],
+  ruleta: (st, d, p) => [{ t: st + .1, tipo: 'teclas', d: d * .5 }, { t: st + d * .58, tipo: 'golpe' }, { t: st + d * .58 + .2, tipo: 'pop' }, ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .7), tipo: 'pop' }] : [])],
+});
+
 // ---------- motor de línea de tiempo ----------
 let SPEC = null; const ESC = []; let CAP = null, PASOS = null, MARCA = null;
 export async function init(spec) {
@@ -894,6 +1006,7 @@ export async function init(spec) {
 export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, SFX, def, cajaEnvio, estudio, camara, capa, el, etiqueta, sticker, chip, proyectar, frasco, animFrasco, persona, animPersona, aerosol, nubeOlor, gota, lavanda, manzanilla, hoja, caja, celular, pedestal, relojArena, animReloj, moto, casa, texto3D, cartel, escenario, crearHeroe, glow, mesh, rbox, M, canvasTex, redraw, rr, clamp, lerp, ease, eout, back, elastic, win, get PAL() { return PAL; } };
 Object.assign(API, { aguacate, aguacateAbierto, banano, bolsaPapel, toalla, botella, maletaGym }); // (2026-11-20)
 Object.assign(API, { grano, cereza, paginaCal }); // (2026-11-21)
+Object.assign(API, { vaina, florVainilla, orquidea, notaTex }); // (2026-11-22)
 window.API = API;
 
 function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (SFX[s.plantilla]) ev.push(...SFX[s.plantilla](st, spec.timeline.scenes[i].d, s.p || {})); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
