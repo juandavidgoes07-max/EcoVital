@@ -1085,7 +1085,7 @@ def('timbre', (p) => {
   const cj = cajaEnvio({}); cj.scale.setScalar(.62); cj.rotation.y = -.3; sc.add(cj); const u = cj.userData; u.abrir(0);
   const fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.42); sc.add(fr); fr.visible = false;
   const cl = persona(p.cliente || { ropa: '#e07a5f', peinado: 'largo', tono: 2, pelo: '#2b1a10' }); cl.scale.setScalar(.78); cl.position.set(-.45, 0, -1.75); sc.add(cl);
-  const din = sticker(cp, p.ding || '¡DING DONG! 🔔', { y: 520, x: 700, rot: 8 }); const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1330, cls: 'grande', rot: -5 }) : null; const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null;
+  const din = sticker(cp, p.ding || '¡DING DONG! 🔔', { y: p.dingY || 700, x: 720, rot: 8 }); const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1330, cls: 'grande', rot: -5 }) : null; const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null;
   return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [2.6, 3.4, 12.5], [1.0, 2.8, 9.6], [.4, 1.9, -.6]);
     const tc = d * .08, kC = win(t, tc, tc + .45); cj.position.set(1.2, lerp(5, 0, kC * kC) + (kC >= 1 ? Math.abs(Math.sin((t - tc - .45) * 9)) * .25 * Math.exp(-(t - tc - .45) * 5) : 0), .75); if (kC > .95 && kC < 1) cam.position.y += .05;
     const tr = d * .26; const press = win(t, tr, tr + .12) - win(t, tr + .2, tr + .32); bt.position.z = .06 - .04 * press; ondas.forEach((o2, i) => { const k = win(t, tr + i * .18, tr + .9 + i * .18); o2.visible = k > 0 && k < 1; o2.scale.setScalar(1 + 5 * k); o2.material.opacity = 1 - k; }); din.set(win(t, tr + .05, tr + .35) * (1 - win(t, d * .62, d * .7)), 8 + Math.sin(t * 20) * 3 * (1 - win(t, tr + .35, tr + .9)));

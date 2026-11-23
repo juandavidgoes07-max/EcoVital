@@ -1,0 +1,442 @@
+{
+ "formato": "v2",
+ "tipo": "promo",
+ "paleta": "terracota",
+ "marca": true,
+ "resaltar": [
+  "bus",
+  "perfume",
+  "desodorante",
+  "aluminio",
+  "lavanda",
+  "citronela",
+  "puerta",
+  "recibir"
+ ],
+ "scenes": [
+  {
+   "id": "e1",
+   "plantilla": "persona",
+   "text": "POV: en el bus alguien te pregunta qué perfume usas… y no es perfume.",
+   "p": {
+    "escenario": "bus",
+    "accion": "sorpresa",
+    "persona": {
+     "tono": 1,
+     "peinado": "largo",
+     "ropa": "#3d5a80",
+     "pelo": "#5a3720"
+    },
+    "sticker": "¿QUÉ PERFUME ES? 👀",
+    "stickerY": 1380,
+    "stickerT": 0.05
+   }
+  },
+  {
+   "id": "e2",
+   "plantilla": "quiz",
+   "text": "Adivina qué era: ¿un perfume caro, una crema, o mi desodorante?",
+   "p": {
+    "pregunta": "¿Qué era ese <b>olor</b>?",
+    "opciones": [
+     "Perfume caro 💸",
+     "Una crema 🧴",
+     "Mi desodorante 🌿"
+    ],
+    "correcta": 2,
+    "heroe": "frasco",
+    "aroma": "lavanda",
+    "expr": "guiño"
+   }
+  },
+  {
+   "id": "e3",
+   "plantilla": "pedestal",
+   "text": "Era mi desodorante natural de lavanda y manzanilla, en frasco de vidrio.",
+   "p": {
+    "heroe": "frasco",
+    "aroma": "lavanda",
+    "chips": [
+     "💜 Lavanda y Manzanilla",
+     "🫙 Vidrio · 60 g"
+    ]
+   }
+  },
+  {
+   "id": "e4",
+   "plantilla": "celular",
+   "text": "Le conté a mi amiga y me escribió: pásame el nombre ya mismo.",
+   "p": {
+    "pantalla": "chat",
+    "contacto": "Amiga 💬",
+    "mensajes": [
+     [
+      "c",
+      "En el bus me dicen 😂"
+     ],
+     [
+      "c",
+      "«¿qué perfume usas?»"
+     ],
+     [
+      "c",
+      "y es el desodorante"
+     ],
+     [
+      "e",
+      "¿¿QUÉ?? 😱"
+     ],
+     [
+      "e",
+      "pásame el nombre YA"
+     ]
+    ]
+   }
+  },
+  {
+   "id": "e5",
+   "plantilla": "versus",
+   "text": "Y no trae aluminio: no tapa el sudor, cuida el olor con aroma de plantas.",
+   "p": {
+    "a": "frasco",
+    "b": "aerosol",
+    "aromaA": "lavanda",
+    "etA": "Aroma de plantas",
+    "etB": "Con aluminio"
+   }
+  },
+  {
+   "id": "e6",
+   "plantilla": "ingredientes",
+   "text": "Viene en dos aromas: lavanda suave, o citronela y árbol de té, más fresco.",
+   "p": {
+    "aroma": "citronela",
+    "chips": [
+     "💜 Lavanda: suave",
+     "💚 Citronela: fresco",
+     "🚫 Sin aluminio",
+     "🌿 De plantas"
+    ]
+   }
+  },
+  {
+   "id": "e7",
+   "plantilla": "timbre",
+   "text": "Lo pides, te llega a la puerta en cualquier parte de Colombia, y pagas al recibir.",
+   "p": {
+    "aroma": "lavanda",
+    "cliente": {
+     "tono": 1,
+     "peinado": "largo",
+     "ropa": "#3d5a80",
+     "pelo": "#5a3720"
+    },
+    "sticker": "PAGAS AL RECIBIR 💵",
+    "stickerY": 1400
+   }
+  },
+  {
+   "id": "e8",
+   "plantilla": "comentario",
+   "text": "Y si en el bus te preguntan, ya sabes. Comenta lavanda o citronela.",
+   "p": {
+    "heroe": "frasco2",
+    "palabra": "LAVANDA",
+    "encima": "¿Cuál <b>pides</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.299,
+  3.789,
+  3.436,
+  3.042,
+  3.892,
+  3.703,
+  4.047,
+  3.583
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.44,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.68
+   },
+   {
+    "s": 0.68,
+    "e": 0.84
+   },
+   {
+    "s": 0.84,
+    "e": 1.04
+   },
+   {
+    "s": 1.04,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.52
+   },
+   {
+    "s": 1.52,
+    "e": 1.76
+   },
+   {
+    "s": 1.76,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.48
+   },
+   {
+    "s": 2.48,
+    "e": 2.62
+   },
+   {
+    "s": 2.62,
+    "e": 2.72
+   },
+   {
+    "s": 2.72,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 3.06
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.46
+   },
+   {
+    "s": 0.46,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.8
+   },
+   {
+    "s": 1.0,
+    "e": 1.06
+   },
+   {
+    "s": 1.06,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.74
+   },
+   {
+    "s": 1.92,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.58
+   },
+   {
+    "s": 2.58,
+    "e": 2.68
+   },
+   {
+    "s": 2.68,
+    "e": 3.14
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.54
+   },
+   {
+    "s": 0.54,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.22
+   },
+   {
+    "s": 1.22,
+    "e": 1.62
+   },
+   {
+    "s": 1.92,
+    "e": 2.24
+   },
+   {
+    "s": 2.24,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.66
+   },
+   {
+    "s": 2.66,
+    "e": 2.84
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.3
+   },
+   {
+    "s": 0.3,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 1.12
+   },
+   {
+    "s": 1.24,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.52
+   },
+   {
+    "s": 1.52,
+    "e": 1.66
+   },
+   {
+    "s": 1.66,
+    "e": 2.02
+   },
+   {
+    "s": 2.38,
+    "e": 2.58
+   },
+   {
+    "s": 2.58,
+    "e": 2.68
+   },
+   {
+    "s": 2.68,
+    "e": 2.88
+   },
+   {
+    "s": 2.88,
+    "e": 3.02
+   },
+   {
+    "s": 3.02,
+    "e": 3.22
+   },
+   {
+    "s": 3.22,
+    "e": 3.38
+   },
+   {
+    "s": 3.38,
+    "e": 3.78
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.36
+   },
+   {
+    "s": 0.36,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.74
+   },
+   {
+    "s": 1.74,
+    "e": 1.98
+   },
+   {
+    "s": 1.98,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.6
+   },
+   {
+    "s": 2.6,
+    "e": 2.8
+   },
+   {
+    "s": 2.8,
+    "e": 2.9
+   },
+   {
+    "s": 2.9,
+    "e": 3.02
+   },
+   {
+    "s": 3.02,
+    "e": 3.26
+   },
+   {
+    "s": 3.26,
+    "e": 3.58
+   }
+  ],
+  null,
+  null
+ ]
+}
