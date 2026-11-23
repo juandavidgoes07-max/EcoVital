@@ -257,6 +257,7 @@ export function escenario(sc, tipo) {
     const verdes = ['#3f8f46', '#5fae4f', '#2e7a3e', '#78c06a']; for (let i = 0; i < 6; i++) { const x = -4 + i * 1.6; const mat = mesh(new THREE.CylinderGeometry(.32, .24, .5, 16), M.std(i % 2 ? '#c8693f' : '#b85a33', .8), x, 1.86, -3.2); g.add(mat);
       for (let k = 0; k < 5; k++) g.add(mesh(new THREE.SphereGeometry(.28 + (k % 2) * .08, 12, 10), M.std(verdes[(i + k) % 4], .7), x + Math.sin(k * 2.3) * .3, 2.35 + (k % 3) * .22, -3.2 + Math.cos(k * 2.3) * .2)); }
     for (let i = 0; i < 14; i++) { const h = hoja(verdes[i % 4], .5); h.position.set(-6 + i * .95, 9.2 - Math.abs(Math.sin(i * 1.7)) * 1.4, -3.8); h.rotation.set(.2, 0, Math.PI + Math.sin(i) * .6); g.add(h); } }
+  if (tipo === 'bus') escenarioBus(g); // (2026-11-23)
   return g;
 }
 
@@ -306,7 +307,7 @@ def('pedestal', (p) => {
 });
 // 4. PERSONA en un escenario haciendo una acción (+ gotas de sudor / nube de olor / frasco en mano)
 def('persona', (p) => {
-  const E = estudio({ fogNear: 18, fogFar: 40 }); const sc = E.sc, cam = E.cam; const cp = capa(); escenario(sc, p.escenario || 'baño');
+  const E = estudio({ fogNear: 18, fogFar: 40 }); const sc = E.sc, cam = E.cam; const cp = capa(); const esc = escenario(sc, p.escenario || 'baño');
   const pe = persona(p.persona || {}); sc.add(pe); cam.userData.off = .35;
   const extras = [];
   if (p.sudor) for (let i = 0; i < 5; i++) { const g = gota('#7fd1ff', .1); sc.add(g); extras.push({ g, i, tipo: 'sudor' }); }
@@ -318,7 +319,7 @@ def('persona', (p) => {
     camara(cam, t, 0, d, [p.lado || 0, 2.6, z0], [(p.lado || 0) * .4, 2.5, z1], [0, 1.9, 0]);
     animPersona(pe, t, { accion: p.accion || 'hablar', k: eout(win(t, 0, .5)), hablar: p.hablar ?? .6 }); if (fr) { pe.updateMatrixWorld(true); const v = new THREE.Vector3(); pe.userData.brazos[0].mano.getWorldPosition(v); fr.position.set(v.x, v.y - .05, v.z + .15); fr.rotation.y = .5; animFrasco(fr, t, { expr: 'feliz', bob: 0 }); }
     extras.forEach(x => { if (x.tipo === 'sudor') { const ph = (t * .9 + x.i / 5) % 1; x.g.position.set(.9 + Math.sin(x.i) * .3, 2.9 - ph * 1.2, .4); x.g.scale.setScalar(1 - ph * .4); x.g.rotation.z = Math.PI; } if (x.tipo === 'olor') { x.g.position.set(1.3 + Math.sin(t * 2) * .1, 2.6 + Math.sin(t * 1.5) * .15, .3); x.g.rotation.z = Math.sin(t * 2) * .1; } });
-    if (ob) { ob.userData.tick?.(t); ob.rotation.y = Math.sin(t * .4) * .15; }
+    if (ob) { ob.userData.tick?.(t); ob.rotation.y = Math.sin(t * .4) * .15; } esc.userData.tick?.(t);
     if (st) st.set(win(t, p.stickerT ?? d * .45, (p.stickerT ?? d * .45) + .35)); } };
 });
 // 5. CONTADOR: número gigante 3D que cuenta (o "3 ERRORES", "5 COSAS") con anillo de pasos
@@ -992,6 +993,109 @@ Object.assign(SFX, {
   ruleta: (st, d, p) => [{ t: st + .1, tipo: 'teclas', d: d * .5 }, { t: st + d * .58, tipo: 'golpe' }, { t: st + d * .58 + .2, tipo: 'pop' }, ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .7), tipo: 'pop' }] : [])],
 });
 
+// ===== (2026-11-23) MEJORA DEL DÍA: mata de plátano, pimentones que maduran, naranja, escenario BUS y plantilla TIMBRE =====
+// hoja grande de plátano: plano largo que se arquea hacia abajo, con nervio central y rasgaduras
+function hojaPlatano(largo = 2.8, ancho = .9, c = '#3f9a4b') {
+  const geo = new THREE.PlaneGeometry(largo, ancho, 16, 4); const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) { const x = pos.getX(i) + largo / 2, y = pos.getY(i); const u = x / largo; const borde = Math.sin(Math.PI * Math.min(1, u * 1.05 + .02)); pos.setY(i, y * (.35 + .65 * borde)); pos.setZ(i, -1.1 * u * u * largo * .45 + Math.abs(y) * .25); pos.setX(i, x); }
+  geo.computeVertexNormals();
+  const tex = canvasTex(256, 128, (c2, w, h) => { const gr = c2.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, c); gr.addColorStop(.5, '#6cbf5a'); gr.addColorStop(1, c); c2.fillStyle = gr; c2.fillRect(0, 0, w, h); c2.strokeStyle = 'rgba(20,70,25,.35)'; c2.lineWidth = 2; for (let i = 0; i < w; i += 9) { c2.beginPath(); c2.moveTo(i, h / 2); c2.lineTo(i + 14, 0); c2.moveTo(i, h / 2); c2.lineTo(i + 14, h); c2.stroke(); } c2.clearRect(70, 0, 3, 34); c2.clearRect(150, h - 40, 3, 40); c2.clearRect(200, 0, 3, 28); c2.fillStyle = '#d7e8a0'; c2.fillRect(0, h / 2 - 3, w, 6); });
+  const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, roughness: .6, side: THREE.DoubleSide, alphaTest: .5, transparent: false, envMap: ENV, envMapIntensity: .4 })); m.castShadow = true; return m; }
+// un banano (dedo) curvo que apunta hacia ARRIBA
+function dedoBanano(c = '#7fb83a', s = 1) { const curva = new THREE.QuadraticBezierCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(.42 * s, .05 * s, 0), new THREE.Vector3(.5 * s, .55 * s, 0));
+  const g = new THREE.Group(); const tubo = mesh(new THREE.TubeGeometry(curva, 14, .085 * s, 7, false), M.std(c, .45)); g.add(tubo); g.add(mesh(new THREE.SphereGeometry(.07 * s, 8, 6), M.std('#3d2a16', .7), .5 * s, .56 * s, 0)); return g; }
+// racimo: raquis que cuelga con manos de bananos apuntando hacia arriba y la "bellota" (flor morada) en la punta
+export function racimo(o = {}) { const g = new THREE.Group(); const c = o.color || '#7fb83a'; const raq = mesh(new THREE.CylinderGeometry(.07, .08, 2.2, 10), M.std('#6f8a2e', .6), 0, -1.1, 0); g.add(raq);
+  const manos = o.manos || 4; for (let m = 0; m < manos; m++) { const y = -.25 - m * .36; const n = 7 - Math.floor(m / 2); for (let i = 0; i < n; i++) { const a = i / n * Math.PI * 2 + m * .4; const d = dedoBanano(c, .9 - m * .06); d.position.set(Math.cos(a) * .12, y, Math.sin(a) * .12); d.rotation.y = -a; g.add(d); } }
+  const bell = new THREE.Group(); bell.position.y = -2.35; g.add(bell); [0, 1, 2].forEach(i => { const b = mesh(new THREE.ConeGeometry(.24 - i * .05, .7 - i * .12, 14), M.std(['#7a2140', '#8f2a4f', '#a8385e'][i], .45), 0, -.32 - i * .18, 0); b.rotation.x = Math.PI; bell.add(b); });
+  g.userData = { bell }; return g; }
+// mata de plátano completa: pseudotallo de hojas enrolladas + hojas gigantes que se mecen + racimo + (opcional) colino
+export function platanera(o = {}) { const g = new THREE.Group(); const alto = o.alto || 3.2;
+  const tt = canvasTex(256, 512, (c, w, h) => { c.fillStyle = '#7da84a'; c.fillRect(0, 0, w, h); for (let i = 0; i < 26; i++) { c.fillStyle = ['#6b9440', '#93bb5c', '#5c8436', '#a7c46a'][i % 4]; c.fillRect(i * 10 + Math.sin(i) * 4, 0, 4 + (i % 3) * 3, h); } c.globalAlpha = .35; c.fillStyle = '#6a4a2a'; for (let i = 0; i < 18; i++) c.fillRect(Math.random() * w, Math.random() * h, 14, 30); });
+  const tallo = mesh(new THREE.CylinderGeometry(.26, .36, alto, 24), new THREE.MeshStandardMaterial({ map: tt, roughness: .75, envMap: ENV, envMapIntensity: .3 }), 0, alto / 2, 0); g.add(tallo);
+  const hojas = []; const nh = o.hojas || 8; for (let i = 0; i < nh; i++) { const piv = new THREE.Group(); piv.position.y = alto - .05; piv.rotation.y = i / nh * Math.PI * 2 + .3; const h = hojaPlatano(2.6 + (i % 3) * .3, .85, ['#3f9a4b', '#4aa552', '#368a42'][i % 3]); h.position.x = 1.35; piv.add(h); piv.rotation.z = .55 + (i % 2) * .25; const pec = mesh(new THREE.CylinderGeometry(.04, .06, .6, 6), M.std('#6f9a3c', .6), .2, 0, 0); pec.rotation.z = Math.PI / 2; piv.add(pec); g.add(piv); hojas.push(piv); }
+  const top = new THREE.Group(); top.position.y = alto + .15; const hoj = mesh(new THREE.ConeGeometry(.12, .9, 10), M.std('#9fd06a', .55), 0, .4, 0); top.add(hoj); g.add(top);
+  let rac = null; if (o.racimo !== false) { const piv = new THREE.Group(); piv.position.set(0, alto - .1, 0); const arco = mesh(new THREE.TorusGeometry(.45, .06, 8, 16, Math.PI * .9), M.std('#6f8a2e', .6), .45, 0, 0); arco.rotation.z = 0; piv.add(arco); rac = racimo({ color: o.colorRacimo }); rac.position.set(.92, -.05, 0); rac.scale.setScalar(.8); piv.add(rac); piv.rotation.y = o.giroRacimo ?? -.6; g.add(piv); }
+  if (o.colino) { const co = platanera({ alto: 1.0, hojas: 4, racimo: false }); co.scale.setScalar(.55); co.position.set(-.8, 0, .5); g.add(co); g.userData.colino = co; }
+  g.userData.tick = t => { hojas.forEach((h, i) => { h.rotation.z = .55 + (i % 2) * .25 + Math.sin(t * 1.6 + i) * .06; h.rotation.x = Math.sin(t * 1.2 + i * 1.7) * .05; }); g.userData.colino?.userData.tick?.(t + 1); };
+  return g; }
+// corte del "tronco": anillos de hojas enrolladas (como cebolla) + la capa de afuera que se despega
+export function corteTallo(o = {}) { const g = new THREE.Group(); const R = 1.1, h = 1.4;
+  const cara = canvasTex(512, 512, (c, w) => { const cx = w / 2; for (let i = 0; i < 9; i++) { const r = cx * (1 - i / 9.5); c.beginPath(); c.arc(cx, cx, r, 0, Math.PI * 2); c.fillStyle = i % 2 ? '#e9f2c9' : '#b9d784'; c.fill(); c.strokeStyle = '#7ea24a'; c.lineWidth = 4; c.stroke(); } c.fillStyle = '#f6f9e4'; c.beginPath(); c.arc(cx, cx, 22, 0, Math.PI * 2); c.fill(); });
+  const lado = canvasTex(256, 256, (c, w, hh) => { c.fillStyle = '#7da84a'; c.fillRect(0, 0, w, hh); for (let i = 0; i < 20; i++) { c.fillStyle = i % 2 ? '#6b9440' : '#93bb5c'; c.fillRect(i * 13, 0, 6, hh); } });
+  g.add(mesh(new THREE.CylinderGeometry(R, R, h, 48, 1, true), new THREE.MeshStandardMaterial({ map: lado, roughness: .7, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .3 })));
+  const tapa = new THREE.Mesh(new THREE.CircleGeometry(R, 48), new THREE.MeshStandardMaterial({ map: cara, roughness: .5, envMap: ENV, envMapIntensity: .3 })); tapa.rotation.x = -Math.PI / 2; tapa.position.y = h / 2 + .001; g.add(tapa);
+  const capaP = new THREE.Group(); capaP.position.set(R, 0, 0); const vaina = mesh(new THREE.CylinderGeometry(R + .06, R + .06, h * 1.6, 32, 1, true, -Math.PI * .5, Math.PI * .55), new THREE.MeshStandardMaterial({ map: lado, roughness: .7, side: THREE.DoubleSide, envMap: ENV, envMapIntensity: .3 }), -R, .25, 0); capaP.add(vaina); g.add(capaP);
+  g.rotation.x = .5; g.userData.tick = t => { capaP.rotation.y = -1.0 * ease(clamp((t - .6) / 1.2)); }; return g; }
+// pimentón: cuerpo con 4 lóbulos, brillante, con pedúnculo y cáliz verde
+export function pimenton(o = {}) { const g = new THREE.Group(); const geo = new THREE.SphereGeometry(.8, 40, 30); const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) { let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i); const th = Math.atan2(z, x); const lob = 1 + .13 * Math.cos(4 * th) * (y < .5 ? 1 : .5); const alto = y > 0 ? 1.05 : 1.2; let yy = y * alto; if (y > .55) yy -= (y - .55) * .5; if (y < -.6) yy += Math.cos(4 * th) * .08 * (-.6 - y) * 3; const est = y < 0 ? 1 - (-y) * .12 : 1; pos.setXYZ(i, x * lob * est, yy, z * lob * est); }
+  geo.computeVertexNormals(); const mat = new THREE.MeshPhysicalMaterial({ color: col(o.color || '#3f9a2e'), roughness: .22, clearcoat: 1, clearcoatRoughness: .15, envMap: ENV, envMapIntensity: 1.1 });
+  const cuerpo = mesh(geo, mat); g.add(cuerpo); const caliz = mesh(new THREE.CylinderGeometry(.24, .3, .1, 5), M.std('#3c7a26', .6), 0, .64, 0); g.add(caliz); const ped = mesh(new THREE.CylinderGeometry(.06, .08, .45, 8), M.std('#3c7a26', .6), .06, .86, 0); ped.rotation.z = -.35; g.add(ped);
+  g.userData.mat = mat; return g; }
+const COLORES_PIMENTON = ['#3f9a2e', '#d9c22b', '#f08a1c', '#d8261c'];
+export function pimentonMadura(o = {}) { const p = pimenton({ color: COLORES_PIMENTON[0] }); const c = new THREE.Color(); const cs = COLORES_PIMENTON.map(x => col(x)); const per = o.ciclo || 2.4; const g0 = glow('#ffe28a', 3.2, 0); p.add(g0);
+  p.userData.tick = t => { const k = clamp((t - .5) / per) * 3; const i = Math.min(2, Math.floor(k)), f = k - i; c.copy(cs[i]).lerp(cs[i + 1], ease(clamp(f))); p.userData.mat.color.copy(c); g0.material.opacity = .25 * Math.max(0, Math.sin(f * Math.PI)); }; return p; }
+export function pimentones(o = {}) { const g = new THREE.Group(); const lista = o.colores || [COLORES_PIMENTON[0], COLORES_PIMENTON[1], COLORES_PIMENTON[3]]; lista.forEach((c, i) => { const p = pimenton({ color: c }); p.scale.setScalar(.72); p.position.set((i - (lista.length - 1) / 2) * 1.35, Math.abs(i - 1) * -.05, i === 1 ? .3 : 0); p.rotation.y = i * 1.3; g.add(p); });
+  g.userData.tick = t => g.children.forEach((p, i) => { p.position.y = Math.sin(t * 2.2 + i * 1.4) * .08; }); return g; }
+// naranja con poros (textura de cáscara) y hojita
+export function naranja(o = {}) { const g = new THREE.Group(); const tex = canvasTex(256, 256, (c, w, h) => { c.fillStyle = o.color || '#f39a1e'; c.fillRect(0, 0, w, h); for (let i = 0; i < 900; i++) { c.fillStyle = i % 2 ? 'rgba(255,200,120,.35)' : 'rgba(170,80,0,.25)'; c.beginPath(); c.arc(Math.random() * w, Math.random() * h, 1.6, 0, 7); c.fill(); } });
+  g.add(mesh(new THREE.SphereGeometry(.85, 36, 26), new THREE.MeshStandardMaterial({ map: tex, roughness: .55, envMap: ENV, envMapIntensity: .6 }))); g.add(mesh(new THREE.CylinderGeometry(.05, .06, .12, 8), M.std('#5b7a2a', .6), 0, .86, 0)); const h = hoja('#4caf50', .45); h.position.set(.2, .95, 0); h.rotation.z = -.9; g.add(h); return g; }
+Object.assign(OBJETOS, {
+  platanera: p => platanera(p), racimo: p => { const r = racimo(p); r.position.y = 1.3; const g = new THREE.Group(); g.add(r); g.userData.tick = t => { r.rotation.z = Math.sin(t * 1.4) * .06; }; return g; },
+  colino: p => platanera({ ...p, colino: true }), mataColino: p => { const g = new THREE.Group(); const m = platanera({ ...p, colino: true }); m.scale.setScalar(p.escalaMata || .52); m.position.y = -1.4; g.add(m); g.userData.tick = t => m.userData.tick(t); return g; }, corteTallo: p => corteTallo(p),
+  pimenton: p => pimenton(p), pimentonRojo: () => pimenton({ color: '#d8261c' }), pimentonVerde: () => pimenton({ color: '#3f9a2e' }), pimentonMadura: p => pimentonMadura(p), pimentones: p => pimentones(p), naranja: p => naranja(p),
+});
+// ESCENARIO BUS (2026-11-23): interior de bus urbano con ventanas por donde pasa la ciudad, tubo amarillo, manijas y sillas; el bus se mece.
+function escenarioBus(g) {
+  const ciudad = canvasTex(2048, 512, (c, w, h) => { const gr = c.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#9fd3f2'); gr.addColorStop(1, '#e8f4fb'); c.fillStyle = gr; c.fillRect(0, 0, w, h); let x = 0, i = 0; while (x < w) { const bw = 120 + (i * 53 % 110), bh = 180 + (i * 97 % 260); c.fillStyle = ['#e7c8a0', '#c9d8c5', '#e8b9a6', '#cfd6e8', '#f2e2b8', '#b9c9d9'][i % 6]; c.fillRect(x, h - bh, bw - 10, bh); c.fillStyle = 'rgba(255,255,255,.55)'; for (let yy = h - bh + 24; yy < h - 30; yy += 52) for (let xx = x + 14; xx < x + bw - 34; xx += 36) c.fillRect(xx, yy, 20, 28); if (i % 4 === 1) { c.fillStyle = '#3f8f46'; c.beginPath(); c.arc(x + bw - 5, h - 70, 60, 0, 7); c.fill(); c.fillStyle = '#6b4a2a'; c.fillRect(x + bw - 12, h - 30, 14, 30); } x += bw; i++; } });
+  ciudad.wrapS = THREE.RepeatWrapping; ciudad.repeat.set(.55, 1);
+  g.add(mesh(new THREE.PlaneGeometry(16, 12), M.std('#dfe5ea', .8), 0, 5, -4.1));
+  const ven = new THREE.Mesh(new THREE.PlaneGeometry(14, 2.6), new THREE.MeshBasicMaterial({ map: ciudad, toneMapped: false })); ven.position.set(0, 4.7, -4.05); g.add(ven);
+  const marco = M.std('#2b2f36', .4, .5); for (let i = -3; i <= 3; i++) g.add(mesh(rbox(.18, 2.8, .12, .03), marco, i * 2.3, 4.7, -3.98)); g.add(mesh(rbox(14.5, .2, .14, .03), marco, 0, 6.05, -3.98)); g.add(mesh(rbox(14.5, .2, .14, .03), marco, 0, 3.35, -3.98));
+  g.add(mesh(rbox(16, 3.2, .1, .02), M.std('#3a7d6b', .6), 0, 1.6, -4.0)); g.add(mesh(rbox(16, .12, .14, .02), M.oro(), 0, 3.2, -3.96));
+  [-4.6, 4.6].forEach(x => { g.add(mesh(rbox(2.6, .35, 1.4, .1), M.std('#2f5fa8', .55), x, 1.6, -3.1)); g.add(mesh(rbox(2.6, 1.6, .3, .1), M.std('#2f5fa8', .55), x, 2.5, -3.75)); });
+  const amar = M.std('#f2c230', .35, .3); const poste = mesh(new THREE.CylinderGeometry(.07, .07, 8, 12), amar, -2.4, 4, -1.2); g.add(poste); const barra = mesh(new THREE.CylinderGeometry(.06, .06, 14, 12), amar, 0, 7.4, -1.6); barra.rotation.z = Math.PI / 2; g.add(barra);
+  const manijas = []; for (let i = -5; i <= 5; i++) { if (i === 0) continue; const m = new THREE.Group(); m.position.set(i * 1.25, 7.4, -1.6); m.add(mesh(new THREE.CylinderGeometry(.03, .03, .55, 6), M.std('#333', .5), 0, -.28, 0)); const aro = mesh(new THREE.TorusGeometry(.16, .035, 8, 18), M.std('#f2f2f2', .4), 0, -.68, 0); m.add(aro); g.add(m); manijas.push(m); }
+  const timbre = mesh(rbox(.5, .32, .1, .04), M.std('#d33', .4), -2.4, 3.6, -1.1); g.add(timbre);
+  g.userData.tick = t => { ciudad.offset.x = (t * .22) % 1; manijas.forEach((m, i) => m.rotation.z = Math.sin(t * 2.2 + i * .3) * .14); g.rotation.z = Math.sin(t * 1.7) * .006; g.position.y = Math.abs(Math.sin(t * 6)) * .015; };
+}
+// TIMBRE (2026-11-23, cierre de promo "¡llegó a tu puerta!"): la caja cae en el tapete, el timbre suena (ondas + DING DONG),
+// la puerta se abre con luz cálida, la persona sale celebrando y el frasco se asoma de la caja y saluda.
+// p = {aroma, cliente:{persona}, sticker, stickerY, stickerT, titulo, colorPuerta, colorPared, ding:'¡DING DONG! 🔔'}
+def('timbre', (p) => {
+  const E = estudio({ fogNear: 22, fogFar: 46 }); const sc = E.sc, cam = E.cam; const cp = capa(); cam.userData.off = 0;
+  const fachada = new THREE.Group(); fachada.position.z = -1.6; sc.add(fachada);
+  fachada.add(mesh(new THREE.PlaneGeometry(16, 12), M.std(p.colorPared || '#efe3cf', .9), 0, 5, -.06));
+  const lad = canvasTex(256, 128, (c, w, h) => { c.fillStyle = '#c4683f'; c.fillRect(0, 0, w, h); c.strokeStyle = '#e9d6c4'; c.lineWidth = 4; for (let y = 0; y <= h; y += 32) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); for (let x = (y / 32) % 2 ? 0 : 32; x < w; x += 64) { c.beginPath(); c.moveTo(x, y); c.lineTo(x, y + 32); c.stroke(); } } }); lad.wrapS = lad.wrapT = THREE.RepeatWrapping; lad.repeat.set(4, 1);
+  fachada.add(mesh(new THREE.PlaneGeometry(16, 1.2), new THREE.MeshStandardMaterial({ map: lad, roughness: .9 }), 0, .6, -.04));
+  const W2 = 1.9, H2 = 3.4; const marcoM = M.std('#f7f3ea', .5); fachada.add(mesh(rbox(W2 + .5, .3, .3, .05), marcoM, 0, H2 + .15, 0)); [-1, 1].forEach(s => fachada.add(mesh(rbox(.25, H2, .3, .05), marcoM, s * (W2 / 2 + .12), H2 / 2, 0)));
+  const interior = mesh(new THREE.PlaneGeometry(W2, H2), M.neon('#ffd9a0'), 0, H2 / 2, -.05); fachada.add(interior);
+  const luzP = glow('#ffcf7a', 7, 0); luzP.position.set(0, H2 / 2, .4); fachada.add(luzP);
+  const bisagra = new THREE.Group(); bisagra.position.set(-W2 / 2, 0, .02); fachada.add(bisagra);
+  const puertaM = M.std(p.colorPuerta || '#2e5d7b', .5); const hojaP = mesh(rbox(W2, H2, .14, .04), puertaM, W2 / 2, H2 / 2, 0); bisagra.add(hojaP);
+  [[.55, 2.5], [.55, 1.0], [1.35, 2.5], [1.35, 1.0]].forEach(([x, y]) => bisagra.add(mesh(rbox(.6, 1.1, .05, .03), M.std('#24506b', .5), x, y, .09)));
+  bisagra.add(mesh(new THREE.SphereGeometry(.09, 12, 10), M.oro(), W2 - .22, H2 * .47, .14));
+  const numero = cartel([{ t: '23', size: 150, color: '#2b2b2b' }], { w: 256, h: 192, ancho: .6, fondo: '#f2c14e', radio: 30 }); numero.position.set(W2 / 2 + .75, H2 - .3, .02); fachada.add(numero);
+  const boton = new THREE.Group(); boton.position.set(W2 / 2 + .62, H2 * .5, .05); fachada.add(boton); boton.add(mesh(rbox(.34, .5, .08, .04), M.std('#d9d4c8', .4, .3))); const bt = mesh(new THREE.CylinderGeometry(.09, .09, .08, 16), M.std('#ffcc33', .3, 0, '#ffaa00'), 0, 0, .06); bt.rotation.x = Math.PI / 2; boton.add(bt);
+  const ondas = [0, 1, 2].map(i => { const o2 = new THREE.Mesh(new THREE.TorusGeometry(.3, .03, 8, 32), M.neon('#ffd34d')); o2.material = o2.material.clone(); o2.material.transparent = true; boton.add(o2); return o2; });
+  const tapete = cartel([{ t: 'BIENVENIDOS', size: 64, color: '#5a3a18', peso: 900 }], { w: 512, h: 256, ancho: 2.4, fondo: '#b98a4e', radio: 24 }); tapete.rotation.x = -Math.PI / 2; tapete.position.set(.2, .02, .9); sc.add(tapete);
+  const lamp = mesh(new THREE.SphereGeometry(.16, 12, 10), M.neon('#ffe9b0'), -W2 / 2 - .7, H2 + .2, .25); fachada.add(lamp); const gl = glow('#ffe9b0', 2.2, .6); gl.position.copy(lamp.position); fachada.add(gl);
+  const mat1 = mesh(new THREE.CylinderGeometry(.38, .28, .6, 16), M.std('#b85a33', .8), -W2 / 2 - 1.2, .3, .2); fachada.add(mat1); for (let k = 0; k < 6; k++) { const h2 = hoja(['#3f8f46', '#5fae4f'][k % 2], .6); h2.position.set(-W2 / 2 - 1.2 + Math.sin(k * 2.1) * .2, .9 + (k % 3) * .2, .2 + Math.cos(k * 2.1) * .1); h2.rotation.z = Math.sin(k * 1.3) * .8; fachada.add(h2); }
+  const cj = cajaEnvio({}); cj.scale.setScalar(.62); cj.rotation.y = -.3; sc.add(cj); const u = cj.userData; u.abrir(0);
+  const fr = frasco({ aroma: p.aroma }); fr.scale.setScalar(.42); sc.add(fr); fr.visible = false;
+  const cl = persona(p.cliente || { ropa: '#e07a5f', peinado: 'largo', tono: 2, pelo: '#2b1a10' }); cl.scale.setScalar(.78); cl.position.set(-.45, 0, -1.75); sc.add(cl);
+  const din = sticker(cp, p.ding || '¡DING DONG! 🔔', { y: 520, x: 700, rot: 8 }); const st = p.sticker ? sticker(cp, p.sticker, { y: p.stickerY || 1330, cls: 'grande', rot: -5 }) : null; const tit = p.titulo ? el('div', 'mapaTit', cp, p.titulo) : null;
+  return { sc, cam, cp, upd(t, d) { E.tick(t); camara(cam, t, 0, d, [2.6, 3.4, 12.5], [1.0, 2.8, 9.6], [.4, 1.9, -.6]);
+    const tc = d * .08, kC = win(t, tc, tc + .45); cj.position.set(1.2, lerp(5, 0, kC * kC) + (kC >= 1 ? Math.abs(Math.sin((t - tc - .45) * 9)) * .25 * Math.exp(-(t - tc - .45) * 5) : 0), .75); if (kC > .95 && kC < 1) cam.position.y += .05;
+    const tr = d * .26; const press = win(t, tr, tr + .12) - win(t, tr + .2, tr + .32); bt.position.z = .06 - .04 * press; ondas.forEach((o2, i) => { const k = win(t, tr + i * .18, tr + .9 + i * .18); o2.visible = k > 0 && k < 1; o2.scale.setScalar(1 + 5 * k); o2.material.opacity = 1 - k; }); din.set(win(t, tr + .05, tr + .35) * (1 - win(t, d * .62, d * .7)), 8 + Math.sin(t * 20) * 3 * (1 - win(t, tr + .35, tr + .9)));
+    const kP = ease(win(t, d * .42, d * .6)); bisagra.rotation.y = -1.75 * kP; luzP.material.opacity = .8 * kP; interior.material.color.set(kP > 0 ? '#ffd9a0' : '#3a2a20');
+    cl.position.z = lerp(-1.95, -.75, ease(win(t, d * .5, d * .7))); animPersona(cl, t, { accion: t > d * .62 ? 'celebrar' : 'idle', fase: 1 });
+    const kF = win(t, d * .66, d * .8); u.abrir(ease(win(t, d * .6, d * .72))); fr.visible = kF > 0; cj.updateMatrixWorld(true); fr.position.set(cj.position.x, cj.position.y + lerp(.1, .95, back(kF)), cj.position.z); fr.rotation.y = -.2; animFrasco(fr, t, { expr: 'feliz', saluda: kF >= 1, hablar: .2 });
+    if (st) st.set(win(t, p.stickerT ?? d * .74, (p.stickerT ?? d * .74) + .3)); if (tit) tit.style.opacity = win(t, .1, .4); } };
+});
+SFX.timbre = (st, d, p) => [{ t: st + d * .08 + .45, tipo: 'golpe' }, { t: st + d * .26, tipo: 'pop' }, { t: st + d * .26 + .32, tipo: 'pop' }, { t: st + d * .42, tipo: 'whoosh' }, { t: st + d * .68, tipo: 'pop' }, ...(p.sticker ? [{ t: st + (p.stickerT ?? d * .74), tipo: 'golpe' }] : [])];
+
 // ---------- motor de línea de tiempo ----------
 let SPEC = null; const ESC = []; let CAP = null, PASOS = null, MARCA = null;
 export async function init(spec) {
@@ -1007,6 +1111,7 @@ export const API = { THREE, PLANTILLAS, OBJETOS, PANTALLAS, SFX, def, cajaEnvio,
 Object.assign(API, { aguacate, aguacateAbierto, banano, bolsaPapel, toalla, botella, maletaGym }); // (2026-11-20)
 Object.assign(API, { grano, cereza, paginaCal }); // (2026-11-21)
 Object.assign(API, { vaina, florVainilla, orquidea, notaTex }); // (2026-11-22)
+Object.assign(API, { platanera, racimo, corteTallo, pimenton, pimentonMadura, pimentones, naranja, hojaPlatano, dedoBanano }); // (2026-11-23)
 window.API = API;
 
 function sfxEventos(spec) { const ev = []; spec.scenes.forEach((s, i) => { const st = spec.timeline.scenes[i].start; if (i) ev.push({ t: st - .12, tipo: 'whoosh' }); if (['pedestal', 'ingredientes', 'dato', 'versus'].includes(s.plantilla)) ev.push({ t: st + .4, tipo: 'pop' }); if (['sello', 'entrega', 'regalo', 'persona'].includes(s.plantilla) && (s.p?.sticker || s.plantilla === 'sello' || s.plantilla === 'entrega')) ev.push({ t: st + (s.plantilla === 'sello' ? spec.timeline.scenes[i].d * .35 : spec.timeline.scenes[i].d * .55) + .2, tipo: 'golpe' }); if (s.plantilla === 'comentario') ev.push({ t: st + .4, tipo: 'teclas', d: spec.timeline.scenes[i].d * .5 }); if (s.plantilla === 'contador' || s.plantilla === 'paso') ev.push({ t: st + .05, tipo: 'golpe' }); if (s.plantilla === 'mapa') { const d = spec.timeline.scenes[i].d; const n = (s.p?.ciudades || [0,0,0,0,0,0]).length; for (let j = 0; j < n; j++) ev.push({ t: st + .45 + j * (d * .62) / n, tipo: 'pop' }); if (s.p?.sticker) ev.push({ t: st + d * .72 + .15, tipo: 'golpe' }); } if (s.plantilla === 'lupa') { const d = spec.timeline.scenes[i].d; ev.push({ t: st + d * .45, tipo: 'golpe' }); if (s.p?.sticker) ev.push({ t: st + d * .7 + .15, tipo: 'pop' }); } if (SFX[s.plantilla]) ev.push(...SFX[s.plantilla](st, spec.timeline.scenes[i].d, s.p || {})); if (s.plantilla === 'quiz') { const d = spec.timeline.scenes[i].d; (s.p?.opciones || [0, 0]).forEach((_, j) => ev.push({ t: st + .3 + j * .22, tipo: 'pop' })); ev.push({ t: st + (s.p?.revela ?? d * .55), tipo: 'golpe' }); } }); return ev; }
