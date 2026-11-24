@@ -1,0 +1,584 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "bosque",
+ "marca": false,
+ "resaltar": [
+  "chocolate",
+  "flores",
+  "tronco",
+  "mosquitos",
+  "pulpa",
+  "semillas",
+  "cuarenta",
+  "fermentan"
+ ],
+ "scenes": [
+  {
+   "id": "k1",
+   "plantilla": "gancho",
+   "text": "El chocolate nace de unas flores diminutas que salen pegadas al tronco.",
+   "p": {
+    "heroe": "cacaotero",
+    "escalaHeroe": 0.85,
+    "giroHeroe": 0.25,
+    "titulo": "¿En el <b>tronco</b>?",
+    "sub": "🍫 Así nace el chocolate"
+   }
+  },
+  {
+   "id": "k2",
+   "plantilla": "quiz",
+   "text": "Adivina: ¿dónde crecen las mazorcas de cacao?",
+   "p": {
+    "pregunta": "¿Dónde crece el <b>cacao</b>?",
+    "opciones": [
+     "En la punta de las ramas 🌿",
+     "Pegado al tronco 🌳",
+     "Bajo la tierra 🌱"
+    ],
+    "correcta": 1,
+    "heroe": "mazorcasCacao",
+    "giroHeroe": 0.4,
+    "escalaHeroe": 0.75
+   }
+  },
+  {
+   "id": "k3",
+   "plantilla": "persona",
+   "text": "Pegadas al tronco y a las ramas gruesas, como si alguien las hubiera colgado.",
+   "p": {
+    "escenario": "invernadero",
+    "accion": "señalar",
+    "persona": {
+     "tono": 0,
+     "peinado": "corto",
+     "barba": true,
+     "ropa": "#e9c46a",
+     "pelo": "#3b2a1a"
+    },
+    "objeto": "cacaotero",
+    "objetoPos": [
+     2.1,
+     0,
+     -0.8
+    ],
+    "objetoEscala": 0.78,
+    "sticker": "¡EN EL TRONCO! 🌳",
+    "stickerY": 1380,
+    "zoom": "out"
+   }
+  },
+  {
+   "id": "k3b",
+   "plantilla": "pedestal",
+   "text": "Y esas mazorcas salen de muchos colores: amarillas, rojas, moradas o verdes.",
+   "p": {
+    "heroe": "mazorcasCacao",
+    "giroHeroe": 0.35,
+    "escalaHeroe": 0.8,
+    "chips": [
+     "💛 Amarillas",
+     "❤️ Rojas",
+     "💜 Moradas",
+     "💚 Verdes"
+    ]
+   }
+  },
+  {
+   "id": "k4",
+   "plantilla": "dato",
+   "text": "Sus flores son tan pequeñas que las polinizan unos mosquitos de uno a tres milímetros.",
+   "p": {
+    "objeto": "florCacao",
+    "y": 1.7,
+    "escala": 0.95,
+    "giro": 0.2,
+    "etiqueta": "Mosquito polinizador 🦟",
+    "chips": [
+     "🦟 De 1 a 3 mm"
+    ]
+   }
+  },
+  {
+   "id": "k5",
+   "plantilla": "sello",
+   "text": "Ábrela y adentro hay de veinte a sesenta semillas, cubiertas de pulpa blanca y dulce.",
+   "p": {
+    "heroe": "cacaoAbierto",
+    "giroHeroe": 0.0,
+    "escalaHeroe": 0.95,
+    "texto": "PULPA DULCE",
+    "tipo": "realidad",
+    "frase": "20 a 60 semillas 🤍"
+   }
+  },
+  {
+   "id": "k6",
+   "plantilla": "reloj",
+   "text": "Esas semillas se fermentan varios días. Luego se secan, y después las tuestan.",
+   "p": {
+    "etiqueta": "Varios días ⏳",
+    "sticker": "¡SABOR! 🍫"
+   }
+  },
+  {
+   "id": "k7",
+   "plantilla": "versus",
+   "text": "Para una barrita de chocolate oscuro se usan más o menos cuarenta semillas.",
+   "p": {
+    "a": "semillasCacao",
+    "b": "chocolate",
+    "etA": "≈ 40 semillas",
+    "etB": "1 barrita 🍫",
+    "yA": 0.4,
+    "yB": 0.9,
+    "etY": 1.5,
+    "giroHeroe": 0.3,
+    "colorB": "#c98a5a"
+   }
+  },
+  {
+   "id": "k8",
+   "plantilla": "comentario",
+   "text": "¿Tú sabías que el chocolate nace de flores pegadas al tronco?",
+   "p": {
+    "heroe": "mazorcaCacao",
+    "giroHeroe": 0.5,
+    "escalaHeroe": 0.75,
+    "palabra": "NO SABÍA",
+    "encima": "¿Lo <b>sabías</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  2.994,
+  2.604,
+  2.844,
+  3.753,
+  3.946,
+  4.396,
+  3.643,
+  3.205,
+  3.125
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.84
+   },
+   {
+    "s": 0.84,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.3
+   },
+   {
+    "s": 1.3,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 2.08
+   },
+   {
+    "s": 2.08,
+    "e": 2.4
+   },
+   {
+    "s": 2.4,
+    "e": 2.54
+   },
+   {
+    "s": 2.54,
+    "e": 2.86
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.56
+   },
+   {
+    "s": 0.88,
+    "e": 1.12
+   },
+   {
+    "s": 1.12,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.54
+   },
+   {
+    "s": 1.54,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.14
+   },
+   {
+    "s": 2.14,
+    "e": 2.42
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.06
+   },
+   {
+    "s": 1.06,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.62
+   },
+   {
+    "s": 1.72,
+    "e": 1.82
+   },
+   {
+    "s": 1.82,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.06
+   },
+   {
+    "s": 2.06,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.7
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 2.08
+   },
+   {
+    "s": 2.08,
+    "e": 2.26
+   },
+   {
+    "s": 2.26,
+    "e": 2.74
+   },
+   {
+    "s": 2.74,
+    "e": 2.86
+   },
+   {
+    "s": 2.86,
+    "e": 3.04
+   },
+   {
+    "s": 3.04,
+    "e": 3.12
+   },
+   {
+    "s": 3.12,
+    "e": 3.28
+   },
+   {
+    "s": 3.28,
+    "e": 3.7
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.66
+   },
+   {
+    "s": 1.66,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.42
+   },
+   {
+    "s": 2.64,
+    "e": 3.14
+   },
+   {
+    "s": 3.14,
+    "e": 3.2
+   },
+   {
+    "s": 3.2,
+    "e": 3.5
+   },
+   {
+    "s": 3.5,
+    "e": 3.86
+   },
+   {
+    "s": 3.86,
+    "e": 3.98
+   },
+   {
+    "s": 3.98,
+    "e": 4.28
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.34
+   },
+   {
+    "s": 0.34,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 1.08
+   },
+   {
+    "s": 1.08,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.52
+   },
+   {
+    "s": 1.96,
+    "e": 2.14
+   },
+   {
+    "s": 2.14,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.84
+   },
+   {
+    "s": 2.84,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.2
+   },
+   {
+    "s": 3.2,
+    "e": 3.54
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.36
+   },
+   {
+    "s": 0.36,
+    "e": 0.68
+   },
+   {
+    "s": 0.68,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.4
+   },
+   {
+    "s": 1.62,
+    "e": 1.7
+   },
+   {
+    "s": 1.7,
+    "e": 1.94
+   },
+   {
+    "s": 1.94,
+    "e": 2.06
+   },
+   {
+    "s": 2.06,
+    "e": 2.18
+   },
+   {
+    "s": 2.18,
+    "e": 2.32
+   },
+   {
+    "s": 2.32,
+    "e": 2.54
+   },
+   {
+    "s": 2.54,
+    "e": 2.98
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.42
+   },
+   {
+    "s": 0.42,
+    "e": 0.56
+   },
+   {
+    "s": 0.56,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 0.78
+   },
+   {
+    "s": 0.78,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.44
+   },
+   {
+    "s": 1.44,
+    "e": 1.78
+   },
+   {
+    "s": 1.78,
+    "e": 1.92
+   },
+   {
+    "s": 1.92,
+    "e": 2.2
+   }
+  ]
+ ]
+}

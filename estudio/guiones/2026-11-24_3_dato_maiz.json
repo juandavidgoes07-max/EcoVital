@@ -1,0 +1,551 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "arena",
+ "pasos": 3,
+ "marca": false,
+ "resaltar": [
+  "pelito",
+  "grano",
+  "polen",
+  "huecos",
+  "par",
+  "dieciséis",
+  "mil",
+  "hileras"
+ ],
+ "scenes": [
+  {
+   "id": "m1",
+   "plantilla": "gancho",
+   "text": "Cada pelito de la mazorca va pegado a un grano. Te cuento tres cosas del maíz.",
+   "paso": 0,
+   "p": {
+    "heroe": "mazorcaMaiz",
+    "escalaHeroe": 0.72,
+    "giroHeroe": 0.35,
+    "titulo": "Los <b>pelos</b> del maíz",
+    "sub": "3 cosas que no sabías 🌽"
+   }
+  },
+  {
+   "id": "m2",
+   "plantilla": "quiz",
+   "text": "Adivina: ¿para qué crees que sirven los pelitos de la mazorca?",
+   "paso": 0,
+   "p": {
+    "pregunta": "¿Para qué son los <b>pelitos</b>?",
+    "opciones": [
+     "Solo adorno 🎀",
+     "Atrapan polen 🌼",
+     "Dan sombra ☀️"
+    ],
+    "correcta": 1,
+    "heroe": "maizPelos",
+    "giroHeroe": 0.3,
+    "escalaHeroe": 0.7
+   }
+  },
+  {
+   "id": "m3",
+   "plantilla": "paso",
+   "text": "Uno: cada pelito atrapa polen para su propio grano, uno por uno.",
+   "paso": 1,
+   "p": {
+    "n": 1,
+    "heroe": "maizPelos",
+    "giroHeroe": 0.3,
+    "escalaHeroe": 0.95,
+    "titulo": "1 pelo = 1 grano 🌽",
+    "heroeX": 1.5
+   }
+  },
+  {
+   "id": "m4",
+   "plantilla": "dato",
+   "text": "Si un pelito no recibe polen, ese grano no se forma y quedan huecos.",
+   "paso": 1,
+   "p": {
+    "objeto": "maizHuecos",
+    "y": 1.7,
+    "escala": 0.95,
+    "giro": 0.35,
+    "etiqueta": "Sin polen = sin grano",
+    "chips": [
+     "🕳️ Por eso salen huecos"
+    ]
+   }
+  },
+  {
+   "id": "m5",
+   "plantilla": "contador",
+   "text": "Dos: las hileras de granos casi siempre son un número par, como dieciséis.",
+   "paso": 2,
+   "p": {
+    "desde": 0,
+    "hasta": 16,
+    "etiqueta": "Hileras: casi siempre PAR ✌️"
+   }
+  },
+  {
+   "id": "m5b",
+   "plantilla": "sello",
+   "text": "Pasa porque los granos se forman de a parejas desde muy temprano.",
+   "paso": 2,
+   "p": {
+    "heroe": "mazorcaMaiz",
+    "giroHeroe": 0.5,
+    "escalaHeroe": 0.75,
+    "texto": "DE A PAREJAS",
+    "tipo": "realidad",
+    "frase": "Por eso casi siempre es par ✌️"
+   }
+  },
+  {
+   "id": "m6",
+   "plantilla": "versus",
+   "text": "Tres: una mazorca prepara hasta mil granos, pero suelen llenarse unos quinientos.",
+   "paso": 3,
+   "p": {
+    "a": "mazorcaMaiz",
+    "b": "maizHuecos",
+    "etA": "Hasta 1.000 posibles",
+    "etB": "≈ 500 llenos",
+    "yA": 1.3,
+    "yB": 1.3,
+    "etY": 1.7,
+    "giroHeroe": 0.4,
+    "escalaMaiz": 0.8,
+    "ladeoMaiz": 0.05,
+    "colorB": "#f2c14e"
+   }
+  },
+  {
+   "id": "m7",
+   "plantilla": "persona",
+   "text": "La próxima vez que comas mazorca, cuenta las hileras y mira los pelitos.",
+   "paso": 3,
+   "p": {
+    "escenario": "calle",
+    "accion": "sorpresa",
+    "persona": {
+     "tono": 1,
+     "peinado": "rizos",
+     "ropa": "#3d5a80",
+     "pelo": "#6b3a1f"
+    },
+    "objeto": "mazorcaMaiz",
+    "objetoPos": [
+     1.5,
+     1.8,
+     -0.2
+    ],
+    "objetoEscala": 0.75,
+    "sticker": "¡CUENTA LAS HILERAS! 🌽",
+    "stickerY": 1380
+   }
+  },
+  {
+   "id": "m8",
+   "plantilla": "comentario",
+   "text": "¿Tú sabías que cada pelito de la mazorca es de un grano?",
+   "paso": 3,
+   "p": {
+    "heroe": "mazorcaMaiz",
+    "giroHeroe": 0.5,
+    "escalaHeroe": 0.6,
+    "palabra": "NO SABÍA",
+    "encima": "¿Lo <b>sabías</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.703,
+  2.822,
+  3.294,
+  2.762,
+  3.689,
+  2.739,
+  3.407,
+  3.504,
+  3.177
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 1.12
+   },
+   {
+    "s": 1.12,
+    "e": 1.34
+   },
+   {
+    "s": 1.34,
+    "e": 1.7
+   },
+   {
+    "s": 1.7,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 1.92
+   },
+   {
+    "s": 1.92,
+    "e": 2.18
+   },
+   {
+    "s": 2.4,
+    "e": 2.5
+   },
+   {
+    "s": 2.5,
+    "e": 2.74
+   },
+   {
+    "s": 2.74,
+    "e": 2.92
+   },
+   {
+    "s": 2.92,
+    "e": 3.16
+   },
+   {
+    "s": 3.16,
+    "e": 3.34
+   },
+   {
+    "s": 3.34,
+    "e": 3.56
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.5
+   },
+   {
+    "s": 0.84,
+    "e": 0.96
+   },
+   {
+    "s": 0.96,
+    "e": 1.12
+   },
+   {
+    "s": 1.12,
+    "e": 1.4
+   },
+   {
+    "s": 1.4,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.76
+   },
+   {
+    "s": 1.76,
+    "e": 1.86
+   },
+   {
+    "s": 1.86,
+    "e": 2.18
+   },
+   {
+    "s": 2.18,
+    "e": 2.28
+   },
+   {
+    "s": 2.28,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.7
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.28
+   },
+   {
+    "s": 0.52,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.34
+   },
+   {
+    "s": 1.34,
+    "e": 1.6
+   },
+   {
+    "s": 1.6,
+    "e": 1.78
+   },
+   {
+    "s": 1.78,
+    "e": 1.94
+   },
+   {
+    "s": 1.94,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.54
+   },
+   {
+    "s": 2.66,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 2.98
+   },
+   {
+    "s": 2.98,
+    "e": 3.14
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.52
+   },
+   {
+    "s": 0.52,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 1.22
+   },
+   {
+    "s": 1.4,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.68
+   },
+   {
+    "s": 1.68,
+    "e": 1.78
+   },
+   {
+    "s": 1.78,
+    "e": 1.88
+   },
+   {
+    "s": 1.88,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.2
+   },
+   {
+    "s": 2.2,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.64
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.3
+   },
+   {
+    "s": 0.74,
+    "e": 0.92
+   },
+   {
+    "s": 0.92,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.3
+   },
+   {
+    "s": 1.3,
+    "e": 1.62
+   },
+   {
+    "s": 1.62,
+    "e": 1.74
+   },
+   {
+    "s": 1.74,
+    "e": 2.06
+   },
+   {
+    "s": 2.06,
+    "e": 2.26
+   },
+   {
+    "s": 2.26,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.74
+   },
+   {
+    "s": 2.94,
+    "e": 3.04
+   },
+   {
+    "s": 3.04,
+    "e": 3.28
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.34
+   },
+   {
+    "s": 0.56,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 1.0
+   },
+   {
+    "s": 1.0,
+    "e": 1.36
+   },
+   {
+    "s": 1.36,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 2.0
+   },
+   {
+    "s": 2.04,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.66
+   },
+   {
+    "s": 2.66,
+    "e": 2.76
+   },
+   {
+    "s": 2.76,
+    "e": 2.94
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.5
+   },
+   {
+    "s": 0.5,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.16
+   },
+   {
+    "s": 1.16,
+    "e": 1.26
+   },
+   {
+    "s": 1.26,
+    "e": 1.32
+   },
+   {
+    "s": 1.32,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 1.92
+   },
+   {
+    "s": 1.92,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.08
+   },
+   {
+    "s": 2.08,
+    "e": 2.36
+   }
+  ]
+ ]
+}
