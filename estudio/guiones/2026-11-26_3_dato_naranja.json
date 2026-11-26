@@ -1,0 +1,579 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "bosque",
+ "marca": false,
+ "resaltar": [
+  "cruce",
+  "mandarina",
+  "pomelo",
+  "naranja",
+  "toronja",
+  "ADN",
+  "jugo"
+ ],
+ "scenes": [
+  {
+   "id": "n1",
+   "plantilla": "gancho",
+   "text": "La naranja de tu jugo no salió así de la naturaleza: es un cruce de dos frutas.",
+   "p": {
+    "heroe": "naranja2",
+    "escalaHeroe": 1.5,
+    "giroHeroe": 0.5,
+    "titulo": "Es un <b>cruce</b>",
+    "sub": "🍊 La naranja nació de 2 frutas"
+   }
+  },
+  {
+   "id": "n2",
+   "plantilla": "versus",
+   "text": "Sus papás son la mandarina, pequeña y dulce, y el pomelo, una fruta gigante.",
+   "p": {
+    "a": "mandarina",
+    "b": "pomelo",
+    "etA": "Mandarina 🍊",
+    "etB": "Pomelo",
+    "colorB": "#cfdc5a",
+    "yA": 1.3,
+    "yB": 1.4,
+    "etY": 1.5,
+    "giroHeroe": 0.4
+   }
+  },
+  {
+   "id": "n3",
+   "plantilla": "dato",
+   "text": "Al cruzarse, hace siglos, en Asia, nació la naranja dulce que conoces hoy.",
+   "p": {
+    "objeto": "cruceCitrico",
+    "y": 1.9,
+    "escala": 1.1,
+    "giro": 0.0,
+    "etiqueta": "Naranja dulce 🍊",
+    "chips": [
+     "🌏 Nació en Asia"
+    ]
+   }
+  },
+  {
+   "id": "n4",
+   "plantilla": "contador",
+   "text": "En 2013, unos científicos leyeron su ADN y lo confirmaron: trae genes de las dos.",
+   "p": {
+    "numero": "ADN",
+    "size": 1.8,
+    "etiqueta": "🧬 Estudio de 2013"
+   }
+  },
+  {
+   "id": "n5",
+   "plantilla": "sello",
+   "text": "Y la toronja es la nieta: nació de cruzar la naranja con el pomelo otra vez.",
+   "p": {
+    "heroe": "toronja",
+    "giroHeroe": 0.5,
+    "escalaHeroe": 1.3,
+    "texto": "NIETA",
+    "tipo": "realidad",
+    "frase": "Naranja + pomelo = toronja"
+   }
+  },
+  {
+   "id": "n6",
+   "plantilla": "reloj",
+   "text": "Apareció en las islas del Caribe, en Barbados, hace casi trescientos años.",
+   "p": {
+    "etiqueta": "Siglo XVIII 🏝️",
+    "sticker": "BARBADOS"
+   }
+  },
+  {
+   "id": "n7",
+   "plantilla": "persona",
+   "text": "Así que cada vez que pelas una naranja, te comes la mezcla de dos frutas.",
+   "p": {
+    "escenario": "oficina",
+    "accion": "señalar",
+    "persona": {
+     "tono": 2,
+     "peinado": "corto",
+     "barba": true,
+     "ropa": "#264653",
+     "pelo": "#1b120c"
+    },
+    "objeto": "naranja2",
+    "objetoPos": [
+     1.25,
+     2.5,
+     0.9
+    ],
+    "objetoEscala": 0.5,
+    "sticker": "¡ES UN CRUCE! 🍊",
+    "stickerY": 1380
+   }
+  },
+  {
+   "id": "n8",
+   "plantilla": "pedestal",
+   "text": "La mandarina y el pomelo son cítricos originales; muchos de los otros son cruces.",
+   "p": {
+    "heroe": "citricos",
+    "giroHeroe": 0.0,
+    "escalaHeroe": 0.8,
+    "chips": [
+     "🍊 Mandarina: original",
+     "🟡 Pomelo: original",
+     "🍊 Naranja: cruce",
+     "🩷 Toronja: cruce"
+    ],
+    "alto": 0.9
+   }
+  },
+  {
+   "id": "n9",
+   "plantilla": "comentario",
+   "text": "¿Tú sabías que era un cruce? Comenta, y mírala distinto en tu próximo jugo.",
+   "p": {
+    "heroe": "naranja2",
+    "giroHeroe": 0.5,
+    "escalaHeroe": 1.1,
+    "palabra": "NO SABÍA",
+    "encima": "¿Lo <b>sabías</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  3.609,
+  3.845,
+  3.959,
+  4.004,
+  3.385,
+  3.249,
+  2.994,
+  3.204,
+  4.24
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.48
+   },
+   {
+    "s": 0.48,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.7
+   },
+   {
+    "s": 0.7,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.34
+   },
+   {
+    "s": 1.34,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 2.06
+   },
+   {
+    "s": 2.26,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.54
+   },
+   {
+    "s": 2.54,
+    "e": 2.84
+   },
+   {
+    "s": 2.84,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.12
+   },
+   {
+    "s": 3.12,
+    "e": 3.46
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.52
+   },
+   {
+    "s": 0.52,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.7
+   },
+   {
+    "s": 0.7,
+    "e": 1.14
+   },
+   {
+    "s": 1.14,
+    "e": 1.64
+   },
+   {
+    "s": 1.64,
+    "e": 1.86
+   },
+   {
+    "s": 1.86,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.78
+   },
+   {
+    "s": 2.94,
+    "e": 3.06
+   },
+   {
+    "s": 3.06,
+    "e": 3.3
+   },
+   {
+    "s": 3.3,
+    "e": 3.68
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.2
+   },
+   {
+    "s": 0.2,
+    "e": 0.64
+   },
+   {
+    "s": 0.64,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.72
+   },
+   {
+    "s": 1.72,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.56
+   },
+   {
+    "s": 2.56,
+    "e": 2.82
+   },
+   {
+    "s": 2.82,
+    "e": 3.12
+   },
+   {
+    "s": 3.12,
+    "e": 3.22
+   },
+   {
+    "s": 3.22,
+    "e": 3.58
+   },
+   {
+    "s": 3.58,
+    "e": 3.84
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.72
+   },
+   {
+    "s": 0.72,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 1.08
+   },
+   {
+    "s": 1.38,
+    "e": 1.64
+   },
+   {
+    "s": 1.64,
+    "e": 1.76
+   },
+   {
+    "s": 1.76,
+    "e": 2.02
+   },
+   {
+    "s": 2.02,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.6
+   },
+   {
+    "s": 2.6,
+    "e": 2.88
+   },
+   {
+    "s": 2.88,
+    "e": 3.0
+   },
+   {
+    "s": 3.0,
+    "e": 3.24
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.46
+   },
+   {
+    "s": 0.46,
+    "e": 0.54
+   },
+   {
+    "s": 0.54,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.82
+   },
+   {
+    "s": 0.82,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.24
+   },
+   {
+    "s": 1.42,
+    "e": 1.48
+   },
+   {
+    "s": 1.48,
+    "e": 1.88
+   },
+   {
+    "s": 1.98,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.32
+   },
+   {
+    "s": 2.32,
+    "e": 2.62
+   },
+   {
+    "s": 2.62,
+    "e": 3.04
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.4
+   },
+   {
+    "s": 0.4,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 0.86
+   },
+   {
+    "s": 0.86,
+    "e": 1.1
+   },
+   {
+    "s": 1.1,
+    "e": 1.18
+   },
+   {
+    "s": 1.18,
+    "e": 1.54
+   },
+   {
+    "s": 1.54,
+    "e": 1.82
+   },
+   {
+    "s": 1.82,
+    "e": 2.0
+   },
+   {
+    "s": 2.0,
+    "e": 2.14
+   },
+   {
+    "s": 2.14,
+    "e": 2.4
+   },
+   {
+    "s": 2.4,
+    "e": 2.48
+   },
+   {
+    "s": 2.48,
+    "e": 2.58
+   },
+   {
+    "s": 2.58,
+    "e": 2.9
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.18
+   },
+   {
+    "s": 0.18,
+    "e": 0.6
+   },
+   {
+    "s": 0.6,
+    "e": 0.66
+   },
+   {
+    "s": 0.66,
+    "e": 0.7
+   },
+   {
+    "s": 0.7,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.08
+   },
+   {
+    "s": 1.08,
+    "e": 1.44
+   },
+   {
+    "s": 1.44,
+    "e": 1.96
+   },
+   {
+    "s": 2.12,
+    "e": 2.3
+   },
+   {
+    "s": 2.3,
+    "e": 2.38
+   },
+   {
+    "s": 2.38,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.6
+   },
+   {
+    "s": 2.6,
+    "e": 2.74
+   },
+   {
+    "s": 2.74,
+    "e": 3.02
+   }
+  ],
+  null
+ ]
+}
