@@ -1,0 +1,676 @@
+{
+ "formato": "v2",
+ "tipo": "tip",
+ "paleta": "menta",
+ "marca": false,
+ "resaltar": [
+  "brócoli",
+  "repollo",
+  "coliflor",
+  "misma",
+  "silvestre",
+  "flores",
+  "yemas",
+  "especie"
+ ],
+ "scenes": [
+  {
+   "id": "b1",
+   "plantilla": "gancho",
+   "text": "El brócoli, el repollo y la coliflor son la misma planta. Literal, la misma especie.",
+   "p": {
+    "heroe": "familiaCol",
+    "giroHeroe": 0.25,
+    "escalaHeroe": 0.78,
+    "titulo": "La <b>MISMA</b> planta",
+    "sub": "brócoli · repollo · coliflor"
+   }
+  },
+  {
+   "id": "b2",
+   "plantilla": "quiz",
+   "text": "Adivina de dónde salieron todas. De una col silvestre que crece en las costas de Europa.",
+   "p": {
+    "pregunta": "¿De dónde <b>salieron</b>?",
+    "opciones": [
+     "De 3 plantas distintas",
+     "De una col silvestre",
+     "De un laboratorio"
+    ],
+    "correcta": 1,
+    "heroe": "brocoli",
+    "escalaHeroe": 0.9,
+    "giroHeroe": 0.4
+   }
+  },
+  {
+   "id": "b3",
+   "plantilla": "dato",
+   "text": "Es una mata de hojas gruesas y florecitas amarillas, y se llama Brassica oleracea.",
+   "p": {
+    "objeto": "colSilvestre",
+    "etiqueta": "Brassica oleracea 🌿",
+    "giro": 0.35,
+    "y": 1.6,
+    "escala": 1.1
+   }
+  },
+  {
+   "id": "b4",
+   "plantilla": "familia",
+   "text": "Durante siglos, los agricultores escogieron las matas que más les gustaban, y salieron todas estas.",
+   "p": {
+    "centro": "colSilvestre",
+    "escalaCentro": 0.62,
+    "hijos": [
+     {
+      "objeto": "repollo",
+      "et": "Repollo",
+      "escala": 0.5
+     },
+     {
+      "objeto": "colRizada",
+      "et": "Kale",
+      "escala": 0.42
+     },
+     {
+      "objeto": "colesBruselas",
+      "et": "Coles de Bruselas",
+      "escala": 0.5
+     },
+     {
+      "objeto": "brocoli",
+      "et": "Brócoli",
+      "escala": 0.5
+     },
+     {
+      "objeto": "coliflor",
+      "et": "Coliflor",
+      "escala": 0.48
+     }
+    ],
+    "centroY": 4.25,
+    "fila1Y": 2.1,
+    "fila2Y": 0.4
+   }
+  },
+  {
+   "id": "b5",
+   "plantilla": "persona",
+   "text": "Y ojo: lo que te comes del brócoli son flores que todavía no han abierto.",
+   "p": {
+    "escenario": "cocina",
+    "accion": "señalar",
+    "persona": {
+     "tono": 1,
+     "peinado": "moño",
+     "ropa": "#e9c46a",
+     "pelo": "#3b2414"
+    },
+    "objeto": "brocoli",
+    "objetoPos": [
+     1.3,
+     2.9,
+     0.6
+    ],
+    "objetoEscala": 0.7,
+    "sticker": "¡SON FLORES! 🥦",
+    "stickerY": 1380,
+    "zoom": "out"
+   }
+  },
+  {
+   "id": "b6",
+   "plantilla": "dato",
+   "text": "Si lo dejas en la mata, se abre en florecitas amarillas, igualitas a las de su abuela.",
+   "p": {
+    "objeto": "brocoli",
+    "florece": 0.6,
+    "etiqueta": "Si lo dejas… 🌼",
+    "giro": 0.3,
+    "y": 1.9,
+    "escala": 1.15
+   }
+  },
+  {
+   "id": "b7",
+   "plantilla": "versus",
+   "text": "Las coles de Bruselas son yemas del tallo, y el repollo es un montón de hojas apretadas.",
+   "p": {
+    "a": "colesBruselas",
+    "b": "repollo",
+    "escalaHeroe": 0.9,
+    "giroHeroe": 0.3,
+    "yA": 1.7,
+    "yB": 1.5,
+    "etY": 1.4,
+    "etA": "Yemas 🌱",
+    "etB": "Hojas 🥬",
+    "colorB": "#7fd1ff"
+   }
+  },
+  {
+   "id": "b8",
+   "plantilla": "contador",
+   "text": "Cinco verduras distintas en el mercado, y una sola especie de planta.",
+   "p": {
+    "numero": "1",
+    "size": 2.6,
+    "palabra": "ESPECIE"
+   }
+  },
+  {
+   "id": "b9",
+   "plantilla": "comentario",
+   "text": "¿Sabías que el brócoli y el repollo son la misma planta? Comenta no sabía.",
+   "p": {
+    "heroe": "brocoli",
+    "escalaHeroe": 0.75,
+    "palabra": "NO SABÍA",
+    "encima": "¿Tú lo <b>sabías</b>? 👇"
+   }
+  }
+ ],
+ "durations": [
+  4.642,
+  3.97,
+  4.354,
+  4.319,
+  3.303,
+  3.677,
+  4.528,
+  3.634,
+  3.972
+ ],
+ "words": [
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.76
+   },
+   {
+    "s": 0.86,
+    "e": 0.92
+   },
+   {
+    "s": 0.92,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 1.68
+   },
+   {
+    "s": 1.68,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.38
+   },
+   {
+    "s": 2.38,
+    "e": 2.5
+   },
+   {
+    "s": 2.5,
+    "e": 2.64
+   },
+   {
+    "s": 2.64,
+    "e": 3.12
+   },
+   {
+    "s": 3.22,
+    "e": 3.6
+   },
+   {
+    "s": 3.6,
+    "e": 3.94
+   },
+   {
+    "s": 3.94,
+    "e": 4.14
+   },
+   {
+    "s": 4.14,
+    "e": 4.38
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.54
+   },
+   {
+    "s": 0.54,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 1.0
+   },
+   {
+    "s": 1.0,
+    "e": 1.24
+   },
+   {
+    "s": 1.7,
+    "e": 1.9
+   },
+   {
+    "s": 1.9,
+    "e": 2.04
+   },
+   {
+    "s": 2.04,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.68
+   },
+   {
+    "s": 2.68,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 3.04
+   },
+   {
+    "s": 3.04,
+    "e": 3.1
+   },
+   {
+    "s": 3.1,
+    "e": 3.2
+   },
+   {
+    "s": 3.2,
+    "e": 3.46
+   },
+   {
+    "s": 3.46,
+    "e": 3.54
+   },
+   {
+    "s": 3.54,
+    "e": 3.7
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.38
+   },
+   {
+    "s": 0.38,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.8
+   },
+   {
+    "s": 0.8,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.5
+   },
+   {
+    "s": 1.5,
+    "e": 1.9
+   },
+   {
+    "s": 1.9,
+    "e": 2.32
+   },
+   {
+    "s": 2.32,
+    "e": 2.8
+   },
+   {
+    "s": 2.8,
+    "e": 2.9
+   },
+   {
+    "s": 2.9,
+    "e": 3.12
+   },
+   {
+    "s": 3.12,
+    "e": 3.66
+   },
+   {
+    "s": 3.66,
+    "e": 4.26
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.32
+   },
+   {
+    "s": 0.32,
+    "e": 0.68
+   },
+   {
+    "s": 0.94,
+    "e": 1.02
+   },
+   {
+    "s": 1.02,
+    "e": 1.54
+   },
+   {
+    "s": 1.54,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.12
+   },
+   {
+    "s": 2.12,
+    "e": 2.42
+   },
+   {
+    "s": 2.42,
+    "e": 2.52
+   },
+   {
+    "s": 2.52,
+    "e": 2.66
+   },
+   {
+    "s": 2.66,
+    "e": 2.78
+   },
+   {
+    "s": 2.78,
+    "e": 3.16
+   },
+   {
+    "s": 3.16,
+    "e": 3.32
+   },
+   {
+    "s": 3.32,
+    "e": 3.62
+   },
+   {
+    "s": 3.62,
+    "e": 3.76
+   },
+   {
+    "s": 3.76,
+    "e": 4.04
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.22
+   },
+   {
+    "s": 0.22,
+    "e": 0.48
+   },
+   {
+    "s": 0.68,
+    "e": 0.82
+   },
+   {
+    "s": 0.82,
+    "e": 0.94
+   },
+   {
+    "s": 0.94,
+    "e": 1.04
+   },
+   {
+    "s": 1.04,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.42
+   },
+   {
+    "s": 1.42,
+    "e": 1.84
+   },
+   {
+    "s": 1.84,
+    "e": 1.96
+   },
+   {
+    "s": 1.96,
+    "e": 2.22
+   },
+   {
+    "s": 2.22,
+    "e": 2.36
+   },
+   {
+    "s": 2.36,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.88
+   },
+   {
+    "s": 2.88,
+    "e": 2.98
+   },
+   {
+    "s": 2.98,
+    "e": 3.2
+   }
+  ],
+  null,
+  [
+   {
+    "s": 0.0,
+    "e": 0.26
+   },
+   {
+    "s": 0.26,
+    "e": 0.58
+   },
+   {
+    "s": 0.58,
+    "e": 0.64
+   },
+   {
+    "s": 0.64,
+    "e": 0.98
+   },
+   {
+    "s": 0.98,
+    "e": 1.28
+   },
+   {
+    "s": 1.28,
+    "e": 1.58
+   },
+   {
+    "s": 1.58,
+    "e": 1.74
+   },
+   {
+    "s": 1.74,
+    "e": 2.14
+   },
+   {
+    "s": 2.14,
+    "e": 2.44
+   },
+   {
+    "s": 2.44,
+    "e": 2.56
+   },
+   {
+    "s": 2.56,
+    "e": 2.92
+   },
+   {
+    "s": 2.92,
+    "e": 3.14
+   },
+   {
+    "s": 3.14,
+    "e": 3.26
+   },
+   {
+    "s": 3.26,
+    "e": 3.54
+   },
+   {
+    "s": 3.54,
+    "e": 3.7
+   },
+   {
+    "s": 3.7,
+    "e": 3.9
+   },
+   {
+    "s": 3.9,
+    "e": 4.34
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.38
+   },
+   {
+    "s": 0.38,
+    "e": 0.88
+   },
+   {
+    "s": 0.88,
+    "e": 1.46
+   },
+   {
+    "s": 1.46,
+    "e": 1.56
+   },
+   {
+    "s": 1.56,
+    "e": 1.64
+   },
+   {
+    "s": 1.64,
+    "e": 1.98
+   },
+   {
+    "s": 1.98,
+    "e": 2.34
+   },
+   {
+    "s": 2.34,
+    "e": 2.48
+   },
+   {
+    "s": 2.48,
+    "e": 2.7
+   },
+   {
+    "s": 2.7,
+    "e": 2.96
+   },
+   {
+    "s": 2.96,
+    "e": 3.16
+   },
+   {
+    "s": 3.16,
+    "e": 3.54
+   }
+  ],
+  [
+   {
+    "s": 0.0,
+    "e": 0.44
+   },
+   {
+    "s": 0.44,
+    "e": 0.62
+   },
+   {
+    "s": 0.62,
+    "e": 0.74
+   },
+   {
+    "s": 0.74,
+    "e": 1.24
+   },
+   {
+    "s": 1.24,
+    "e": 1.38
+   },
+   {
+    "s": 1.38,
+    "e": 1.48
+   },
+   {
+    "s": 1.48,
+    "e": 1.88
+   },
+   {
+    "s": 1.88,
+    "e": 2.1
+   },
+   {
+    "s": 2.1,
+    "e": 2.24
+   },
+   {
+    "s": 2.24,
+    "e": 2.46
+   },
+   {
+    "s": 2.46,
+    "e": 2.9
+   },
+   {
+    "s": 3.04,
+    "e": 3.42
+   },
+   {
+    "s": 3.42,
+    "e": 3.56
+   },
+   {
+    "s": 3.56,
+    "e": 3.86
+   }
+  ]
+ ]
+}

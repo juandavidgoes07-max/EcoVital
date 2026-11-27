@@ -65,6 +65,18 @@ def efectos(ev, dur, sr=44100):
         elif e["tipo"] == "golpe":
             m = (t >= st) & (t < st + .45); tt = t[m] - st
             sig[m] += 1.1 * np.exp(-tt * 12) * np.sin(2 * np.pi * (70 + 120 * np.exp(-tt * 30)) * tt) + .25 * rng.standard_normal(m.sum()) * np.exp(-tt * 30)
+        elif e["tipo"] == "splash":  # (2026-11-27) salpicadura: ruido filtrado que cae + gotitas
+            m = (t >= st) & (t < st + .55); tt = t[m] - st; n = rng.standard_normal(m.sum()); y = np.zeros_like(n); acc = 0
+            for j in range(len(n)): acc += .18 * (n[j] - acc); y[j] = acc
+            sig[m] += 2.2 * y * np.exp(-tt * 7) + .5 * np.exp(-tt * 25) * np.sin(2 * np.pi * (180 + 300 * np.exp(-tt * 20)) * tt)
+            for kk in (.12, .2, .31, .4):
+                m2 = (t >= st + kk) & (t < st + kk + .06); t2 = t[m2] - st - kk; sig[m2] += .25 * np.exp(-t2 * 60) * np.sin(2 * np.pi * (1200 + 900 * t2 * 10) * t2)
+        elif e["tipo"] == "burbujas":  # (2026-11-27) burbujitas que suben (blips con tono ascendente)
+            for j, kk in enumerate(np.arange(st, st + e.get("d", 1.2), .13)):
+                kk += (j * 37 % 7) * .012; m = (t >= kk) & (t < kk + .07); tt = t[m] - kk; f0 = 500 + (j * 53 % 9) * 60
+                sig[m] += .22 * np.exp(-tt * 45) * np.sin(2 * np.pi * (f0 + 4000 * tt) * tt)
+        elif e["tipo"] == "beep":  # (2026-11-27) bip del lector de la caja registradora
+            m = (t >= st) & (t < st + .16); tt = t[m] - st; sig[m] += .35 * np.sin(2 * np.pi * 1850 * tt) * np.minimum(1, (st + .16 - t[m]) / .02)
         elif e["tipo"] == "teclas":
             for kk in np.arange(st, st + e.get("d", 1), .11):
                 m = (t >= kk) & (t < kk + .03); sig[m] += .35 * rng.standard_normal(m.sum()) * np.exp(-(t[m] - kk) * 200)
