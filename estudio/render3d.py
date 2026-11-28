@@ -77,6 +77,15 @@ def efectos(ev, dur, sr=44100):
                 sig[m] += .22 * np.exp(-tt * 45) * np.sin(2 * np.pi * (f0 + 4000 * tt) * tt)
         elif e["tipo"] == "beep":  # (2026-11-27) bip del lector de la caja registradora
             m = (t >= st) & (t < st + .16); tt = t[m] - st; sig[m] += .35 * np.sin(2 * np.pi * 1850 * tt) * np.minimum(1, (st + .16 - t[m]) / .02)
+        elif e["tipo"] == "clic":  # (2026-11-28) interruptor de reflector: clic seco + zumbido corto
+            m = (t >= st) & (t < st + .25); tt = t[m] - st
+            sig[m] += .5 * rng.standard_normal(m.sum()) * np.exp(-tt * 260) + .18 * np.sin(2 * np.pi * 120 * tt) * np.exp(-tt * 9) * np.minimum(1, tt / .01)
+        elif e["tipo"] == "sirena":  # (2026-11-28) sirena corta de alarma (dos tonos que suben y bajan)
+            L = e.get("d", 1.0); m = (t >= st) & (t < st + L); tt = t[m] - st; f = 720 + 260 * np.sin(2 * np.pi * 2.6 * tt)
+            sig[m] += .2 * np.sin(2 * np.pi * np.cumsum(f) / sr) * np.minimum(1, tt / .05) * np.minimum(1, (L - tt) / .15)
+        elif e["tipo"] == "sello":  # (2026-11-28) sello de goma sobre papel: golpe grave + palmada de papel
+            m = (t >= st) & (t < st + .35); tt = t[m] - st
+            sig[m] += 1.0 * np.exp(-tt * 22) * np.sin(2 * np.pi * (95 + 80 * np.exp(-tt * 40)) * tt) + .55 * rng.standard_normal(m.sum()) * np.exp(-tt * 45)
         elif e["tipo"] == "teclas":
             for kk in np.arange(st, st + e.get("d", 1), .11):
                 m = (t >= kk) & (t < kk + .03); sig[m] += .35 * rng.standard_normal(m.sum()) * np.exp(-(t[m] - kk) * 200)
